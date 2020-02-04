@@ -64,6 +64,11 @@ join <-
   st_join(intersection) %>%
   clean_names()
 
+join <- 
+  nodes %>% 
+  st_join(difference) %>%
+  clean_names()
+
 ##
 
 tic()
@@ -115,3 +120,28 @@ plot(graph,
      vertex.size = 0.1,
      vertex.label = '', 
      alpha = 0.5)
+
+##
+
+graph <- as_tbl_graph(graph)
+
+##
+
+ggplot() +
+  geom_sf(data =
+            graph %>% 
+            activate(nodes) %>%
+            rename(LINEARID = name) %>%
+            left_join(roads) %>%
+            as_tibble() %>%
+            st_as_sf(),
+          aes(), size = 0.2) +
+  geom_sf(data =
+            graph %>%
+            activate(edges) %>%
+            as_tibble() %>%
+            st_as_sf() %>%
+            st_set_crs(st_crs(roads)),
+          aes(), size = 0.5) +
+  theme_void()
+ 
