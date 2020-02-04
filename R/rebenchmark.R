@@ -127,12 +127,18 @@ graph <- as_tbl_graph(graph)
 
 ##
 
+graph <-
+  graph %>%
+  activate(nodes) %>%
+  mutate(LINEARID = name) %>%
+  left_join(roads)
+
+##
+
 ggplot() +
   geom_sf(data =
             graph %>% 
             activate(nodes) %>%
-            rename(LINEARID = name) %>%
-            left_join(roads) %>%
             as_tibble() %>%
             st_as_sf(),
           aes(), size = 0.2) +
@@ -141,7 +147,10 @@ ggplot() +
             activate(edges) %>%
             as_tibble() %>%
             st_as_sf() %>%
-            st_set_crs(st_crs(roads)),
+            st_set_crs(projection),
           aes(), size = 0.5) +
   theme_void()
- 
+
+##
+
+
