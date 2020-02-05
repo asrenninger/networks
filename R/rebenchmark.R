@@ -184,24 +184,67 @@ nodes <-
 
 ##
 
+clean_sf = function(x) {
+  
+  duplicates <- 
+    x %>% 
+    st_equals() %>%
+    as_tibble() %>%
+    rename(original = row.id,
+           duplicate = col.id) %>%
+    group_by(original) %>%
+    mutate(grouping = max(duplicate)) %>%
+    ungroup() %>%
+    distinct(grouping)
+  
+  roads <- 
+    x %>% 
+    slice(duplicates$grouping)
+  
+  containers <- 
+    roads %>% 
+    st_contains() %>%
+    as_tibble() %>%
+    rename(original = row.id,
+           duplicate = col.id) %>%
+    filter(original != duplicate) 
+  
+  roads <-
+    roads %>%
+    slice(-unique(containers$duplicate))
+  
+  
+  roads %>%
+    mutate(type = st_geometry_type(geometry)) %>%
+    filter(type == "LINESTRING") %>%
+    select(-type)
+  
+}
+
+cleaned <- clean_sf(roads)
+
+##
+
 sf_to_tidygraph = function(x, directed = TRUE) {
   
   edges <- 
     x %>%
     mutate(EDGEID = c(1:n()))
   
+  nodes <-
+    st_intersection(edges) %>%
+    mutate(type = st_geometry_type(geometry)) %>%
+    filter(type == "POINT") %>%
+    select(-type) %>%
+    st_as_sf()
+  
   nodes <- 
-    edges %>%
-    st_coordinates() %>%
-    as_tibble() %>%
-    rename(EDGEID = L1) %>%
-    group_by(edgeID) %>%
-    slice(c(1, n())) %>%
-    ungroup() %>%
-    mutate(start_end = rep(c('start', 'end'), times = n()/2)) %>%
-    mutate(xy = paste(.$X, .$Y)) %>% 
-    mutate(nodeID = group_indices(., factor(xy, levels = unique(xy)))) %>%
-    select(-xy)
+    nodes %>%
+    st_join(edges) %>%
+    select(EDGEID.x, EDGEID.y) %>%
+    rename(start = EDGEID.x,
+           end = EDGEID.y) %>%
+    gather(start_end, EDGEID, start:end)
   
   source_nodes <- 
     nodes %>%
