@@ -140,6 +140,11 @@ graph <-
   mutate(LINEARID = name) %>%
   left_join(roads)
 
+graph <-
+  graph %>%
+  activate(nodes) %>%
+  mutate(length = st_length(geometry))
+
 ##
 
 ggplot() +
@@ -148,16 +153,100 @@ ggplot() +
             activate(nodes) %>%
             as_tibble() %>%
             st_as_sf(),
-          aes(), size = 0.2) +
+          aes(colour = as.numeric(length)), size = 0.5) +
   geom_sf(data =
             graph %>%
             activate(edges) %>%
             as_tibble() %>%
-            st_as_sf() %>%
-            st_set_crs(projection),
-          aes(), size = 0.5) +
+            st_as_sf(crs = projection),
+          aes(), size = 0.3) +
+  scale_colour_gradientn(colours = pal, guide = 'none') +
   theme_void()
 
 ##
 
+edges <- 
+  roads %>%
+  mutate(EDGEID = c(1:n()))
 
+nodes <- 
+  edges %>%
+  st_coordinates() %>%
+  as_tibble() %>%
+  rename(EDGEID = L1) %>%
+  group_by(edgeID) %>%
+  slice(c(1, n())) %>%
+  ungroup() %>%
+  mutate(start_end = rep(c('start', 'end'), times = n()/2)) %>%
+  mutate(xy = paste(.$X, .$Y)) %>% 
+  mutate(nodeID = group_indices(., factor(xy, levels = unique(xy)))) %>%
+  select(-xy)
+
+##
+
+sf_to_tidygraph = function(x, directed = TRUE) {
+  
+  edges <- 
+    x %>%
+    mutate(EDGEID = c(1:n()))
+  
+  nodes <- 
+    edges %>%
+    st_coordinates() %>%
+    as_tibble() %>%
+    rename(EDGEID = L1) %>%
+    group_by(edgeID) %>%
+    slice(c(1, n())) %>%
+    ungroup() %>%
+    mutate(start_end = rep(c('start', 'end'), times = n()/2)) %>%
+    mutate(xy = paste(.$X, .$Y)) %>% 
+    mutate(nodeID = group_indices(., factor(xy, levels = unique(xy)))) %>%
+    select(-xy)
+  
+  source_nodes <- 
+    nodes %>%
+    filter(start_end == 'start') %>%
+    pull(nodeID)
+  
+  target_nodes <- nodes %>%
+    filter(start_end == 'end') %>%
+    pull(nodeID)
+  
+  edges = edges %>%
+    mutate(from = source_nodes, to = target_nodes)
+  
+  nodes <- nodes %>%
+    distinct(nodeID, .keep_all = TRUE) %>%
+    select(-c(edgeID, start_end)) %>%
+    st_as_sf(coords = c('X', 'Y')) %>%
+    st_set_crs(st_crs(edges))
+  
+  tbl_graph(nodes = nodes, edges = as_tibble(edges), directed = directed)
+  
+}
+
+regraph <- sf_to_tidygraph(roads, directed = FALSE)
+
+##
+
+regraph <- 
+  regraph %>%
+  activate(edges) %>%
+  mutate(length = st_length(geometry))
+
+regraph
+
+##
+
+regraph %>%
+  activate(edges) %>%
+  as_tibble() %>%
+  st_as_sf() %>%
+  group_by(RTTYP) %>%
+  summarise(length = sum(length))
+
+##
+
+ggplot() +
+  geom_sf(data = graph %>% activate(edges) %>% as_tibble() %>% st_as_sf(crs = projection)) + 
+  geom_sf(data = graph %>% activate(nodes) %>% as_tibble() %>% st_as_sf(crs = projection), size = 0.5)
