@@ -42,7 +42,16 @@ ggplot() +
           aes(), fill = NA, colour = '#ffffff', alpha = 0.5, size = 0.1) +
   theme_bm_legend()
 
-##
+## PROGRAM
+# Two appraoches
+# Roads as nodes
+# Roads as edges
+# + / - for each
+
+## ONE 
+# Roads as nodes
+# (Places to be)
+# Think: Oxford Street | Champs Elysee | 5th Avenue  
 
 tic()
 
@@ -182,7 +191,10 @@ nodes <-
   mutate(nodeID = group_indices(., factor(xy, levels = unique(xy)))) %>%
   select(-xy)
 
-##
+## TWO 
+# Roads as edges
+# (Means to end)
+# Think: Broadway | Route 1 
 
 clean_sf = function(x) {
   
@@ -225,68 +237,52 @@ cleaned <- clean_sf(roads)
 
 ##
 
-sf_to_tidygraph = function(x, directed = TRUE) {
-  
-  edges <- 
-    x %>%
-    mutate(EDGEID = c(1:n()))
-  
-  nodes <-
-    st_intersection(edges) %>%
-    mutate(type = st_geometry_type(geometry)) %>%
-    filter(type == "POINT") %>%
-    select(-type) %>%
-    st_as_sf()
-  
-  nodes <- 
-    nodes %>%
-    st_join(edges) %>%
-    select(EDGEID.x, EDGEID.y) %>%
-    rename(start = EDGEID.x,
-           end = EDGEID.y) %>%
-    gather(start_end, EDGEID, start:end)
-  
-  source_nodes <- 
-    nodes %>%
-    filter(start_end == 'start') %>%
-    pull(nodeID)
-  
-  target_nodes <- nodes %>%
-    filter(start_end == 'end') %>%
-    pull(nodeID)
-  
-  edges = edges %>%
-    mutate(from = source_nodes, to = target_nodes)
-  
-  nodes <- nodes %>%
-    distinct(nodeID, .keep_all = TRUE) %>%
-    select(-c(edgeID, start_end)) %>%
-    st_as_sf(coords = c('X', 'Y')) %>%
-    st_set_crs(st_crs(edges))
-  
-  tbl_graph(nodes = nodes, edges = as_tibble(edges), directed = directed)
-  
-}
+edges <-
+  cleaned %>% 
+  mutate(EDGEID = c(1:n()))
 
-regraph <- sf_to_tidygraph(roads, directed = FALSE)
+tic()
 
-##
+nodes <-
+  edges %>%
+  st_intersection() %>%
+  mutate(type = st_geometry_type(geometry)) %>%
+  filter(type == "POINT") %>%
+  select(-type) %>%
+  st_as_sf()
 
-regraph <- 
-  regraph %>%
-  activate(edges) %>%
-  mutate(length = st_length(geometry))
+toc()
 
-regraph
+nodes <- 
+  nodes %>%
+  st_join(edges) %>%
+  select(EDGEID.x, EDGEID.y) %>%
+  rename(start = EDGEID.x,
+         end = EDGEID.y) %>%
+  gather(start_end, EDGEID, start:end)
 
-##
-
-regraph %>%
-  activate(edges) %>%
+nodes <- 
+  nodes %>%
+  st_coordinates() %>%
   as_tibble() %>%
-  st_as_sf() %>%
-  group_by(RTTYP) %>%
-  summarise(length = sum(length))
+  bind_cols(nodes) %>%
+  mutate(xy = paste(.$X, .$Y)) %>% 
+  mutate(NODEID = group_indices(., factor(xy, levels = unique(xy)))) %>%
+  select(-xy)
+
+source_nodes <- 
+  nodes %>%
+  filter(start_end == 'start') %>%
+  pull(NODEID)
+
+target_nodes <- 
+  nodes %>%
+  filter(start_end == 'end') %>%
+  pull(NODEID)
+
+edges <-
+  edges %>%
+  mutate(from = source_nodes, to = target_nodes)
 
 ##
 
