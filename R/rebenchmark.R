@@ -53,10 +53,14 @@ ggplot() +
 # (Places to be)
 # Think: Oxford Street | Champs Elysee | 5th Avenue  
 
+library(tictoc)
+
+##
+
 tic()
 
 difference <- st_difference(roads)
-intersection <- st_intersection(roads)
+intersection <- st_intersection(difference)
 
 toc()
 
@@ -80,29 +84,7 @@ join <-
   st_join(intersection) %>%
   clean_names()
 
-join <- 
-  nodes %>% 
-  st_join(difference) %>%
-  clean_names()
-
 ##
-
-tic()
-
-verts <-
-  join %>%
-  drop_na() %>%
-  gather(variable, value, linearid_x, linearid_y) %>%
-  use_series(value) %>%
-  unique() %>%
-  as_tibble() %>%
-  rename(id = value)
-
-toc()
-
-##
-
-tic()
 
 verts <-
   join %>%
@@ -111,8 +93,6 @@ verts <-
   gather(variable, value, linearid_x, linearid_y) %>%
   distinct(value) %>%
   rename(id = value)
-
-toc()
 
 ##
 
@@ -136,6 +116,10 @@ plot(graph,
      vertex.size = 0.1,
      vertex.label = '', 
      alpha = 0.5)
+
+##
+
+library(tidygraph)
 
 ##
 
@@ -241,8 +225,6 @@ edges <-
   cleaned %>% 
   mutate(EDGEID = c(1:n()))
 
-tic()
-
 nodes <-
   edges %>%
   st_intersection() %>%
@@ -250,8 +232,6 @@ nodes <-
   filter(type == "POINT") %>%
   select(-type) %>%
   st_as_sf()
-
-toc()
 
 nodes <- 
   nodes %>%
@@ -268,7 +248,8 @@ nodes <-
   bind_cols(nodes) %>%
   mutate(xy = paste(.$X, .$Y)) %>% 
   mutate(NODEID = group_indices(., factor(xy, levels = unique(xy)))) %>%
-  select(-xy)
+  select(-xy) %>%
+  st_as_sf()
 
 source_nodes <- 
   nodes %>%
@@ -280,8 +261,9 @@ target_nodes <-
   filter(start_end == 'end') %>%
   pull(NODEID)
 
+?pivot_wider
+
 edges <-
-  edges %>%
   mutate(from = source_nodes, to = target_nodes)
 
 ##
