@@ -158,113 +158,22 @@ ggplot() +
 
 ##
 
-edges <- 
-  roads %>%
-  mutate(EDGEID = c(1:n()))
-
-nodes <- 
-  edges %>%
-  st_coordinates() %>%
+lines <- 
+  graph %>%
+  activate(nodes) %>%
   as_tibble() %>%
-  rename(EDGEID = L1) %>%
-  group_by(edgeID) %>%
-  slice(c(1, n())) %>%
-  ungroup() %>%
-  mutate(start_end = rep(c('start', 'end'), times = n()/2)) %>%
-  mutate(xy = paste(.$X, .$Y)) %>% 
-  mutate(nodeID = group_indices(., factor(xy, levels = unique(xy)))) %>%
-  select(-xy)
+  st_as_sf(crs = projection)
 
-## TWO 
-# Roads as edges
-# (Means to end)
-# Think: Broadway | Route 1 
-
-clean_sf = function(x) {
-  
-  duplicates <- 
-    x %>% 
-    st_equals() %>%
-    as_tibble() %>%
-    rename(original = row.id,
-           duplicate = col.id) %>%
-    group_by(original) %>%
-    mutate(grouping = max(duplicate)) %>%
-    ungroup() %>%
-    distinct(grouping)
-  
-  roads <- 
-    x %>% 
-    slice(duplicates$grouping)
-  
-  containers <- 
-    roads %>% 
-    st_contains() %>%
-    as_tibble() %>%
-    rename(original = row.id,
-           duplicate = col.id) %>%
-    filter(original != duplicate) 
-  
-  roads <-
-    roads %>%
-    slice(-unique(containers$duplicate))
-  
-  
-  roads %>%
-    mutate(type = st_geometry_type(geometry)) %>%
-    filter(type == "LINESTRING") %>%
-    select(-type)
-  
-}
-
-cleaned <- clean_sf(roads)
+points <-
+  graph %>%
+  activate(edges) %>%
+  as_tibble() %>%
+  st_as_sf(crs = projection)
 
 ##
 
-edges <-
-  cleaned %>% 
-  mutate(EDGEID = c(1:n()))
-
-nodes <-
-  edges %>%
-  st_intersection() %>%
-  mutate(type = st_geometry_type(geometry)) %>%
-  filter(type == "POINT") %>%
-  select(-type) %>%
-  st_as_sf()
-
-nodes <- 
-  nodes %>%
-  st_join(edges) %>%
-  select(EDGEID.x, EDGEID.y) %>%
-  rename(start = EDGEID.x,
-         end = EDGEID.y) %>%
-  gather(start_end, EDGEID, start:end)
-
-nodes <- 
-  nodes %>%
-  st_coordinates() %>%
-  as_tibble() %>%
-  bind_cols(nodes) %>%
-  mutate(xy = paste(.$X, .$Y)) %>% 
-  mutate(NODEID = group_indices(., factor(xy, levels = unique(xy)))) %>%
-  select(-xy) %>%
-  st_as_sf()
-
-source_nodes <- 
-  nodes %>%
-  filter(start_end == 'start') %>%
-  pull(NODEID)
-
-target_nodes <- 
-  nodes %>%
-  filter(start_end == 'end') %>%
-  pull(NODEID)
-
-?pivot_wider
-
-edges <-
-  mutate(from = source_nodes, to = target_nodes)
+st_write(lines, "lines.shp")
+st_write(points, "points.shp")
 
 ##
 
