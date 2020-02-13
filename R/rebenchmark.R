@@ -176,7 +176,3 @@ st_write(lines, "lines.shp")
 st_write(points, "points.shp")
 
 ##
-
-ggplot() +
-  geom_sf(data = graph %>% activate(edges) %>% as_tibble() %>% st_as_sf(crs = projection)) + 
-  geom_sf(data = graph %>% activate(nodes) %>% as_tibble() %>% st_as_sf(crs = projection), size = 0.5)
