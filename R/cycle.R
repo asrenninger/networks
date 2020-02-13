@@ -207,9 +207,10 @@ library(lubridate)
 
 chunk <- 
   trips %>%
-  mutate(week = week(start_time)) %>%
-  filter(week == 26) %>%
-  select(-week)
+  mutate(week = week(start_time),
+         day = wday(start_time, label = TRUE)) %>%
+  filter(week == 26 & day == "Mon") %>%
+  select(-week, day)
 
 ##
 
