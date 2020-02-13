@@ -201,9 +201,15 @@ nearest_intersection <-
 
 ##
 
+library(lubridate)
+
+##
+
 chunk <- 
   trips %>%
-  sample_n(10000)
+  mutate(week = week(start_time)) %>%
+  filter(week == 26) %>%
+  select(-week)
 
 ##
 
@@ -211,7 +217,7 @@ routes <- tbl_graph()
 
 ##
 
-for (i in 3558:nrow(chunk)) {
+for (i in 1:nrow(chunk)) {
   
   start <- chunk[[i, "start_station"]]
   end   <- chunk[[i, "end_station"]]
@@ -291,10 +297,6 @@ theme_bm_legend <- function () {
 
 ##
 
-length(pal)
-
-##
-
 ggplot() +
   geom_sf(data = inverted_network %>% activate(edges) %>% as_tibble() %>% st_as_sf(crs = projection), 
           col = '#ffffff', size = 0.05, alpha = 0.5) +
@@ -313,7 +315,11 @@ ggplot() +
                         guide = guide_discrete,
                         name = "distance") +
   scale_size_continuous(range = c(0.05, 0.5), guide = 'none') +
+  labs(title = "PHILADELPHIA CYCLE HIRES", subtitle = "shortest paths between stations") +
   theme_bm_legend() +
-  ggsave("test.png", height = 13, width = 12, dpi = 300)
+  ggsave("test.png", height = 11.1, width = 10, dpi = 300)
+
+##
+
 
 
