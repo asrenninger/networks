@@ -311,7 +311,7 @@ ggplot() +
                       name = "distance") +
     scale_fill_manual(values = pal,
                         labels = str_sub(as.character(quantile(routes %>% activate(edges) %>% as_tibble() %>% pull(length),
-                                                               c(0.1,0.2,0.3,0.4,0.5,0.6,0.7, 0.8, 0.9),
+                                                               c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
                                                                na.rm = TRUE)), 1, 4),
                         guide = guide_discrete,
                         name = "distance") +
@@ -321,6 +321,70 @@ ggplot() +
   ggsave("test.png", height = 11.1, width = 10, dpi = 300)
 
 ##
+
+cleaned
+
+estimates <- 
+  routes %>%
+  activate(edges) %>%
+  as_tibble() %>%
+  select(-geometry) %>%
+  group_by(EDGEID) %>%
+  summarise(n = n()) %>%
+  rename(fid = EDGEID) %>%
+  left_join(cleaned) %>%
+  st_as_sf()
+
+theme_bm_legend_small <- function () {
+  theme_void() + 
+    theme(plot.background = element_rect(fill = 'black', colour = 'black'),
+          panel.grid.major.x = element_blank(),
+          panel.grid.major.y = element_blank(),
+          panel.grid.minor.x = element_blank(),
+          panel.grid.minor.y = element_blank(),
+          axis.line.x = element_blank(),
+          axis.line.y = element_blank(),
+          axis.ticks.x = element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          legend.title = element_text(colour = 'grey50', angle = 270),
+          legend.text = element_text(colour = 'white', angle = 270),
+          plot.title = element_text(face = 'bold', colour = 'grey50'),
+          plot.subtitle =  element_text(face = 'plain', colour = 'white', size = 15),
+          panel.grid.major = element_line(size = NA), 
+          panel.grid.minor = element_line(size = NA),
+          plot.margin = margin(10, 10, 10, 10),
+          legend.position = c(0.9, 0.2)
+    )
+  
+}
+
+ggplot() +
+  geom_sf(data = inverted_network %>% 
+            activate(edges) %>% 
+            as_tibble() %>% 
+            st_as_sf(crs = projection) %>%
+            st_intersection(st_union(st_buffer(estimates, 0.005))), 
+          col = '#ffffff', size = 0.05, alpha = 0.5) +
+  geom_sf(data = estimates, 
+          aes(colour = factor(ntile(n, 9)), fill = factor(ntile(length, 9)), size = n)) +
+  scale_colour_manual(values = pal,
+                      labels = str_sub(as.character(quantile(estimates$n,
+                                                             c(0.1,0.2,0.3,0.4,0.5,0.6,0.7, 0.8, 0.9),
+                                                             na.rm = TRUE)), 1, 4),
+                      guide = guide_discrete,
+                      name = "n visits") +
+  scale_fill_manual(values = pal,
+                    labels = str_sub(as.character(quantile(estimates$n,
+                                                           c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+                                                           na.rm = TRUE)), 1, 4),
+                    guide = guide_discrete,
+                    name = "n visits") +
+  scale_size_continuous(range = c(0.2, 0.7), guide = 'none') +
+  labs(title = "PHILADELPHIA CYCLE HIRES", subtitle = "busiest paths") +
+  theme_bm_legend_small() +
+  ggsave("test.png", height = 11, width = 7.8, dpi = 300)
 
 
 
