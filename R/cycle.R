@@ -17,16 +17,6 @@ glimpse(trips)
 
 ##
 
-trips %>% 
-  distinct(start_station) %>% 
-  dim()
-
-trips %>% 
-  distinct(end_station) %>% 
-  dim()
-
-##
-
 nodes <-
   trips %>%
   select(trip_id, start_station, end_station) %>%
@@ -197,8 +187,6 @@ nearest_intersection <-
   right_join(nearest_intersection) %>%
   select(NODEID, station_id, lat, lon, degree, betweenness, geometry)
 
-!nearest_intersection$station_id %in% stations$station_id
-
 ##
 
 library(lubridate)
@@ -322,8 +310,6 @@ ggplot() +
 
 ##
 
-cleaned
-
 estimates <- 
   routes %>%
   activate(edges) %>%
@@ -334,6 +320,8 @@ estimates <-
   rename(fid = EDGEID) %>%
   left_join(cleaned) %>%
   st_as_sf()
+
+##
 
 theme_bm_legend_small <- function () {
   theme_void() + 
@@ -359,6 +347,8 @@ theme_bm_legend_small <- function () {
     )
   
 }
+
+##
 
 ggplot() +
   geom_sf(data = inverted_network %>% 
