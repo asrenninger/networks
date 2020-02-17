@@ -17,9 +17,6 @@ water <-
 
 projection <- st_crs(roads)
 
-projection[1]
-projection[2]
-
 ##
 
 library(tidyverse)
