@@ -1,0 +1,423 @@
+---
+title: "STREET AND TRANSIT NETWORK ANALYSIS IN R"
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
+subtitle: "with a case study in Philadelphia"
+author: "andrew renninger"
+date: "8/23/2019"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+---
+
+```{r setup, include = FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, 
+                      message = FALSE, cache = TRUE)
+```
+
+# [1] Network analysis
+
+## PRINCIPLES
+
+## IDEAS
+
+We can think about this philosophy of streets as the walking model—compared to, say, driving or briking. 
+
+# [2] Streets as nodes
+
+This case will attempt to convert a morphological representation of streets to a topological one using data on Philadelphia. The code, though, allows for replication for any county in the country. Indeed, only slight tweeks are required to combine counties, as in the above study of southern Florida. Further analysis with multiple counties could prove interesting, and an example that aggregates data can be found in the appendix. The Bay Bridge, linking Oakland to San Francisco, will likely only be important at the scale of the mega-city, rather than within each city; the same could be true of the Brooklyn Bridge and the Manhattan Bridge in New York. Here, though, we will limit ourselves to a local network that is likely part and parcel of a global one---a polis within a metropolis, or megalopolis, if you will. First, we use the `tigris` pacakge to download "tiger" files from the Census Bureau. This example uses Philadelphia but any county in the nation will do.  
+
+```{r show, eval = FALSE}
+
+library(tigris)
+library(sf)
+
+roads <- 
+  roads("PA", "Philadelphia", class = 'sf') %>%
+  filter(str_detect(MTFCC, "S1200|S1400")) %>%
+  filter(str_detect(RTTYP, "M|C"))
+
+tracts <- tracts("PA", "Philadelphia", class = 'sf')
+
+water <- 
+  area_water("PA", "Philadelphia", class = 'sf') %>%
+  st_union() %>%
+  st_combine()
+
+```
+
+```{r hide, include = FALSE}
+
+library(tidyverse)
+library(tigris)
+library(sf)
+
+roads <- 
+  roads("PA", "Philadelphia", class = 'sf') %>%
+  filter(str_detect(MTFCC, "S1200|S1400")) %>%
+  filter(str_detect(RTTYP, "M|C"))
+
+tracts <- tracts("PA", "Philadelphia", class = 'sf')
+
+water <- 
+  area_water("PA", "Philadelphia", class = 'sf') %>%
+  st_union() %>%
+  st_combine()
+
+```
+
+Philadelphia provides an interesting mix of orders and arrangements: its founding grid constitutes the core of the city but pure desire lines, like Ridge and Passyunk Avenues, cut through its extensions. If Broad Street is the city's original high street, or one of two, along with Market Street, Frankford Avenue is a younger high street, aligning with a newer axis. Thus, one goal of this analysis will be to excavate the topologies within and between newer and older regions of a city; Philadelphia, as both a planned and unplanned city serves this end well. To begin, this code requires a series of packages for wrangling and processing data. 
+
+```{r background}
+
+background <-
+  tracts %>%
+  mutate(dissolve = 1) %>%
+  group_by(dissolve) %>%
+  summarise() %>%
+  st_difference(water)
+
+```
+
+With the water and tracts---soon to be come a clean background---are separate, so it gives a pricise feel to remove one from the other and produce the true land area of the city; we do this with the `st_difference` function. We see look at our handwork below---a tidy basemap to which we can add data. 
+
+```{r basemap} 
+
+ggplot() +
+  geom_sf(data = background,
+          aes(), fill = '#7d7d7d', colour = NA) +
+  geom_sf(data = roads,
+          aes(), fill = NA, colour = '#ffffff', alpha = 0.5, size = 0.1) +
+  theme_void()
+
+```
+
+The task at hand is one of transforming streets into networks, which requires defining what constitutes an edge or a node, and taking steps to shape the data according to those definitions. An intersection could be a node and each road the link between them, but this would not suit the analysis. If we want to understand a network, say a social network, we would consider nodes *connectors* and edges *connections*; a hub is a person, its spokes are their relationships. This means that, perhaps against our intuition, *streets* are nodes and *intersections* are their relationships to other streets. 
+
+```{r processing}
+
+difference <- st_difference(roads)
+intersection <- st_intersection(difference)
+
+```
+
+In the above code, we take the *difference*, which removes duplicate geometries and then the *intersection*, which creates point shapes at each intersection, among other computations. In the below code, we select only the points 
+
+```{r points}
+
+nodes <-
+  intersection %>%
+  mutate(type = st_geometry_type(geometry)) %>%
+  filter(type == "POINT") %>%
+  select(-type) %>%
+  st_as_sf()
+
+```
+
+From there, in *joining* to the existing road shape, we are able to extract these points with information on which lines meet at each point. With the target layer as the point and the join layers as the roads, information on every line that touches a point---so all roads that intersect at one junction---will be grafted on as its identifier. Note that the library `janitor` has a brilliant function that takes all column names as makes them lower case and swaps spaces for underscores, and generally removes any odd punctuation. 
+
+```{r join}
+
+library(janitor)
+
+join <- 
+  nodes %>% 
+  st_join(intersection) %>%
+  clean_names()
+
+```
+
+At each intersection in the network, there are *n!* rows, with *n* equal to the number of streets at that intersection. We have both the point for where *street a* intersects *street b* and where *b* intersects *a*. (We also have where *a* intersects *a* but remove that later.) Critically, this means that we have every street in relation to others; the duplicates help. From here, we need to grapple with the street network as an abstraction, removed from space. This requires packages for network analysis, namely `igraph` and `tidygraph`, which allows us to switch between data frame and graph objects. These packages allows for many basic calculations, like measures of centrality, and also allows for nuances like radii to probe distinctions between local clusters within a global network. 
+
+```{r network tools}
+
+library(igraph)
+library(tidygraph)
+
+```
+
+Each point has, due to the earlier joining operation, information from both roads that cross to create it. First we take all identifiers and, essentially, throw them into a space as nodes. Then we find the links by taking the same data and selecting columns for the start and end identifiers---though this graph will not consider direction. Here we also remove all the points that represent a street related to itself.   
+
+```{r links and nodes}
+
+verts <-
+  join %>%
+  drop_na() %>%
+  st_drop_geometry() %>%
+  gather(variable, value, linearid_x, linearid_y) %>%
+  distinct(value) %>%
+  rename(id = value)
+
+links <-
+  join %>%
+  drop_na() %>%
+  filter(linearid_x != linearid_y) %>%
+  select(linearid_x, linearid_y) %>%
+  rename(from = linearid_x,
+         to = linearid_y)
+
+```
+
+These are then cast into a graph. Note that this graph strips any spatial location: each street is only situated in relation to other streets. Oddly enough, some streets have no connections, certainly an issue with the data. We also see that there are clusters and the plot is weighted to show this, but where are these clusters?
+
+```{r graph}
+
+graph <- graph_from_data_frame(links, vertices = verts, directed = FALSE)
+
+plot(graph,
+     vertex.size = 0.1,
+     vertex.label = '', 
+     alpha = 0.5)
+
+```
+
+By transforming this in a tidy graph, we can use the `activate` function to perform operations on either the nodes or edges. 
+```{r tidying}
+
+graph <- as_tbl_graph(graph)
+
+graph <-
+  graph %>%
+  activate(nodes) %>%
+  mutate(LINEARID = name) %>%
+  left_join(roads) %>%
+  mutate(length = st_length(geometry))
+
+```
+
+## CENTRALITY ASSESSMENT
+
+THe three main measures of centrality---think importance---are **degree**, **closeness**, and **betweenness**. To repeat, degree simply measures the number of other streets intersecting a street, while betweenness and closeness measure how many times a street is used in reach all other streets in the network and how close it is to all other points in the network, respectively. All are valuable and they covary occassionally: it would be difficult, but not impossible, to have a street that is frequently used to link between regions that was not in middle of things. To add these measures, we class their respective functions.   
+
+```{r choices}
+
+graph <-
+  graph %>%
+  activate(nodes) %>%
+  mutate(between = betweenness(graph, v = V(graph), directed = FALSE),
+         close = closeness(graph, v = V(graph)),
+         degree = degree(graph, v = V(graph)))
+
+```
+
+Remember, we can perform operations on these node and edge sets as if they were in data frames. By way of example, say we want to take a cursory look at how centrality relates to length. 
+
+```{r activate}
+
+options(scipen = 999)
+
+graph %>%
+  activate(nodes) %>%
+  as_tibble() %>%
+  select(FULLNAME, length, degree, close, between) %>%
+  arrange(desc(length)) %>%
+  head(10) %>%
+  knitr::kable()
+
+```
+
+We now have a street network, blending spatial and relational data in one tidy dataset. We can plot some of these measures to see the patterns in it. Themes and palettes are in the appendex. 
+
+```{r guides, include = FALSE}
+
+pal <- read_csv("https://github.com/asrenninger/palettes/raw/master/turbo.txt", col_names = FALSE) %>% pull(X1)
+
+labeller <- function(x) {
+  str_sub(as.character(quantile(x, c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9), na.rm = TRUE)), 1, 4)
+  } 
+
+guide <-
+  guide_legend(direction = "vertical",
+               keywidth = unit(1, units = "mm"),
+               keyheight = unit(100 / 10, units = "mm"),
+               title.position = 'right',
+               label.position = 'left',
+               title.hjust = 0.5,
+               label.hjust = 1,
+               ncol = 1,
+               bycol = TRUE)
+
+theme_bm_legend <- function () {
+  theme_void() + 
+    theme(plot.background = element_rect(fill = 'black', colour = 'black'),
+          panel.grid.major.x = element_blank(),
+          panel.grid.major.y = element_blank(),
+          panel.grid.minor.x = element_blank(),
+          panel.grid.minor.y = element_blank(),
+          axis.line.x = element_blank(),
+          axis.line.y = element_blank(),
+          axis.ticks.x = element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          legend.title = element_text(colour = 'grey50', angle = 270),
+          legend.text = element_text(colour = 'white', angle = 270),
+          plot.title = element_text(face = 'bold', colour = 'grey50'),
+          plot.subtitle =  element_text(face = 'plain', colour = 'white', size = 15),
+          panel.grid.major = element_line(size = NA), 
+          panel.grid.minor = element_line(size = NA),
+          legend.position = c(0.8, 0.3),
+          plot.margin = margin(20, 20, 20, 20)
+    )
+  
+}
+
+theme_bh <- function () {
+  theme_minimal() +
+    theme(plot.background = element_rect(fill = 'black', colour = 'black'),
+          panel.grid.major.x = element_blank(),
+          panel.grid.major.y = element_line(size = 0.1, color='grey50'),
+          panel.grid.minor.x = element_blank(),
+          panel.grid.minor.y = element_blank(),
+          axis.line.x = element_line(size = 0.5, color = 'white'),
+          axis.line.y = element_blank(),
+          axis.ticks.x = element_line(size = 0.5, color = 'white'),
+          axis.ticks.y = element_line(size = 0.1, color = 'grey50'),
+          axis.text.x = element_text(face = 'bold'),
+          axis.text.y = element_text(face = 'bold'),
+          axis.title.x = element_text(colour = 'white'),
+          axis.title.y = element_text(colour = 'white'),
+          plot.title = element_text(face = 'bold', colour = 'grey50'),
+          plot.subtitle =  element_text(face = 'plain', colour = 'white', size = 15),
+          plot.margin = margin(20, 20, 20, 20),
+          legend.position = 'none'
+    )
+}
+
+```
+
+```{r plot}
+
+p_tween <- 
+  ggplot() +
+  geom_sf(data = background,
+          aes(), fill = '#353535', colour = NA, size = 0) +
+  geom_sf(data = graph %>% activate(nodes) %>% as_tibble() %>% st_as_sf(), 
+          aes(colour = factor(ntile(between, 9)), fill = factor(ntile(between, 9)), size = between)) +
+  scale_fill_manual(values = pal,
+                     labels = graph %>% activate(nodes) %>% as_tibble() %>% pull(between) %>% labeller(),
+                     na.translate = FALSE,
+                     name = "betweenness",
+                     guide = guide) +
+  scale_color_manual(values = pal,
+                     labels = graph %>% activate(nodes) %>% as_tibble() %>% pull(between) %>% labeller(),
+                     na.translate = FALSE,
+                     name = "betweenness",
+                     guide = guide) +
+  scale_size_continuous(range = c(0.05, 0.25), guide = 'none') +
+  labs(title = "through-movement", subtitle = "BETWEENNESS CENTRALITY") +
+  theme_bm_legend()
+
+```
+
+```{r plots, include = FALSE}
+
+p_close <- 
+  ggplot() +
+  geom_sf(data = background,
+          aes(), fill = '#353535', colour = NA, size = 0) +
+  geom_sf(data = graph %>% activate(nodes) %>% as_tibble() %>% st_as_sf(), 
+          aes(colour = factor(ntile(close, 9)), fill = factor(ntile(close, 9)), size = close)) +
+  scale_fill_manual(values = pal,
+                     labels = graph %>% activate(nodes) %>% as_tibble() %>% pull(close) %>% labeller(),
+                     na.translate = FALSE,
+                     name = "closeness",
+                     guide = guide) +
+  scale_color_manual(values = pal,
+                     labels = graph %>% activate(nodes) %>% as_tibble() %>% pull(close) %>% labeller(),
+                     na.translate = FALSE,
+                     name = "closeness",
+                     guide = guide) +
+  scale_size_continuous(range = c(0.05, 0.25), guide = 'none') +
+  labs(title = "to-movement", subtitle = "CLOSENESS CENTRALITY") +
+  theme_bm_legend()
+
+p_degri <- 
+  ggplot() +
+  geom_sf(data = background,
+          aes(), fill = '#353535', colour = NA, size = 0) +
+  geom_sf(data = graph %>% activate(nodes) %>% as_tibble() %>% st_as_sf(), 
+          aes(colour = factor(ntile(degree, 9)), fill = factor(ntile(degree, 9)), size = degree)) +
+  scale_fill_manual(values = pal,
+                     labels = graph %>% activate(nodes) %>% as_tibble() %>% pull(degree) %>% labeller(),
+                     na.translate = FALSE,
+                     name = "degree",
+                     guide = guide) +
+  scale_color_manual(values = pal,
+                     labels = graph %>% activate(nodes) %>% as_tibble() %>% pull(degree) %>% labeller(),
+                     na.translate = FALSE,
+                     name = "degree",
+                     guide = guide) +
+  scale_size_continuous(range = c(0.05, 0.25), guide = 'none') +
+  labs(title = "connections", subtitle = "degree CENTRALITY") +
+  theme_bm_legend()
+
+```
+
+```{r density, include = FALSE}
+
+p_density <-
+  intersection %>%
+  clean_names() %>%
+  group_by(linearid) %>%
+  summarise(n = n()) %>%
+  ggplot() +
+  geom_density(aes(n, fill = n), alpha = 0.75, colour = '#ffffff', fill = '#00007f') +
+  labs(title = "the power laws of street interaction", 
+       subtitle = "INTERSECTIONS", 
+       x = "distribution", "number of intersections") +
+  theme_bh()
+
+```
+
+```{r grid}
+
+library(gridExtra)
+library(grid)
+
+```
+
+```{r board, eval = FALSE}
+
+blank <- grid.rect(gp = gpar(col = 'black', fill = 'black'))
+
+plots <- list(p_tween, p_close, p_degri, p_density)
+
+lay <- rbind(c(1, 1, 1, 2, 2, 2),
+             c(1, 1, 1, 2, 2, 2),
+             c(1, 1, 1, 2, 2, 2),
+             c(3, 3, 3, 4, 4, NA),
+             c(3, 3, 3, 4, 4, NA),
+             c(3, 3, 3, NA, NA, NA)) 
+
+agg <- grobTree(rectGrob(gp = gpar(fill = 'black', lwd = 0)), 
+                grid.arrange(grobs = plots, layout_matrix = lay))
+
+
+ggsave(agg, filename = "aggregate.png", height = 20, width = 20, dpi = 300)
+
+```
+
+To test how brittle or robust your network is, remove a road---perhaps one of particular importance, and see how the network changes. 
+
+## COMMUNITY DETECTION
+
+Do these communities correspond or map on to your knowledge of the city?  
+
+# [3] Streets as edges
+
+## 
+
+## 
+
+# [Appendix]
+
+## THEMATIC CODING
+
+## ADDITIONAL SCRIPTS
