@@ -442,6 +442,8 @@ ggsave(agg, filename = "aggregate.png", height = 20, width = 20, dpi = 300)
 
 ```
 
+![](viz/aggregate.png)
+
 To test how brittle or robust your network is, remove a road---perhaps one of particular importance, and see how the network changes. 
 
 ## COMMUNITY DETECTION
