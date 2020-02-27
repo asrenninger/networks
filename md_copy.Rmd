@@ -228,9 +228,23 @@ We now have a street network, blending spatial and relational data in one tidy d
 
 pal <- read_csv("https://github.com/asrenninger/palettes/raw/master/turbo.txt", col_names = FALSE) %>% pull(X1)
 
-labeller <- function(x) {
-  str_sub(as.character(quantile(x, c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9), na.rm = TRUE)), 1, 4)
-  } 
+library(magrittr)
+library(classInt)
+
+natural_tween <- 
+  graph %>%
+  activate(nodes) %>%
+  as_tibble() %>%
+  use_series(between) %>%
+  classIntervals(n = 9, style = 'jenks') %>%
+  use_series(brks)
+
+library(scales)
+
+lab <- 
+  c(round(rescale(natural_tween, to = c(0, 10)), 2)) %>% 
+  as_tibble() %>% 
+  pull()
 
 guide <-
   guide_legend(direction = "vertical",
@@ -298,17 +312,21 @@ p_tween <-
   ggplot() +
   geom_sf(data = background,
           aes(), fill = '#353535', colour = NA, size = 0) +
-  geom_sf(data = graph %>% activate(nodes) %>% as_tibble() %>% st_as_sf(), 
-          aes(colour = factor(ntile(between, 9)), fill = factor(ntile(between, 9)), size = between)) +
+  geom_sf(data = graph %>% 
+            activate(nodes) %>% 
+            as_tibble() %>%
+            st_as_sf() %>%
+            mutate(group = factor(cut(as.numeric(between), natural_tween))),
+          aes(colour = group, fill = group, size = between)) +
   scale_fill_manual(values = pal,
-                     labels = graph %>% activate(nodes) %>% as_tibble() %>% pull(between) %>% labeller(),
+                     labels = lab,
                      na.translate = FALSE,
-                     name = "betweenness",
+                     name = "betweenness (rescaled)",
                      guide = guide) +
   scale_color_manual(values = pal,
-                     labels = graph %>% activate(nodes) %>% as_tibble() %>% pull(between) %>% labeller(),
+                     labels = lab,
                      na.translate = FALSE,
-                     name = "betweenness",
+                     name = "betweenness (rescaled)",
                      guide = guide) +
   scale_size_continuous(range = c(0.05, 0.25), guide = 'none') +
   labs(title = "through-movement", subtitle = "BETWEENNESS CENTRALITY") +
@@ -318,19 +336,36 @@ p_tween <-
 
 ```{r plots, include = FALSE}
 
+natural_close <- 
+  graph %>%
+  activate(nodes) %>%
+  as_tibble() %>%
+  use_series(close) %>%
+  classIntervals(n = 9, style = 'jenks') %>%
+  use_series(brks)
+
+lab <- 
+  c(round(rescale(natural_close, to = c(0, 10)), 2)) %>% 
+  as_tibble() %>% 
+  pull()
+
 p_close <- 
   ggplot() +
   geom_sf(data = background,
           aes(), fill = '#353535', colour = NA, size = 0) +
-  geom_sf(data = graph %>% activate(nodes) %>% as_tibble() %>% st_as_sf(), 
-          aes(colour = factor(ntile(close, 9)), fill = factor(ntile(close, 9)), size = close)) +
+  geom_sf(data = graph %>% 
+            activate(nodes) %>% 
+            as_tibble %>%
+            st_as_sf() %>%
+            mutate(group = factor(cut(as.numeric(close), natural_close))),
+          aes(colour = group, fill = group, size = close)) + 
   scale_fill_manual(values = pal,
-                     labels = graph %>% activate(nodes) %>% as_tibble() %>% pull(close) %>% labeller(),
+                     labels = lab,
                      na.translate = FALSE,
                      name = "closeness",
                      guide = guide) +
   scale_color_manual(values = pal,
-                     labels = graph %>% activate(nodes) %>% as_tibble() %>% pull(close) %>% labeller(),
+                     labels = lab,
                      na.translate = FALSE,
                      name = "closeness",
                      guide = guide) +
@@ -338,24 +373,41 @@ p_close <-
   labs(title = "to-movement", subtitle = "CLOSENESS CENTRALITY") +
   theme_bm_legend()
 
+natural_degri <- 
+  graph %>%
+  activate(nodes) %>%
+  as_tibble() %>%
+  use_series(degree) %>%
+  classIntervals(n = 9, style = 'jenks') %>%
+  use_series(brks)
+
+lab <- 
+  c(round(rescale(natural_degri, to = c(0, 10)), 2)) %>% 
+  as_tibble() %>% 
+  pull()
+
 p_degri <- 
   ggplot() +
   geom_sf(data = background,
           aes(), fill = '#353535', colour = NA, size = 0) +
-  geom_sf(data = graph %>% activate(nodes) %>% as_tibble() %>% st_as_sf(), 
-          aes(colour = factor(ntile(degree, 9)), fill = factor(ntile(degree, 9)), size = degree)) +
+  geom_sf(data = graph %>% 
+            activate(nodes) %>% 
+            as_tibble() %>%
+            st_as_sf() %>% 
+            mutate(group = factor(cut(as.numeric(degree), natural_degri))),
+          aes(colour = group, fill = group, size = degree)) + 
   scale_fill_manual(values = pal,
-                     labels = graph %>% activate(nodes) %>% as_tibble() %>% pull(degree) %>% labeller(),
+                     labels = lab,
                      na.translate = FALSE,
                      name = "degree",
                      guide = guide) +
   scale_color_manual(values = pal,
-                     labels = graph %>% activate(nodes) %>% as_tibble() %>% pull(degree) %>% labeller(),
+                     labels = lab,
                      na.translate = FALSE,
                      name = "degree",
                      guide = guide) +
   scale_size_continuous(range = c(0.05, 0.25), guide = 'none') +
-  labs(title = "connections", subtitle = "degree CENTRALITY") +
+  labs(title = "connections", subtitle = "DEGREE CENTRALITY") +
   theme_bm_legend()
 
 ```
@@ -368,7 +420,7 @@ p_density <-
   group_by(linearid) %>%
   summarise(n = n()) %>%
   ggplot() +
-  geom_density(aes(n, fill = n), alpha = 0.75, colour = '#ffffff', fill = '#00007f') +
+  geom_density(aes(n, fill = n), alpha = 0.75, colour = '#ffffff', fill = pal[1]) +
   labs(title = "the power laws of street interaction", 
        subtitle = "INTERSECTIONS", 
        x = "distribution", "number of intersections") +
@@ -378,27 +430,13 @@ p_density <-
 
 ```{r grid}
 
-library(gridExtra)
-library(grid)
+library(patchwork)
 
 ```
 
-```{r board, eval = FALSE}
+```{r board}
 
-blank <- grid.rect(gp = gpar(col = 'black', fill = 'black'))
-
-plots <- list(p_tween, p_close, p_degri, p_density)
-
-lay <- rbind(c(1, 1, 1, 2, 2, 2),
-             c(1, 1, 1, 2, 2, 2),
-             c(1, 1, 1, 2, 2, 2),
-             c(3, 3, 3, 4, 4, NA),
-             c(3, 3, 3, 4, 4, NA),
-             c(3, 3, 3, NA, NA, NA)) 
-
-agg <- grobTree(rectGrob(gp = gpar(fill = 'black', lwd = 0)), 
-                grid.arrange(grobs = plots, layout_matrix = lay))
-
+agg <- (p_tween | p_close) / (p_degri | p_density) & theme_bm_legend()
 
 ggsave(agg, filename = "aggregate.png", height = 20, width = 20, dpi = 300)
 
