@@ -452,17 +452,73 @@ Do these communities correspond or map on to your knowledge of the city?
 
 ```{r}
 
-communities <- cluster_louvain(graph) %>% membership()
+communities <- cluster_louvain(graph)
 
-graph %>%
+hoods <- 
+  graph %>%
   activate(nodes) %>%
-  mutate(clusters = factor(communities)) %>%
+  mutate(cluster = factor(membership(communities))) %>%
   as_tibble() %>%
-  st_as_sf() %>%
-  select(clusters) %>%
-  plot()
+  group_by(cluster) %>%
+  add_tally() %>%
+  ungroup() %>%
+  st_as_sf()
+
+ramp <- colorRampPalette(pal)
+cols <- sample(ramp(unique(hoods$cluster)))
+
+cols <- c(cols, cols)
+
+p_labels <- 
+  ggplot() +
+  geom_sf(data = background,
+          aes(), fill = '#353535', colour = NA, size = 0) +
+  geom_sf(data = hoods,
+          aes(colour = cluster, fill = cluster), size = 0.5) + 
+  scale_fill_manual(values = cols,
+                     na.translate = FALSE,
+                     name = "degree",
+                     guide = 'none') +
+  scale_color_manual(values = cols,
+                     na.translate = FALSE,
+                     name = "degree",
+                     guide = 'none') +
+  labs(title = "estimated demarcation", subtitle = "NIEGHBORHOODS") +
+  theme_bm_legend()
+
+guide_continuous <- 
+  guide_colorbar(direction = "vertical",
+                 barheight = unit(50, units = "mm"),
+                 barwidth = unit(2, units = "mm"),
+                 draw.ulim = FALSE,
+                 title.position = 'right',
+                 label.position = 'left',
+                 title.hjust = 0.5,
+                 label.hjust = 0.5)
+
+p_sizes <- 
+  ggplot() +
+  geom_sf(data = background,
+          aes(), fill = '#353535', colour = NA, size = 0) +
+  geom_sf(data = hoods,
+          aes(colour = n, fill = n, size = n)) + 
+  scale_fill_gradientn(colors = pal,
+                       name = "n streets",
+                       guide = guide_continuous) +
+  scale_color_gradientn(colors = pal,
+                        name = "n streets",
+                        guide = guide_continuous) +
+  scale_size_continuous(range = c(0.05, 0.5), guide = 'none') +
+  labs(title = "associated size", subtitle = "NIEGHBORHOODS") +
+  theme_bm_legend()
+
+clusters <- p_labels | p_sizes
+
+ggsave(clusters, filename = "clusters.png", height = 10, width = 18, dpi = 300)
 
 ```
+
+![](viz/clusters.png)
 
 # [3] Streets as edges
 
