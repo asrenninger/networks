@@ -173,3 +173,33 @@ st_write(lines, "lines.shp")
 st_write(points, "points.shp")
 
 ##
+
+library(ggraph)
+
+##
+
+hoods <- 
+  graph %>%
+  mutate(neighbors = centrality_degree(),
+         group = group_louvain()) %>%
+  activate(edges) %>% 
+  filter(!edge_is_multiple()) %>%
+  mutate(tween = centrality_edge_betweenness())
+
+layout <- create_layout(hoods, 
+                        layout = "kk")
+
+ramp <- colorRampPalette(pal)
+cols <- sample(ramp(length(unique(hoods %>% activate(nodes) %>% pull(group)))))
+
+ggraph(layout) + 
+  geom_edge_density(aes(fill = tween)) +
+  geom_edge_link(aes(width = tween), show.legend = FALSE, alpha = 0.1) + 
+  geom_node_point(aes(color = factor(group)), size = 0.5, show.legend = FALSE) +
+  scale_colour_manual(values = cols) + 
+  scale_size_continuous(range = c(0, 0.2)) +
+  geom_node_text(data = layout %>% 
+                   sample_n(100),
+                   aes(label = FULLNAME), size = 2, colour = "#ffffff", fontface = 'bold', check_overlap = TRUE) +
+  theme_graph() +
+  ggsave("graph.png", height = 8, width = 8, dpi = 300)
