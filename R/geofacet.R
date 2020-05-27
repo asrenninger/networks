@@ -180,17 +180,19 @@ theme_hor <- function () {
 }
 
 pal <- read_csv("https://github.com/asrenninger/palettes/raw/master/turbo.txt", col_names = FALSE) %>% pull(X1)
+set <- sample(pal, 50, replace = TRUE)
 
 ggplot(panel %>%
          left_join(crosswalk) %>%
          replace_na(list(baseline = 0)) %>%
          group_by(code, day) %>%
          summarise(n = mean(n, na.rm = TRUE),
-                   baseline = mean(baseline, na.rm = TRUE)),
-       aes(x = day, y = n - baseline, colour = code)) +
+                   baseline = mean(baseline, na.rm = TRUE)) %>%
+         mutate(decline = min(n) - mean(n)),
+       aes(x = day, y = n - baseline, colour = decline)) +
   geom_line(show.legend = FALSE) +
   scale_y_continuous(breaks = c(20, 0, -20)) +
-  scale_colour_manual(values = sample(pal, 50, replace = TRUE)) +
+  scale_colour_gradientn(colours = rev(pal)) +
   facet_geo(~ code, grid = grid) +
   theme_hor() +
   ggsave("grid.png", height = 8, width = 8, dpi = 300)
