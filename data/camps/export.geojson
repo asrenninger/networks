@@ -1,0 +1,4804 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-ide",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2020-06-08T19:54:02Z",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/429771180",
+        "alt_name": "الداخلة",
+        "alt_name:ar": "الداخلة",
+        "name": "مخيم الداخلة",
+        "name:ar": "مخيم الداخلة",
+        "name:ber": "ⴷⴰⵅⵉⵍⴰ",
+        "name:en": "Dakhla Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.8655403,
+          26.8313053
+        ]
+      },
+      "id": "node/429771180"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/429771213",
+        "alt_name": "بوجدور",
+        "alt_name:ar": "بوجدور",
+        "name": "مخيم بوجدور - 27 فبراير",
+        "name:ar": "مخيم بوجدور - 27 فبراير",
+        "name:de": "Boudjdour",
+        "name:en": "Boujdour Refugee Camp",
+        "name:fr": "Boudjdour",
+        "name:kab": "Bujdur",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -8.0106504,
+          27.5138292
+        ]
+      },
+      "id": "node/429771213"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/429771932",
+        "name": "مخيم العيون",
+        "name:ar": "مخيم العيون",
+        "name:en": "El Aaiún Refugee Camp",
+        "name:es": "Campo de refugiados de El Aaiún",
+        "name:fr": "Laayoune Camp de réfugiés",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -8.0235886,
+          27.7399099
+        ]
+      },
+      "id": "node/429771932"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1253154960",
+        "alt_name_1": "Gban",
+        "alt_name_2": "Gbãu",
+        "gns_ufi": "-2129849",
+        "name": "Bahn Refugee Camp",
+        "place": "refugee_camp",
+        "source": "GNS;UNMIL",
+        "unmil:id": "LBR02766",
+        "unocha:pcode": "LBR33240000033"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -8.720793,
+          7.0251024
+        ]
+      },
+      "id": "node/1253154960"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1417913747",
+        "name": "Dagahaley Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.2868721,
+          0.1900067
+        ]
+      },
+      "id": "node/1417913747"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1761239609",
+        "name": "Melkadida Refugee Camp",
+        "operator": "UNHCR",
+        "place": "refugee_camp",
+        "population": "40621",
+        "population:date": "2012-05-18",
+        "source": "NextView"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.7169097,
+          4.5153896
+        ]
+      },
+      "id": "node/1761239609"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1762318778",
+        "name": "Heleweyen Refugee Camp",
+        "place": "refugee_camp",
+        "source": "HOT Task"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.8622383,
+          4.3659442
+        ]
+      },
+      "id": "node/1762318778"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1762517045",
+        "name": "Kobe Refugee Settlement",
+        "operator": "UNHCR",
+        "place": "refugee_camp",
+        "population": "26785"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.7412548,
+          4.4792217
+        ]
+      },
+      "id": "node/1762517045"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1762655073",
+        "name": "Bokolmanyo Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.5341166,
+          4.5428188
+        ]
+      },
+      "id": "node/1762655073"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1762853796",
+        "is_in": "Dadaab;Kenya",
+        "name": "Hagadera Refugee Camp",
+        "place": "refugee_camp",
+        "source": "HOT Task"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.3701788,
+          0.003132
+        ]
+      },
+      "id": "node/1762853796"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1762926370",
+        "name": "Ifo 2 Refugee Camp",
+        "place": "refugee_camp",
+        "source": "HOT Task"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.3184674,
+          0.1458899
+        ]
+      },
+      "id": "node/1762926370"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1764746396",
+        "name": "Buramino Refugee Settlement",
+        "place": "refugee_camp",
+        "source": "NextView"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.9155537,
+          4.3020222
+        ]
+      },
+      "id": "node/1764746396"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1820144641",
+        "is_in": "Western Region,Ghana",
+        "is_in:country": "Ghana",
+        "name": "Ampain",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.4008651,
+          4.9560235
+        ]
+      },
+      "id": "node/1820144641"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2108980305",
+        "name": "Boynuyoğun",
+        "note": "çadır kenti",
+        "place": "refugee_camp",
+        "source": "https://hiu.state.gov/data/Syria_RefugeeCamps_2012Oct_HIU.zip"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.3647222,
+          36.1841667
+        ]
+      },
+      "id": "node/2108980305"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2142526169",
+        "long_name:ar": "مخيم قوندجي للاجئين",
+        "name": "Camp de réfugiés de Gondje مخيم قونجي",
+        "name:ar": "مخيم قونجي",
+        "name:fr": "Camp de réfugiés de Gondje",
+        "place": "refugee_camp",
+        "project:eurosha_2012": "yes",
+        "source": "BING",
+        "source:date": "07/03/2011"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.5486644,
+          7.9489788
+        ]
+      },
+      "id": "node/2142526169"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2199293928",
+        "name": "Amboko Refugee Camp",
+        "name:ar": "مخيم أمبوكو",
+        "place": "refugee_camp",
+        "project:eurosha_2012": "yes",
+        "source:date": "7.3.2011"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.586283,
+          7.9422621
+        ]
+      },
+      "id": "node/2199293928"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2331717281",
+        "admin_level": "7",
+        "int_name": "Zaatri Refugee Camp",
+        "loc_name": "مخيم الزعتري",
+        "name": "مخيم الزعتري",
+        "name:ar": "مخيم الزعتري",
+        "name:en": "Al Zaatari Refugee Camp",
+        "name:fa": "مخيم الزعتري",
+        "name:fr": "Camp de réfugiés de Zaatari",
+        "place": "refugee_camp",
+        "population": "79943",
+        "population:date": "2017-09-18",
+        "refugee": "yes",
+        "residential": "displaced_people",
+        "source:population": "http://data.unhcr.org/syrianrefugees/settlement.php?id=176&country=107&region=77",
+        "website": "http://data.unhcr.org/syrianrefugees/settlement.php?id=176&country=107&region=77",
+        "wikidata": "Q8063414",
+        "wikipedia": "en:Zaatari refugee camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.3267426,
+          32.2942395
+        ]
+      },
+      "id": "node/2331717281"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2487367426",
+        "name": "معسكر الشجراب 3",
+        "name:ar": "معسكر الشجراب 3",
+        "name:en": "Shagarab-III Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.9702582,
+          14.7121387
+        ]
+      },
+      "id": "node/2487367426"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2487367449",
+        "name": "معسكر الشجراب 1",
+        "name:ar": "معسكر الشجراب 1",
+        "name:en": "Shagarab-I Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.9821977,
+          14.7629115
+        ]
+      },
+      "id": "node/2487367449"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2487367659",
+        "name": "معسكر الشجراب 2",
+        "name:ar": "معسكر الشجراب 2",
+        "name:en": "Shagarab-II Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.9729141,
+          14.7440844
+        ]
+      },
+      "id": "node/2487367659"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2596422790",
+        "name": "Kouankan",
+        "place": "refugee_camp",
+        "unocha:pcode": "GIN0080030600057"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -9.1427464,
+          8.4271191
+        ]
+      },
+      "id": "node/2596422790"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2923309174",
+        "name": "Beydagi Refugee Camp",
+        "name:en": "Beydağı refugee camp",
+        "place": "refugee_camp",
+        "source": "bing"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.1531441,
+          38.3414225
+        ]
+      },
+      "id": "node/2923309174"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2925742307",
+        "name": "Gawilan Refugee Camp",
+        "name:ar": "مخيم كويلان",
+        "note": "source unitar : http://www.unitar.org/unosat/node/44/1780",
+        "place": "refugee_camp",
+        "source": "Bing"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          43.6121061,
+          36.3402194
+        ]
+      },
+      "id": "node/2925742307"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2925754043",
+        "name": "Arbat Refugee Camp",
+        "note": "source unitar : http://www.unitar.org/unosat/node/44/1780",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          45.610498,
+          35.3752971
+        ]
+      },
+      "id": "node/2925754043"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2991182911",
+        "name": "Dzaleka Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.8691015,
+          -13.6644703
+        ]
+      },
+      "id": "node/2991182911"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3046775530",
+        "name": "Abala Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.4183359,
+          14.9105357
+        ]
+      },
+      "id": "node/3046775530"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3239657911",
+        "alt_name:ar": "الوسرد;مخيم الوسرد",
+        "name": "مخيم أوسرد",
+        "name:ar": "مخيم أوسرد",
+        "name:en": "Awsard Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -7.8686328,
+          27.6214614
+        ]
+      },
+      "id": "node/3239657911"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3474217028",
+        "name": "Marratane Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.2504886,
+          -15.2549551
+        ]
+      },
+      "id": "node/3474217028"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3859555787",
+        "name": "Adjuong Thok Refugee Camp",
+        "place": "refugee_camp",
+        "source": "https://unitar.org/unosat/node/44/1912"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.2797338,
+          9.9642808
+        ]
+      },
+      "id": "node/3859555787"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3889577972",
+        "name": "Muhama refugee camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.8242777,
+          -2.3077633
+        ]
+      },
+      "id": "node/3889577972"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3903065751",
+        "name": "Doholo Refugee Camp",
+        "place": "refugee_camp",
+        "source": "gps survey",
+        "source:date": "2015-08-11"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.6290095,
+          7.996737
+        ]
+      },
+      "id": "node/3903065751"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4017799218",
+        "name": "Sayam Forage Refugee Camp",
+        "place": "refugee_camp",
+        "source": "Bing"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.5045441,
+          13.6221811
+        ]
+      },
+      "id": "node/4017799218"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4263510366",
+        "name": "Wad Sharife Refugee Camp",
+        "name:ar": "ود شريف",
+        "name:en": "Wad Sharefay",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.4490365,
+          15.3633705
+        ]
+      },
+      "id": "node/4263510366"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4579015512",
+        "name": "مخيم اللاجئين قوز بيضة",
+        "name:ar": "مخيم اللاجئين قوز بيضة",
+        "name:en": "Goz Beida refugee camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.389075,
+          12.2270107
+        ]
+      },
+      "id": "node/4579015512"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4579254484",
+        "name": "Treguine Refugee Camp",
+        "name:ar": "مخيم تريقين",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.6483099,
+          13.4383284
+        ]
+      },
+      "id": "node/4579254484"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4579454758",
+        "name": "مخيم غاغا",
+        "name:ar": "مخيم غاغا",
+        "name:de": "Flüchtlingslager Gaga",
+        "name:en": "Gaga refugee camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.4534616,
+          13.7650286
+        ]
+      },
+      "id": "node/4579454758"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4579553389",
+        "name": "مخيم كونوغو",
+        "name:ar": "مخيم كونوغو",
+        "name:de": "Flüchtlingslager Kounougou",
+        "name:en": "Kounougou Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.9401915,
+          14.4601651
+        ]
+      },
+      "id": "node/4579553389"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4579669621",
+        "name": "Mile",
+        "name:ar": "مخيم ميلي",
+        "name:de": "Flüchtlingslager Milé",
+        "name:en": "Milé Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.9262234,
+          14.5947775
+        ]
+      },
+      "id": "node/4579669621"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4614227579",
+        "name": "مخيم دار السلام",
+        "name:ar": "مخيم دار السلام",
+        "name:de": "Dar-as-Salam-Flüchtlingslager",
+        "name:en": "Dar as Salam refugee camp",
+        "name:fr": "Camp de réfugié de Dar-es-Salam",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.2986846,
+          13.624228
+        ]
+      },
+      "id": "node/4614227579"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4624447396",
+        "name": "Maing Khaung Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          97.2260707,
+          23.971861
+        ]
+      },
+      "id": "node/4624447396"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4681279891",
+        "addr:city": "بصرما",
+        "name": "مخيم مجمع بصرما",
+        "name:ar": "مخيم مجمع بصرما",
+        "name:en": "Basirma Refugee Camp",
+        "name:ku": "کەمپی باسرمە",
+        "operator": "BCF",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.3411608,
+          36.4977318
+        ]
+      },
+      "id": "node/4681279891"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4689377921",
+        "name": "Islahiye Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.6179408,
+          36.984254
+        ]
+      },
+      "id": "node/4689377921"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4862057134",
+        "name": "Mugumbwa refugee camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          29.8511766,
+          -2.6743747
+        ]
+      },
+      "id": "node/4862057134"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4945760723",
+        "name": "Qushtapa Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.0360554,
+          35.9839225
+        ]
+      },
+      "id": "node/4945760723"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4996814522",
+        "name": "Sherkole",
+        "name:en": "Sherkole Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.6110539,
+          10.3737855
+        ]
+      },
+      "id": "node/4996814522"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5018574477",
+        "name": "Adiyaman Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.229451,
+          37.5466198
+        ]
+      },
+      "id": "node/5018574477"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5061912643",
+        "name": "Hitsats Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.9543769,
+          14.1084726
+        ]
+      },
+      "id": "node/5061912643"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5201682122",
+        "name": "Um Gargour Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.6285108,
+          14.5047928
+        ]
+      },
+      "id": "node/5201682122"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5344350921",
+        "name": "Dzaleka Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.8694437,
+          -13.6613651
+        ]
+      },
+      "id": "node/5344350921"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5365711897",
+        "name": "Border Post 8 Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          97.9165238,
+          25.2200812
+        ]
+      },
+      "id": "node/5365711897"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5401210841",
+        "fixme": "position ? name ?",
+        "name": "Camp 18",
+        "place": "refugee_camp",
+        "source:name": "Humanitarian Data Exchange - data.humdata.org shape2018-02-08"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          92.1477055,
+          21.1886175
+        ]
+      },
+      "id": "node/5401210841"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5438288795",
+        "fixme": "position ? name ?",
+        "name": "Camp 16 - Bagghona-Putibonia Refugee Camp",
+        "place": "refugee_camp",
+        "source:name": "Humanitarian Data Exchange - data.humdata.org shape2018-02-08"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          92.1503739,
+          21.155669
+        ]
+      },
+      "id": "node/5438288795"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5506513898",
+        "name": "Kule Refugee Camp",
+        "place": "refugee_camp",
+        "population": "55000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.2557861,
+          8.2968106
+        ]
+      },
+      "id": "node/5506513898"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5506513899",
+        "name": "Tierkidi Refugee Camp",
+        "place": "refugee_camp",
+        "population": "70000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.2872328,
+          8.2787469
+        ]
+      },
+      "id": "node/5506513899"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5506513900",
+        "name": "Nguenyyiel Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.3251235,
+          8.3045591
+        ]
+      },
+      "id": "node/5506513900"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5507337766",
+        "name": "Jewi Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.7038451,
+          8.1524515
+        ]
+      },
+      "id": "node/5507337766"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5605444362",
+        "name": "Kulagaru Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.9173812,
+          12.0296059
+        ]
+      },
+      "id": "node/5605444362"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5713445125",
+        "name": "Pamir Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.3555783,
+          9.9101905
+        ]
+      },
+      "id": "node/5713445125"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6015284061",
+        "name": "Tsore Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.6160316,
+          10.2359336
+        ]
+      },
+      "id": "node/6015284061"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6122963585",
+        "name": "Mai Aini Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.1543593,
+          13.6574607
+        ]
+      },
+      "id": "node/6122963585"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6539104851",
+        "name": "Kamchijin Prayer Ground Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.9209896,
+          12.0379478
+        ]
+      },
+      "id": "node/6539104851"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6630617183",
+        "name": "Damara Arrival Centre Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.7901338,
+          11.2202355
+        ]
+      },
+      "id": "node/6630617183"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6632411974",
+        "name": "M'Bera Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -5.7866889,
+          15.8438896
+        ]
+      },
+      "id": "node/6632411974"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6652352649",
+        "name": "Umbazah Rock Side Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.7841638,
+          11.2322072
+        ]
+      },
+      "id": "node/6652352649"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6884854590",
+        "name": "Shimelba Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.7244437,
+          14.1754544
+        ]
+      },
+      "id": "node/6884854590"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6902647870",
+        "name": "Tabareybarey Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.9504354,
+          14.7765061
+        ]
+      },
+      "id": "node/6902647870"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6902675583",
+        "name": "Mangaize Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.9519669,
+          14.6705512
+        ]
+      },
+      "id": "node/6902675583"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6902796191",
+        "alt_name": "Dara Shakran Refugee Camp",
+        "name": "Darashakran Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          43.8918936,
+          36.4711405
+        ]
+      },
+      "id": "node/6902796191"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6902817947",
+        "name": "کەمپی کەورگۆسکی ئاوارەکان",
+        "name:ckb": "کەمپی کەورگۆسکی ئاوارەکان",
+        "name:en": "Kawergosk Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          43.8124037,
+          36.3455669
+        ]
+      },
+      "id": "node/6902817947"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6902875265",
+        "name": "Nduta Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.7829055,
+          -3.6932957
+        ]
+      },
+      "id": "node/6902875265"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6909279701",
+        "name": "Mtendeli Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.8911514,
+          -3.4236352
+        ]
+      },
+      "id": "node/6909279701"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6927696498",
+        "name": "Kebribeyah Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          43.1797242,
+          9.0973401
+        ]
+      },
+      "id": "node/6927696498"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6930756801",
+        "name": "መዓስከር ስደተኛታት ኤርትራውያን  ዓዲ ሓርሽ  Adi Harush Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.1291246,
+          13.5946541
+        ]
+      },
+      "id": "node/6930756801"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6930930219",
+        "name": "Nyarugusu Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.3806734,
+          -4.2354009
+        ]
+      },
+      "id": "node/6930930219"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6930973541",
+        "name": "Aysaita Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.4355373,
+          11.5746575
+        ]
+      },
+      "id": "node/6930973541"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6951985524",
+        "name": "Kario Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.2069523,
+          11.1501085
+        ]
+      },
+      "id": "node/6951985524"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6952060211",
+        "name": "Okugo RefugeeCamp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.1265472,
+          6.4929095
+        ]
+      },
+      "id": "node/6952060211"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6957072761",
+        "name": "Berahle Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.0182366,
+          13.8392675
+        ]
+      },
+      "id": "node/6957072761"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6957614422",
+        "name": "Tongo Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.4151235,
+          9.3828148
+        ]
+      },
+      "id": "node/6957614422"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6957661392",
+        "name": "Gure-Shombola Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.4959331,
+          9.5238139
+        ]
+      },
+      "id": "node/6957661392"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7031756608",
+        "name": "Azraq Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.5854167,
+          31.9048129
+        ]
+      },
+      "id": "node/7031756608"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7033594268",
+        "name": "Emira Jordanian Camp (EJC)",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.4469933,
+          32.03391
+        ]
+      },
+      "id": "node/7033594268"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7033743966",
+        "name": "Luwani Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.7388553,
+          -15.4805236
+        ]
+      },
+      "id": "node/7033743966"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7035809775",
+        "name": "Domiz 1 Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          42.8770637,
+          36.7838201
+        ]
+      },
+      "id": "node/7035809775"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7036111909",
+        "name": "Bambasi Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.7788524,
+          9.7741726
+        ]
+      },
+      "id": "node/7036111909"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7036919965",
+        "name": "Mboti Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.8196414,
+          4.0238199
+        ]
+      },
+      "id": "node/7036919965"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7049244869",
+        "name": "Lusenda Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          29.0940472,
+          -3.887772
+        ]
+      },
+      "id": "node/7049244869"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7049247616",
+        "name": "Mulongwe Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          29.0366721,
+          -4.236931
+        ]
+      },
+      "id": "node/7049247616"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7051907281",
+        "name": "Musasa Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.1112616,
+          -2.8516999
+        ]
+      },
+      "id": "node/7051907281"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7053201105",
+        "name": "Mole Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.8019741,
+          4.1331307
+        ]
+      },
+      "id": "node/7053201105"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7053216635",
+        "name": "Boyabu Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.7653941,
+          3.7330723
+        ]
+      },
+      "id": "node/7053216635"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7053221700",
+        "name": "Bili Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.92082,
+          4.5416238
+        ]
+      },
+      "id": "node/7053221700"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7056736526",
+        "name": "Karkamis Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.0283594,
+          36.8757415
+        ]
+      },
+      "id": "node/7056736526"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7056736537",
+        "name": "Cevdetiye Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.2053156,
+          37.1358929
+        ]
+      },
+      "id": "node/7056736537"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7056796188",
+        "name": "Dosseye Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.4855861,
+          8.1620035
+        ]
+      },
+      "id": "node/7056796188"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7056799660",
+        "name": "Yayladagi Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.0548758,
+          35.906971
+        ]
+      },
+      "id": "node/7056799660"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7056799661",
+        "name": "Yayladagi Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.0502624,
+          35.9061976
+        ]
+      },
+      "id": "node/7056799661"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7056806701",
+        "name": "Apaydin Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.352011,
+          36.2351093
+        ]
+      },
+      "id": "node/7056806701"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7056814136",
+        "name": "Suruc Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.4841418,
+          37.0421615
+        ]
+      },
+      "id": "node/7056814136"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7056826491",
+        "name": "Nizip-1 Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.9041409,
+          37.0430521
+        ]
+      },
+      "id": "node/7056826491"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7056826492",
+        "name": "Nizip-2 Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.8956222,
+          37.0468799
+        ]
+      },
+      "id": "node/7056826492"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7056834893",
+        "name": "Akcakale Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.9535928,
+          36.7529488
+        ]
+      },
+      "id": "node/7056834893"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7057846479",
+        "name": "Elbeyli Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.3607039,
+          36.6643742
+        ]
+      },
+      "id": "node/7057846479"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7057848761",
+        "name": "Oncupinar Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.0821619,
+          36.6461615
+        ]
+      },
+      "id": "node/7057848761"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7057849958",
+        "name": "Midyat Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.3909912,
+          37.4115166
+        ]
+      },
+      "id": "node/7057849958"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7057853005",
+        "name": "Saricam Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.49129,
+          37.0462377
+        ]
+      },
+      "id": "node/7057853005"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7057875952",
+        "name": "Ceylanpinar Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.9241018,
+          36.8152974
+        ]
+      },
+      "id": "node/7057875952"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7060478343",
+        "name": "Nyabihake Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.2611542,
+          -1.5969092
+        ]
+      },
+      "id": "node/7060478343"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7060549215",
+        "name": "Kiziba refugee camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          29.351778,
+          -2.1328183
+        ]
+      },
+      "id": "node/7060549215"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7063639608",
+        "name": "KIgeme refugee camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          29.5236272,
+          -2.4851829
+        ]
+      },
+      "id": "node/7063639608"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7066727982",
+        "name": "Mae La Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          98.3848857,
+          17.1246321
+        ]
+      },
+      "id": "node/7066727982"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7066727983",
+        "name": "Ban Mai Nai Soi Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          97.8357625,
+          19.3626725
+        ]
+      },
+      "id": "node/7066727983"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7066741401",
+        "name": "Ban Mae Surin Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          97.8297972,
+          19.0263991
+        ]
+      },
+      "id": "node/7066741401"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7066800616",
+        "name": "Kilo 26 Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.7606697,
+          15.0739469
+        ]
+      },
+      "id": "node/7066800616"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7066869355",
+        "name": "Al Kashafa Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.7823019,
+          12.5208196
+        ]
+      },
+      "id": "node/7066869355"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7066988658",
+        "name": "Al Redis1 Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.7781606,
+          12.587989
+        ]
+      },
+      "id": "node/7066988658"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7069157991",
+        "name": "Little Wlebo Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -7.7449751,
+          4.4498376
+        ]
+      },
+      "id": "node/7069157991"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7088023177",
+        "name": "Um Sangour Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.7437639,
+          12.6081761
+        ]
+      },
+      "id": "node/7088023177"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7089420989",
+        "name": "Al Redis2 Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.7647066,
+          12.5986482
+        ]
+      },
+      "id": "node/7089420989"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7090890078",
+        "name": "Dabat Bosin Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.8032553,
+          12.3746444
+        ]
+      },
+      "id": "node/7090890078"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7090936336",
+        "name": "Al Alagaya Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.80211,
+          12.3652545
+        ]
+      },
+      "id": "node/7090936336"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7091751725",
+        "name": "Rawan Bapt. C. IDP Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          96.2791908,
+          25.5649799
+        ]
+      },
+      "id": "node/7091751725"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7091790250",
+        "name": "Hka Shi IDP Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          97.4290243,
+          25.304716
+        ]
+      },
+      "id": "node/7091790250"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7093487306",
+        "name": "Abuda Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.8927846,
+          14.3530195
+        ]
+      },
+      "id": "node/7093487306"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7095977184",
+        "name": "Kakuma I Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.8387193,
+          3.7380186
+        ]
+      },
+      "id": "node/7095977184"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7096004385",
+        "name": "Kakuma IV Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.8098588,
+          3.7390249
+        ]
+      },
+      "id": "node/7096004385"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7096004386",
+        "name": "Kakuma III Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.8149872,
+          3.7540774
+        ]
+      },
+      "id": "node/7096004386"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7096298443",
+        "name": "Kaya Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.5874366,
+          10.1009094
+        ]
+      },
+      "id": "node/7096298443"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7096299803",
+        "name": "Nyori Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.4269361,
+          3.9480877
+        ]
+      },
+      "id": "node/7096299803"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7096305555",
+        "name": "Yusuf Batil Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.5760641,
+          9.9755288
+        ]
+      },
+      "id": "node/7096305555"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7099668518",
+        "name": "Nu Po Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          98.6767959,
+          15.8540429
+        ]
+      },
+      "id": "node/7099668518"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7099681371",
+        "name": "Umpiem Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          99.0130806,
+          16.3974717
+        ]
+      },
+      "id": "node/7099681371"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7099711452",
+        "name": "Mae La Oon Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          97.782762,
+          17.7889213
+        ]
+      },
+      "id": "node/7099711452"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7099727682",
+        "name": "Ban Don Yang Refugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          98.3027565,
+          15.267936
+        ]
+      },
+      "id": "node/7099727682"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7335445986",
+        "name": "Anyake",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.3485176,
+          6.7403469
+        ]
+      },
+      "id": "node/7335445986"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7335798780",
+        "name": "Rindibin Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.9389255,
+          10.3183392
+        ]
+      },
+      "id": "node/7335798780"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7335855262",
+        "name": "Daware Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.598325,
+          9.4189405
+        ]
+      },
+      "id": "node/7335855262"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7335888506",
+        "name": "Central Primary School Damboa",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.7560604,
+          11.1610978
+        ]
+      },
+      "id": "node/7335888506"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7335889930",
+        "name": "Old Secetariat Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.7597243,
+          11.1626267
+        ]
+      },
+      "id": "node/7335889930"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7335989217",
+        "name": "Nysc Camp Borno",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.118754,
+          11.8258432
+        ]
+      },
+      "id": "node/7335989217"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7336521754",
+        "name": "Agric IDP Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.9027637,
+          12.0372377
+        ]
+      },
+      "id": "node/7336521754"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7337267325",
+        "name": "Egyeikrom",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.4360333,
+          5.111494
+        ]
+      },
+      "id": "node/7337267325"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7337281189",
+        "name": "Ngari-singo",
+        "place": "refugee_camp",
+        "source": "UNHCR"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.0585169,
+          3.5532297
+        ]
+      },
+      "id": "node/7337281189"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7345789563",
+        "fixme": "not sure of the refugee site exact location",
+        "name": "Makpandu",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.7015247,
+          4.7505976
+        ]
+      },
+      "id": "node/7345789563"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7345805012",
+        "fixme": "not sure of the location - could be next to Nyori refugge camp",
+        "name": "Lasu",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.4666757,
+          3.9491901
+        ]
+      },
+      "id": "node/7345805012"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7345858085",
+        "name": "Wulu center",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          29.6268976,
+          6.5102264
+        ]
+      },
+      "id": "node/7345858085"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7346368677",
+        "fixme": "unknown exact location",
+        "name": "Pibor",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.1221056,
+          6.7931061
+        ]
+      },
+      "id": "node/7346368677"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7346387125",
+        "fixme": "unknown exact location",
+        "name": "Mingkaman",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.4702081,
+          6.190518
+        ]
+      },
+      "id": "node/7346387125"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7346491846",
+        "name": "Kormuokony",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.6322324,
+          6.4001962
+        ]
+      },
+      "id": "node/7346491846"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7346563838",
+        "fixme": "unknown exact location",
+        "name": "Man-Angui",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.3671659,
+          9.0038688
+        ]
+      },
+      "id": "node/7346563838"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7346572385",
+        "fixme": "unknown exact location",
+        "name": "Pagai",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.5567015,
+          9.099586
+        ]
+      },
+      "id": "node/7346572385"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7346611107",
+        "fixme": "unknown exact location",
+        "name": "Magar",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.4359002,
+          9.593366
+        ]
+      },
+      "id": "node/7346611107"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7346650595",
+        "name": "Yida",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.0896108,
+          10.1122217
+        ]
+      },
+      "id": "node/7346650595"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7353973232",
+        "name": "Donzumga Primary School Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.047512,
+          7.6456435
+        ]
+      },
+      "id": "node/7353973232"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7354359217",
+        "name": "Belom",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.7561941,
+          8.44546
+        ]
+      },
+      "id": "node/7354359217"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7354577762",
+        "name": "Old Hospital Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.344556,
+          12.2881461
+        ]
+      },
+      "id": "node/7354577762"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7354659757",
+        "name": "Taung Paw Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          93.3668375,
+          20.0473444
+        ]
+      },
+      "id": "node/7354659757"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7354959111",
+        "name": "Khaung Doke Khar Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          92.8227715,
+          20.1817854
+        ]
+      },
+      "id": "node/7354959111"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7354959112",
+        "name": "Baw Du Pha 2 Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          92.8079295,
+          20.1814782
+        ]
+      },
+      "id": "node/7354959112"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7354965149",
+        "name": "Mayo Farrang Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.0585251,
+          8.9560854
+        ]
+      },
+      "id": "node/7354965149"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7355148765",
+        "name": "Angwan Kara Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.4450448,
+          9.3200886
+        ]
+      },
+      "id": "node/7355148765"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7356767743",
+        "name": "Sabon Peggi Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.624836,
+          9.8035804
+        ]
+      },
+      "id": "node/7356767743"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7356803150",
+        "name": "Shagari Quarters Camp Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.612876,
+          9.8057688
+        ]
+      },
+      "id": "node/7356803150"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7356814693",
+        "name": "Gadamayo Bango Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.6124334,
+          9.8298009
+        ]
+      },
+      "id": "node/7356814693"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7356821732",
+        "name": "Red-Bricks (IDP) Camp Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.8596714,
+          10.8780164
+        ]
+      },
+      "id": "node/7356821732"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7356852389",
+        "name": "Vocational Training Centre Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2700816,
+          10.6934971
+        ]
+      },
+      "id": "node/7356852389"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7356878152",
+        "name": "Ten Housing Quarters Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.8442903,
+          10.8808493
+        ]
+      },
+      "id": "node/7356878152"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7356944549",
+        "name": "Estate Camp Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.7556339,
+          11.1466953
+        ]
+      },
+      "id": "node/7356944549"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7357004659",
+        "name": "Hausari Primary School Damboa Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.7529436,
+          11.1482217
+        ]
+      },
+      "id": "node/7357004659"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7358227937",
+        "name": "Sangaya Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.917186,
+          12.0307137
+        ]
+      },
+      "id": "node/7358227937"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7358270313",
+        "name": "Motor Park Idp Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.9088577,
+          12.0349607
+        ]
+      },
+      "id": "node/7358270313"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7358511226",
+        "name": "Masarmari Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.9009237,
+          12.0428042
+        ]
+      },
+      "id": "node/7358511226"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7358543905",
+        "name": "1000 Camp Dikwa Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.921169,
+          12.0277992
+        ]
+      },
+      "id": "node/7358543905"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7358543916",
+        "name": "Ministry Of Works Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.9248919,
+          12.0396773
+        ]
+      },
+      "id": "node/7358543916"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7358549052",
+        "name": "Shehu Musta Ii Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.9235938,
+          12.0476203
+        ]
+      },
+      "id": "node/7358549052"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7358597658",
+        "name": "Gssss Camp Bama Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.6847591,
+          11.5082434
+        ]
+      },
+      "id": "node/7358597658"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7358623305",
+        "name": "Wege Arrival Centre Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.7766248,
+          11.2323705
+        ]
+      },
+      "id": "node/7358623305"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7359109144",
+        "name": "Aisha Buhari Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.4989974,
+          11.8122859
+        ]
+      },
+      "id": "node/7359109144"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7359109145",
+        "name": "Magistrate Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.4981713,
+          11.807056
+        ]
+      },
+      "id": "node/7359109145"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7359110362",
+        "name": "Ggss Gajiganna Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1062657,
+          12.258961
+        ]
+      },
+      "id": "node/7359110362"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7360117378",
+        "name": "Police Barracks Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.7620578,
+          11.1607346
+        ]
+      },
+      "id": "node/7360117378"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7360144842",
+        "name": "Mobile Clinic Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.7582692,
+          11.1597426
+        ]
+      },
+      "id": "node/7360144842"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7360144852",
+        "name": "Police Doki Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.7583255,
+          11.1577281
+        ]
+      },
+      "id": "node/7360144852"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7360194229",
+        "name": "Upper Court Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.7586916,
+          11.1644661
+        ]
+      },
+      "id": "node/7360194229"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7360203145",
+        "fixme": "nom à vérifier",
+        "name": "Unity Camp Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.7543867,
+          11.1666712
+        ]
+      },
+      "id": "node/7360203145"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7361921381",
+        "name": "Bulamatari Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2223999,
+          11.8863859
+        ]
+      },
+      "id": "node/7361921381"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7361969281",
+        "name": "Stadium Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.6265284,
+          12.6651953
+        ]
+      },
+      "id": "node/7361969281"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7361977359",
+        "name": "Gardener Low Cost Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.6193508,
+          12.6721719
+        ]
+      },
+      "id": "node/7361977359"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7362885752",
+        "name": "Musari Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2614046,
+          11.880748
+        ]
+      },
+      "id": "node/7362885752"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7362931718",
+        "name": "Custom House Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2826316,
+          11.8811154
+        ]
+      },
+      "id": "node/7362931718"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7366278070",
+        "name": "AD-2000 Tharthana cpd Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          97.2392338,
+          24.2612362
+        ]
+      },
+      "id": "node/7366278070"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7366350577",
+        "name": "Shuwari Gaya Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2104856,
+          11.7837724
+        ]
+      },
+      "id": "node/7366350577"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7366438209",
+        "name": "Yawuri Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2162899,
+          11.77589
+        ]
+      },
+      "id": "node/7366438209"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7366486629",
+        "name": "Fulatari Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2253075,
+          11.7701422
+        ]
+      },
+      "id": "node/7366486629"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7366487156",
+        "name": "Fannamri Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2599509,
+          11.7486753
+        ]
+      },
+      "id": "node/7366487156"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7366510206",
+        "name": "Allamin Dagash Garage Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.167479,
+          11.8573447
+        ]
+      },
+      "id": "node/7366510206"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7366525883",
+        "name": "Dalorima Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2624547,
+          11.7471811
+        ]
+      },
+      "id": "node/7366525883"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7366823118",
+        "name": "Yajiwa Camp Kusheri Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1306148,
+          11.7887074
+        ]
+      },
+      "id": "node/7366823118"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7366851590",
+        "name": "Ali Dawari I Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1327257,
+          11.7906976
+        ]
+      },
+      "id": "node/7366851590"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7366852351",
+        "name": "Kaduwa I Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1315763,
+          11.791207
+        ]
+      },
+      "id": "node/7366852351"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7366859285",
+        "name": "Ali Dawari II Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.132849,
+          11.7902407
+        ]
+      },
+      "id": "node/7366859285"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7366908696",
+        "name": "Yejiwa Borehole Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1312571,
+          11.7877503
+        ]
+      },
+      "id": "node/7366908696"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7372241495",
+        "name": "PTP Camp",
+        "place": "refugee_camp",
+        "source": "UNMIL",
+        "unmil:id": "LBR00449",
+        "unocha:pcode": "LBR15080000087"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -8.0534077,
+          6.0223483
+        ]
+      },
+      "id": "node/7372241495"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7372272561",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.0449097,
+          -7.3838641
+        ]
+      },
+      "id": "node/7372272561"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7372310726",
+        "name": "Bantiue",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.5454306,
+          15.2498328
+        ]
+      },
+      "id": "node/7372310726"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7372373323",
+        "name": "Fau 5",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.9439666,
+          14.4230533
+        ]
+      },
+      "id": "node/7372373323"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7372460891",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.2290425,
+          7.6769472
+        ]
+      },
+      "id": "node/7372460891"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7372460906",
+        "name": "Pugnido 2",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.2467451,
+          7.6790312
+        ]
+      },
+      "id": "node/7372460906"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7372522344",
+        "name": "turkoglu",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.9760752,
+          37.5627624
+        ]
+      },
+      "id": "node/7372522344"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7373457532",
+        "name": "Kalinga",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.8541746,
+          -1.4079268
+        ]
+      },
+      "id": "node/7373457532"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7373498846",
+        "name": "Bele",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.1946247,
+          3.6362199
+        ]
+      },
+      "id": "node/7373498846"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7373503740",
+        "name": "Meri",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.2022314,
+          3.8499427
+        ]
+      },
+      "id": "node/7373503740"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7373541020",
+        "name": "Kaka2",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.4448588,
+          3.7069705
+        ]
+      },
+      "id": "node/7373541020"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7373663347",
+        "name": "Barda",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          47.104193,
+          40.165199
+        ]
+      },
+      "id": "node/7373663347"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7374379515",
+        "name": "Muna Da'Alti 1B Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2538495,
+          11.8695893
+        ]
+      },
+      "id": "node/7374379515"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7374379516",
+        "name": "Muna Da'Alti 1A Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2532614,
+          11.8692461
+        ]
+      },
+      "id": "node/7374379516"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7374668059",
+        "name": "Al-Kawthar Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.1072857,
+          32.5247524
+        ]
+      },
+      "id": "node/7374668059"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7374688198",
+        "name": "Najaf RHU Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.3306601,
+          32.1463576
+        ]
+      },
+      "id": "node/7374688198"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7374764813",
+        "name": "Al-Khalidiya Markazi camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          43.5489839,
+          33.3498303
+        ]
+      },
+      "id": "node/7374764813"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7374840405",
+        "name": "Al Salam / al takia al kasnazania",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.3693268,
+          33.2254102
+        ]
+      },
+      "id": "node/7374840405"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7374840424",
+        "name": "Scout Camp / Gazaliya",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.2929375,
+          33.3309361
+        ]
+      },
+      "id": "node/7374840424"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7374858418",
+        "name": "Al Jamea'a",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.3154439,
+          33.311213
+        ]
+      },
+      "id": "node/7374858418"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7374891062",
+        "name": "Kadhra'a",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.2911082,
+          33.3173209
+        ]
+      },
+      "id": "node/7374891062"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7374977634",
+        "name": "Hajjaj Camp / Rub-Hall",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          43.5132515,
+          34.821528
+        ]
+      },
+      "id": "node/7374977634"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7375019805",
+        "name": "Basateen At Sheuokh",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          43.2342482,
+          35.5239444
+        ]
+      },
+      "id": "node/7375019805"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7375060547",
+        "name": "Barzinja",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          45.6901163,
+          35.5322044
+        ]
+      },
+      "id": "node/7375060547"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7378935535",
+        "name": "Abba Kura Hassan Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2549982,
+          11.8695322
+        ]
+      },
+      "id": "node/7378935535"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7378961905",
+        "name": "Muna Garage El Badawe Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2507455,
+          11.8730206
+        ]
+      },
+      "id": "node/7378961905"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7378999406",
+        "name": "Muna Da'Alti 2 Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2502587,
+          11.8684639
+        ]
+      },
+      "id": "node/7378999406"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7379008027",
+        "name": "Muna Da`Alti 2B Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2505531,
+          11.867364
+        ]
+      },
+      "id": "node/7379008027"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7379026143",
+        "name": "Muna Mallam Kori Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2502681,
+          11.8659755
+        ]
+      },
+      "id": "node/7379026143"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7379046953",
+        "name": "Muna Da'Alti 2A Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2528256,
+          11.8671252
+        ]
+      },
+      "id": "node/7379046953"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7384158283",
+        "name": "Muna Moforo Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.246513,
+          11.8669047
+        ]
+      },
+      "id": "node/7384158283"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7384221684",
+        "name": "Muna Asheri Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2368731,
+          11.8698472
+        ]
+      },
+      "id": "node/7384221684"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7384229022",
+        "name": "Bajauro Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2391718,
+          11.8667314
+        ]
+      },
+      "id": "node/7384229022"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7384229023",
+        "name": "Fillin Baba Makinta Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.240478,
+          11.865986
+        ]
+      },
+      "id": "node/7384229023"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392275299",
+        "name": "Gidan Mongoro Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1798273,
+          11.8529957
+        ]
+      },
+      "id": "node/7392275299"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392275300",
+        "name": "Bamodu House Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1811422,
+          11.8525344
+        ]
+      },
+      "id": "node/7392275300"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392315071",
+        "name": "Fato Kura Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1830251,
+          11.8541002
+        ]
+      },
+      "id": "node/7392315071"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392343735",
+        "name": "Alhaji Adam House 2 Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1861553,
+          11.844167
+        ]
+      },
+      "id": "node/7392343735"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392343736",
+        "name": "Alhaji Adams House Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1862035,
+          11.8449519
+        ]
+      },
+      "id": "node/7392343736"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392346588",
+        "name": "Wade -Wade Layin Bola Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1954437,
+          11.8496744
+        ]
+      },
+      "id": "node/7392346588"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392349025",
+        "name": "Kirenuwa Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1925014,
+          11.8507375
+        ]
+      },
+      "id": "node/7392349025"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392384011",
+        "name": "Kangarmaka Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1651992,
+          11.8434241
+        ]
+      },
+      "id": "node/7392384011"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392394222",
+        "name": "Biafra Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1610283,
+          11.8328722
+        ]
+      },
+      "id": "node/7392394222"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392440226",
+        "name": "Isa Gamai Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2307389,
+          11.8648914
+        ]
+      },
+      "id": "node/7392440226"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392440227",
+        "name": "Bolorin Burin Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2323281,
+          11.8656277
+        ]
+      },
+      "id": "node/7392440227"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392451572",
+        "name": "Hkau Shau (BP 12) Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          97.8057378,
+          25.1992283
+        ]
+      },
+      "id": "node/7392451572"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392456282",
+        "name": "Ansar Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1486177,
+          11.8643375
+        ]
+      },
+      "id": "node/7392456282"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392456283",
+        "name": "Real Form Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1464532,
+          11.8650397
+        ]
+      },
+      "id": "node/7392456283"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392468304",
+        "name": "Pampas Street Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1551664,
+          11.860828
+        ]
+      },
+      "id": "node/7392468304"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392468305",
+        "name": "Railway Terminus Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1580001,
+          11.8619279
+        ]
+      },
+      "id": "node/7392468305"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7392511133",
+        "name": "Kawar Maila Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1619094,
+          11.8556923
+        ]
+      },
+      "id": "node/7392511133"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7395138754",
+        "name": "Ghulam Banda Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          71.4107171,
+          33.6034769
+        ]
+      },
+      "id": "node/7395138754"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7395138755",
+        "name": "Ghulam Banda Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          71.4078981,
+          33.6027084
+        ]
+      },
+      "id": "node/7395138755"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7395560098",
+        "name": "Chakdara Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.0315277,
+          34.6677261
+        ]
+      },
+      "id": "node/7395560098"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7395560099",
+        "name": "Chakdara Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.0296287,
+          34.6682026
+        ]
+      },
+      "id": "node/7395560099"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7395657088",
+        "name": "Zar Karez Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          68.4287953,
+          30.4528843
+        ]
+      },
+      "id": "node/7395657088"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7402193552",
+        "name": "Jan Mai Kawng Bapt. C. Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          97.3733698,
+          25.4033802
+        ]
+      },
+      "id": "node/7402193552"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7402262882",
+        "name": "Pa Dauk Myaing(Pa La Na) Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          97.4353597,
+          25.4903189
+        ]
+      },
+      "id": "node/7402262882"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7402566618",
+        "name": "Oblan Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          71.3756901,
+          33.6616346
+        ]
+      },
+      "id": "node/7402566618"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7402687721",
+        "name": "Khaki Refugee site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          70.9111932,
+          33.3903408
+        ]
+      },
+      "id": "node/7402687721"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7405313941",
+        "name": "Lisu Bapt.C. Maw Shan Vil. Seik Mu Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          96.2790298,
+          25.5632329
+        ]
+      },
+      "id": "node/7405313941"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7410567822",
+        "name": "Ajigab Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1836796,
+          11.8754354
+        ]
+      },
+      "id": "node/7410567822"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411291178",
+        "name": "Ajajari camp Reffugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1887865,
+          11.7858835
+        ]
+      },
+      "id": "node/7411291178"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411308160",
+        "name": "Temporary Karshen Kwalta Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1199288,
+          11.8030653
+        ]
+      },
+      "id": "node/7411308160"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411317148",
+        "name": "Bulabulin Gaura Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1335223,
+          11.8014585
+        ]
+      },
+      "id": "node/7411317148"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411317149",
+        "name": "Umarari Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1158519,
+          11.8024982
+        ]
+      },
+      "id": "node/7411317149"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411320603",
+        "name": "Ajijari camp Reffugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1392729,
+          11.7846731
+        ]
+      },
+      "id": "node/7411320603"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411326152",
+        "name": "Goni Kyarimi Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1120753,
+          11.796806
+        ]
+      },
+      "id": "node/7411326152"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411379950",
+        "name": "Alhaji Bashir Liman House Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1971764,
+          11.8591402
+        ]
+      },
+      "id": "node/7411379950"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411394417",
+        "name": "Campo Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1496584,
+          11.7836569
+        ]
+      },
+      "id": "node/7411394417"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411394535",
+        "name": "Kaleri Babangida Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2002663,
+          11.8326373
+        ]
+      },
+      "id": "node/7411394535"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411405037",
+        "name": "Al-Yakub Reffugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1638607,
+          11.8686896
+        ]
+      },
+      "id": "node/7411405037"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411439751",
+        "name": "Annur Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.18111,
+          11.8716347
+        ]
+      },
+      "id": "node/7411439751"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411442769",
+        "name": "Mala Sheriff Construction Company Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.199805,
+          11.8576072
+        ]
+      },
+      "id": "node/7411442769"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411456497",
+        "name": "Bullet Quarters Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1099564,
+          11.8552447
+        ]
+      },
+      "id": "node/7411456497"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411477086",
+        "name": "Dala Standard Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1184268,
+          11.8806614
+        ]
+      },
+      "id": "node/7411477086"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411478250",
+        "name": "Dogongida Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1194729,
+          11.878761
+        ]
+      },
+      "id": "node/7411478250"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411479461",
+        "name": "Karantina Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1399167,
+          11.873955
+        ]
+      },
+      "id": "node/7411479461"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411483775",
+        "name": "Sabon Gari 2 Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1103212,
+          11.8470913
+        ]
+      },
+      "id": "node/7411483775"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411513947",
+        "name": "Kessa Kura Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.19296,
+          11.9186887
+        ]
+      },
+      "id": "node/7411513947"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411515475",
+        "name": "Al-Haji Tar 1 Reffugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2154718,
+          11.8585968
+        ]
+      },
+      "id": "node/7411515475"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411515476",
+        "name": "Al-Haji Tar 2 Reffugee Camp",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2152572,
+          11.8575836
+        ]
+      },
+      "id": "node/7411515476"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411553554",
+        "name": "Sanawuya Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1698018,
+          11.8776508
+        ]
+      },
+      "id": "node/7411553554"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411554188",
+        "name": "Old Maiduguri Police Station Camp Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1742167,
+          11.8725796
+        ]
+      },
+      "id": "node/7411554188"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411578188",
+        "name": "Fulatari Farin Ruwa Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1132877,
+          11.8023406
+        ]
+      },
+      "id": "node/7411578188"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411603106",
+        "name": "Kuru Camp Reffugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1361723,
+          11.7991349
+        ]
+      },
+      "id": "node/7411603106"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411603107",
+        "name": "VIO camp Reffugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.135837,
+          11.7990325
+        ]
+      },
+      "id": "node/7411603107"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411623264",
+        "name": "Ungwan Abuja Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.5118184,
+          9.3543392
+        ]
+      },
+      "id": "node/7411623264"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411626011",
+        "name": "Pawari Refugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.4622996,
+          11.3183123
+        ]
+      },
+      "id": "node/7411626011"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7411640774",
+        "name": "St Hillary Reffugee Site",
+        "place": "refugee_camp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.1394929,
+          11.7891655
+        ]
+      },
+      "id": "node/7411640774"
+    }
+  ]
+}
