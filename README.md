@@ -3,7 +3,7 @@
 
 Here we use mobile phone logs to understand Philadelphia's socio-spatial network. The data come from a location data provider. Our edge list consists of neighborhoods and points of interest of the kind that you see on Google Maps—shops, restaurants, bars, museums and offices. Each neighborhood is a Census Block Group in Philadelphia. For a given connection, one column has a FIPS code, a second has a unique identifier for a point of interest, and a third column has the number of people that traveled from that Census Block Group to that venue. This final column can be used for weights in the network. We have this data for each month from January to August (and soon for September). There are 2.3 million connections between neighborhood and point interest—what some in transportation planning call “origin-destination pairs”—so far this year; each connection has one or more visits. The infographic below defines some of the terms that will follow below.  
 
-![](viz/infographic.png)
+![](viz/infographic.gif)
 
 **Neighborhood-Venue Flows, the complete network**
 
