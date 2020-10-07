@@ -13,9 +13,9 @@ With 20,000 points of interest in Philadelphia and 1,300 Census Block Groups, th
 
 ![](viz/cmap.png)
 
-![](viz/poi_comcast.png)
+![](viz/poi_comcast.gif)
 
-![](viz/poi_reading.png)
+![](viz/poi_reading.gif)
 
 **Neighborhood-Neighborhood Interactions, shared points of interest**
 
