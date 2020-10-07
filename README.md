@@ -17,7 +17,7 @@ With 20,000 points of interest in Philadelphia and 1,300 Census Block Groups, th
 
 ![](viz/poi_reading.gif)
 
-This allows us to see the network become more and more sparse across time; the shift from March to April is marked for both of these parts of the city. With these twin case studies—one exploring the collapse of office work and the other tourism—we can see that Philadlephia is still struggling to recover from measures to contain the virus. 
+This allows us to see the network become more and more sparse across time; the shift from March to April is marked for both of these parts of the city. With these twin case studies—one exploring the collapse of office work and the other tourism—we can see that Philadlephia is still struggling to recover from measures to contain the virus.
 
 **Neighborhood-Neighborhood Interactions, shared points of interest**
 
@@ -31,4 +31,6 @@ The diagonal here conveys the total number of interactions that a given neighbor
 
 Likewise, the diagonal here is the total number of interactions that one venue has with another venue, via the neighborhoods that it services. Again, if people from Rittenhouse Square frequent a restaurant and a grocer, *these two venues are linked by their shared clientele*. The sum of a venue’s interactions with other venues, via its clientele, is the diagonal. If we do not amend the diagonals, there will be loops on the graph, representing illusory connections between a node and itself.  
 
-In both of these sociograms, there is initially a dense network of connections, suggesting that Philadelphia is integrated and connected: neighborhoods have many connections to other neighborhoods, who in turn have connections to other neighborhoods, and the same holds for locales when we adjust the focus of the graph from neighborhoods to points of interest. Yet when the pandemic reached its height in April and May, the web of connections thinned out and clusters formed. Even in July and August, we had still not recovered to the level of connection seen in January and February, despite those being winter months.    
+In both of these sociograms, there is initially a dense network of connections, suggesting that Philadelphia is integrated and connected: neighborhoods have many connections to other neighborhoods, who in turn have connections to other neighborhoods, and the same holds for locales when we adjust the focus of the graph from neighborhoods to points of interest. Yet when the pandemic reached its height in April and May, the web of connections thinned out and clusters formed. Even in July and August, we had still not recovered to the level of connection seen in January and February, despite those being winter months.
+
+Here we use undirected graphs, because the adjacency matrix contains no information on the direction of these connections. Had we chosen to create directed graph, we would have doubled number of edges while holding the number of vertices constant. So in the neighborhood-neighborhood example, there are roughly 1300 vertices corresponding to the 1300 Census Block Groups in Philadelphia, with 225,000 unique connections between them when the graph is undirected and 450,000 when the graph is directed.        
