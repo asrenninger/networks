@@ -1,7 +1,12 @@
 # networks
 ### network analysis in R
 
-Here we use mobile phone logs to understand Philadelphia's socio-spatial network. The data come from a location data provider. Our edge list consists of neighborhoods and points of interest of the kind that you see on Google Maps—shops, restaurants, bars, museums and offices. Each neighborhood is a Census Block Group in Philadelphia. For a given connection, one column has a FIPS code, a second has a unique identifier for a point of interest, and a third column has the number of people that traveled from that Census Block Group to that venue. This final column can be used for weights in the network. We have this data for each month from January to August (and soon for September). There are 2.3 million connections between neighborhood and point interest—what some in transportation planning call “origin-destination pairs”—so far this year; each connection has one or more visits. The infographic below defines some of the terms that will follow below.  
+1. [D1](##D2)
+2. [D2](##D2)
+
+## D1
+
+Here we use mobile phone logs to understand Philadelphia's socio-spatial network. The data come from a location data provider. Our edge list consists of neighborhoods and points of interest of the kind that you see on Google Maps—shops, restaurants, bars, museums and offices. Each neighborhood is a Census Block Group in Philadelphia. For a given connection, one column has a FIPS code, a second has a unique identifier for a point of interest, and a third column has the number of people that traveled from that Census Block Group to that venue. This final column can be used for weights in the network. We have this data for each month from January to August (and soon for September). There are 2.3 million connections between neighborhood and point interest—“origin-destination pairs”—so far this year; each connection has one or more visits. The infographic below defines some of the terms that will follow below.  
 
 ![](viz/infographic.gif)
 
@@ -34,3 +39,5 @@ Likewise, the diagonal here is the total number of interactions that one venue h
 In both of these sociograms, there is initially a dense network of connections, suggesting that Philadelphia is integrated and connected: neighborhoods have many connections to other neighborhoods, who in turn have connections to other neighborhoods, and the same holds for locales when we adjust the focus of the graph from neighborhoods to points of interest. Yet when the pandemic reached its height in April and May, the web of connections thinned out and clusters formed. Between January and April, the diameter of the graph—the shortest path between the most remote nodes—grew from 48 to 64. Philadelphia, then, was never a small world network, but it has only become more segregated as interactions between neighborhoods are less frequent. Even in July and August, we had still not recovered to the level of connection seen in January and February, despite those being winter months.
 
 Here we use undirected graphs, because the adjacency matrix contains no information on the direction of these connections. Had we chosen to create directed graph, we would have doubled number of edges while holding the number of vertices constant. So in the neighborhood-neighborhood example, there are roughly 1300 vertices corresponding to the 1300 Census Block Groups in Philadelphia, with 225,000 unique connections between them when the graph is undirected and 450,000 when the graph is directed.        
+
+## D2
