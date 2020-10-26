@@ -5,7 +5,9 @@ Here we use mobile phone logs to understand Philadelphia's socio-spatial network
 
 ![](viz/infographic.gif)
 
-1. [D1](#D2)
+**Contents**
+
+1. [D1](#D1)
 2. [D2](#D2)
 
 ## D1
@@ -41,3 +43,13 @@ In both of these sociograms, there is initially a dense network of connections, 
 Here we use undirected graphs, because the adjacency matrix contains no information on the direction of these connections. Had we chosen to create directed graph, we would have doubled number of edges while holding the number of vertices constant. So in the neighborhood-neighborhood example, there are roughly 1300 vertices corresponding to the 1300 Census Block Groups in Philadelphia, with 225,000 unique connections between them when the graph is undirected and 450,000 when the graph is directed.        
 
 ## D2
+
+With a messy network like this, we can situate the network geographically to help arrange its constituent nodes and the strength of its connections. Here we reduce each point of interest to the Census Block Group that contains it, aggregating by this new unit of analysis: each origin-destination flow is the total visits from one census block group to all the points of interest within another, so we have gone from a two mode network, with neighborhoods sending and points of interest receiving, to a one mode network with neighborhoods—Block Groups—sending and receiving. When we do this, we can measure the centrality of each neighborhood in the network. This is a nuanced interpretation of centrality compared to, say, a social network, where origin neighborhoods sharing a destination neighborhood indicates a shared amenity, rather than a friend. There is a subtle pattern to the data when we map it, showing that Center City is both central geographically and central in the network; we can also see that degree centrality across the city collapses as the pandemic reaches its apex in April, May and June. Degree centrality, which measures the number of unique connections to a node, shows how diverse a clientele visits a neighborhood: this suggests that the people visiting any given Census Block Group became less diverse as the pandemic grew more prevalent.     
+
+![](viz/degri.gif)
+
+The tables below expand on this map by showing the mean values for other measures of centrality—betweenneess and closeness—alongside degree, where we also plot the changing degree centrality in the accompanying visual. The locater map shows where in Philadelphia the Census Block Group is located. We can see that the difference between a neighborhood that is central and one that is not is large: the least central area sees visitors from 16 neighborhoods while the most central attracts from 1030 distinct neighborhoods—nearly 80% of the Block Groups in Philadelphia. All areas, regardless of importance to the network, saw declines during the pandemic. 
+
+Rankings             |  Centrality
+:-------------------------:|:-------------------------:
+![](viz/best.png)|![](viz/worst.png)
