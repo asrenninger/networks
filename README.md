@@ -60,4 +60,4 @@ We can twin these data with information on demography to determine if there is r
 
 We can see that, aggregating by race, neighborhoods tended to see a rise in betweenness centrality (likely because we normed the data each month, and a flattened distribution pushes up more neighborhoods than it pushes down) and a fall in degree. Yet the trends for both the highest and lowest quintile by percentage African America closely mirror one another. This makes sense, as several peripheral neighborhoods—notably Chestnut Hill—also have large white populations, and are more suburban than urban, while other central neighborhoods—in the affluent core—have high large white populations as well. Meanwhile, many black populations line the periphery as well. We can see that, with the exception of August, African American communities in Philadelphia lag the others in betweenness.
 
-![](viz/relationships)
+![](viz/relationships.png)
