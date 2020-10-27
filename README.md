@@ -48,8 +48,16 @@ With a messy network like this, we can situate the network geographically to hel
 
 ![](viz/degri.gif)
 
-The tables below expand on this map by showing the mean values for other measures of centrality—betweenneess and closeness—alongside degree, where we also plot the changing degree centrality in the accompanying visual. The locater map shows where in Philadelphia the Census Block Group is located. We can see that the difference between a neighborhood that is central and one that is not is large: the least central area sees visitors from 16 neighborhoods while the most central attracts from 1030 distinct neighborhoods—nearly 80% of the Block Groups in Philadelphia. All areas, regardless of importance to the network, saw declines during the pandemic. 
+The tables below expand on this map by showing the mean values for other measures of centrality—betweenneess and closeness—alongside degree, where we also plot the changing degree centrality in the accompanying visual. The locater map shows where in Philadelphia the Census Block Group is located. We can see that the difference between a neighborhood that is central and one that is not is large: the least central area sees visitors from 16 neighborhoods while the most central attracts from 1030 distinct neighborhoods—nearly 80% of the Block Groups in Philadelphia. All areas, regardless of importance to the network, saw declines during the pandemic. The fill shows that there is not clear relationship between degree centrality and betweenness or closeness, but that latter pair are correlated—if weakly.
 
 Rankings             |  Centrality
 :-------------------------:|:-------------------------:
 ![](viz/best.png)|![](viz/worst.png)
+
+We can twin these data with information on demography to determine if there is relationship between centrality and demographic composition. In this first test we can explore race in relation to network centrality. There is obvious clustering in the data, with certain races clustering in certain parts of the city; how this corresponds to the above measures is not obvious.
+
+![](viz/demography.png)
+
+We can see that, aggregating by race, neighborhoods tended to see a rise in betweenness centrality (likely because we normed the data each month, and a flattened distribution pushes up more neighborhoods than it pushes down) and a fall in degree. Yet the trends for both the highest and lowest quintile by percentage African America closely mirror one another. This makes sense, as several peripheral neighborhoods—notably Chestnut Hill—also have large white populations, and are more suburban than urban, while other central neighborhoods—in the affluent core—have high large white populations as well. Meanwhile, many black populations line the periphery as well. We can see that, with the exception of August, African American communities in Philadelphia lag the others in betweenness.
+
+![](viz/relationships)
