@@ -1,14 +1,12 @@
 # networks
 ### network analysis in R
 
+1. [D1](#D1)
+2. [D2](#D2)
+
 Here we use mobile phone logs to understand Philadelphia's socio-spatial network. The data come from a location data provider. Our edge list consists of neighborhoods and points of interest of the kind that you see on Google Maps—shops, restaurants, bars, museums and offices. Each neighborhood is a Census Block Group in Philadelphia. For a given connection, one column has a FIPS code, a second has a unique identifier for a point of interest, and a third column has the number of people that traveled from that Census Block Group to that venue. This final column can be used for weights in the network. We have this data for each month from January to August (and soon for September). There are 2.3 million connections between neighborhood and point interest—“origin-destination pairs”—so far this year; each connection has one or more visits. The infographic below defines some of the terms that will follow below.  
 
 ![](viz/infographic.gif)
-
-**Contents**
-
-1. [D1](#D1)
-2. [D2](#D2)
 
 ## D1
 
@@ -50,7 +48,7 @@ With a messy network like this, we can situate the network geographically to hel
 
 Next we plot the probability of a given degree occurring over time, finding substantial changes in March, April and May after Janurary and February tracked one another closely. The plot below also shows that we are returning—but have not yet returned—to the contours seen prior to the pandemic.
 
-![](viz/ecdf.gif) 
+![](viz/ecdf.gif)
 
 The tables below expand on this map by showing the mean values for other measures of centrality—betweenneess and closeness—alongside degree, where we also plot the changing degree centrality in the accompanying visual. The locater map shows where in Philadelphia the Census Block Group is located. We can see that the difference between a neighborhood that is central and one that is not is large: the least central area sees visitors from 16 neighborhoods while the most central attracts from 1030 distinct neighborhoods—nearly 80% of the Block Groups in Philadelphia. All areas, regardless of importance to the network, saw declines during the pandemic. The fill shows that there is not clear relationship between degree centrality and betweenness or closeness, but that latter pair are correlated—if weakly.
 
