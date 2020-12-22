@@ -8,7 +8,6 @@ source("R/help.R")
 ##
 
 odmat <- vroom("data/processed/od_monthly.csv")
-
 phila <- read_sf("data/processed/phila.geojson")
 
 ##
@@ -33,7 +32,7 @@ joint <-
 
 ##
 
-links <- transmute(joint,from = cbg, to = safegraph_place_id, weight = visits)
+links <- transmute(joint, from = cbg, to = safegraph_place_id, weight = visits)
 
 ##
 
@@ -97,7 +96,8 @@ graph <-
   set_vertex_attr("description", index = V(graph)[type=="FALSE"], value = "") %>%
   set_vertex_attr("naics", index = V(graph)[type=="FALSE"], value = "") %>%
   set_vertex_attr("cmap", index = V(graph)[type=="FALSE"], value = '#000000') %>%
-  set_vertex_attr("comp", value = comps$membership)
+  set_vertex_attr("comp", value = comps$membership) %>%
+  set_edge_attr("month", value = joint$month)
 
 graph <- simplify(graph)
 
@@ -204,6 +204,7 @@ map(1:8, function(x){
   )
   
   dev.off()
+  
 })
 
 ##
@@ -230,9 +231,9 @@ leisure <-
 ##
 
 tig <- 
-  block_groups("PA", "Philadelphia", cb = TRUE, class = 'sf') %>%
+  block_groups("PA", "Philadelphia", cb = TRUE, class = 'sf') %>% 2272 
   st_transform(3702)
-
+  
 jan <- 
   leisure %>%
   filter(month == 1) %>%
@@ -254,6 +255,7 @@ jan %*% t(jan)
 
 ## Create graph
 net <- graph_from_adjacency_matrix(t(jan) %*% jan, mode = "undirected", diag = FALSE, weighted = TRUE)
+diameter(net)
 
 lay <- layout_with_fr(net)
 lay <- norm_coords(lay, ymin = -1, ymax = 1, xmin = -1, xmax = 1)
@@ -287,17 +289,12 @@ apr <- as.matrix(apr)
 t(apr) %*% apr
 
 ## Venue-to-Venue
-
-diag(apr[1:10, 1:10])
-
-test <- apr %*% t(apr)
-
-diag(test[1:10, 1:10])
-
-diag(apr %*% t(apr)) 
+apr %*% t(apr)
 
 ## Create graph
 net <- graph_from_adjacency_matrix(t(apr) %*% apr, mode = "undirected", diag = FALSE, weighted = TRUE)
+diameter(net)
+
 
 net <- delete_edges(net, which(E(net)$weight < 100))
 net <- delete_vertices(net, which(degree(net) < 1))
@@ -479,3 +476,26 @@ list.files(path = 'miscellany/animations/combined', pattern = "*.png", full.name
   image_join() %>% 
   image_animate(fps = 1) %>% 
   image_write(glue("combined.gif"))
+
+show_col(pal)
+
+##
+
+ggplot(data = color) +
+  geom_tile(aes(x = class, y = 1, fill = cmap)) +
+  geom_text(aes(x = class, y = 1, label = tolower(class))) +
+  geom_text(data = 
+              color %>% 
+              filter(class == "worship"),
+            aes(x = class, y = 1, label = tolower(class)), colour = '#ffffff') +  
+  scale_fill_identity() +
+  coord_equal() +
+  theme_void() +
+  ggsave("cmap.png")
+
+##
+
+diameter(net)
+
+##
+
