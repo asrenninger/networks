@@ -229,3 +229,65 @@ ggsave(comms, filepath = "communitiesxrace_clean.png", height = 48, width = 20, 
 
 ##
 
+wide <- 
+  race %>% 
+  select(GEOID, variable, value) %>%
+  st_drop_geometry() %>% 
+  pivot_wider(id_cols = GEOID, names_from = variable, values_from = value) %>%
+  transmute(GEOID = GEOID,
+            white = white,
+            nonwhite = black + hispanic + asian)
+
+race_split <- 
+  cents %>% 
+  transmute(GEOID = GEOID, month = month, infomap = inf) %>%
+  left_join(wide) %>%
+  group_by(month, infomap) %>%
+  summarise(white = sum(white),
+            nonwhite = sum(nonwhite)) %>%
+  ungroup() %>%
+  group_by(month) %>%
+  group_split()
+
+list <- 
+  purrr::map(race_split, function(x){
+    MLID::id(as.data.frame(x), vars = c("nonwhite", "white")) %>% magrittr::extract2(1)
+  })
+
+##
+
+library(gt)
+
+##
+
+cents %>%
+  group_by(inf, month) %>%
+  summarise(n = n()) %>%
+  ungroup() %>%
+  group_by(month) %>%
+  summarise(max = max(n),
+            min = min(n),
+            mean = mean(n)) %>%
+  mutate(`dissimilarity index` = reduce(list, c)) %>%
+  gt() %>% 
+  #tab_header(title = html("<b>Community Size by Month</b>"),
+  #           subtitle = md("How segregation and community bounds relate<br><br>")) %>%
+  #tab_source_note(source_note = md("**Data**: SafeGraph / Census Bureau | **Note**: Period spanning January to August 2020"))  %>% 
+  tab_style(style = list(cell_text(weight = "bold")),
+            locations = cells_column_labels(vars(`month`))) %>% 
+  data_color(columns = vars(`dissimilarity index`),
+             colors = scales::col_numeric(rev(pal), domain = NULL)) %>% 
+  cols_align(align = "center",
+             columns = 2:5) %>% 
+  opt_table_font(font = list(c("IBM Plex Sans"))) %>% 
+  tab_options(heading.title.font.size = 30,
+              heading.subtitle.font.size = 15,
+              heading.align = "left",
+              table.border.top.color = "white",
+              heading.border.bottom.color = "white",
+              table.border.bottom.color = "white",
+              column_labels.border.bottom.color = "grey",
+              column_labels.border.bottom.width= px(1)) %>% 
+  gtsave("dissimilarity.png", expand = 10)
+
+
