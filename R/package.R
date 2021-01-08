@@ -2,7 +2,7 @@
 ## Packages
 ########################################
 
-## Wrangling
+## wrangling
 
 library(tidyverse)
 library(janitor)
@@ -12,31 +12,33 @@ library(data.table)
 library(dtplyr)
 library(glue)
 library(lubridate)
-library(scales)
 
-## Spatial
+## spatial
 
 library(sf)
 library(sfnetworks)
-library(tidygraph)
-library(igraph)
 library(tmap)
 library(tmaptools)
-library(tigris)
 library(rmapshaper)
 library(stplanr)
 
-## Data
+## data
+library(tidycensus)
+library(tigris)
 
-library(osmdata)
+## visuals
+library(gt)
+library(patchwork)
+library(scico)
+library(scales)
 
-## Searching
+## networks
+
+library(tidygraph)
+library(igraph)
+library(sna)
+
+## searching
 
 library(RANN)
 library(FNN)
-
-## Modelling
-
-library(lme4)
-library(prophet)
-library(broom)

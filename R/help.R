@@ -7,7 +7,7 @@
 ## Palettes
 
 # Base
-pal <- read_csv("https://github.com/asrenninger/philamonitor/raw/master/miscellany/pal.txt", col_names = FALSE) %>% pull(X1)
+pal <- scico::scico(9, palette = 'hawaii')
 
 ## Themes
 
@@ -154,7 +154,7 @@ guide_discrete <-
 # Correlation Plotting
 correlate <- function(correlations, name) {
   
-  mat <- round(cor(correlations), 2)
+  mat <- round(correlations, 2)
   
   ##
   
@@ -178,10 +178,11 @@ correlate <- function(correlations, name) {
   ggheatmap <- 
     ggplot(data = na.omit(melted_mat), aes(Var2, Var1, fill = value)) +
     geom_tile(color = "white") +
-    scale_colour_scico(palette = 'cork', direction = -1,
+    scico::scale_colour_scico(palette = 'turku', direction = -1,
                        guide = 'none') +
-    scale_fill_scico(palette = 'cork',
-                     limit = c(-1,1), 
+    scico::scale_fill_scico(palette = 'turku',
+                     limit = c(0.8, 1), 
+                     oob = scales::squish,
                      name = "pearson\ncorrelation",
                      guide = guide_colorbar(direction = "vertical",
                                             barheight = unit(50, units = "mm"),
