@@ -36,7 +36,6 @@ library(scales)
 
 library(tidygraph)
 library(igraph)
-library(sna)
 
 ## searching
 
