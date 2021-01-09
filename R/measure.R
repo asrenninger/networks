@@ -6,8 +6,7 @@ source("R/query.R")
 source("R/package.R")
 source("R/help.R")
 
-##
-
+## the big one
 get_metrics <- function(metro, months) {
   
   print(metro)
@@ -22,7 +21,7 @@ get_metrics <- function(metro, months) {
   nodes <- get_nodes(codes)
   
   ## getting edge data
-  index <- str_pad(1:12, side = 'left', width = 2, pad = "0")
+  index <- str_pad(months, side = 'left', width = 2, pad = "0")
   edges <- map_df(index, function(x) { get_edges(codes, x, nodes$cbg) %>% mutate(month = as.numeric(x)) })
   
   ## splitting the data for analysis
@@ -33,11 +32,11 @@ get_metrics <- function(metro, months) {
   
   ## functions! 
   density     <- get_density(ready, nodes)
-  centrality  <- get_centrality(ready)
-  correlation <- get_correlation(ready)
+  centrality  <- get_centrality(ready, nodes)
+  correlation <- get_correlation(ready, nodes, months)
   
-  rownames(correlation) <- lubridate::month(1:12, label = TRUE, abbr = FALSE)
-  colnames(correlation) <- lubridate::month(1:12, label = TRUE, abbr = FALSE)
+  rownames(correlation) <- lubridate::month(1:length(months), label = TRUE, abbr = FALSE)
+  colnames(correlation) <- lubridate::month(1:length(months), label = TRUE, abbr = FALSE)
  
   ## adding demography
   sf1 <- c(white = "P005003",
@@ -59,8 +58,8 @@ get_metrics <- function(metro, months) {
   
   ## getting community size
   community <- 
-    centralities %>% 
-    group_by(inf, month) %>% 
+    centrality %>% 
+    group_by(infomap, month) %>% 
     summarise(n = n()) %>% 
     ungroup() %>% 
     group_by(month) %>% 
@@ -68,29 +67,35 @@ get_metrics <- function(metro, months) {
     pull(infomap)
   
   ## adding dissimilarity index
-  similarity <- get_dissimilarity(centralities, race)
-  diversity <- get_diversity(centralities, race)
+  similarity <- get_dissimilarity(centrality, race)
+  diversity <- get_diversity(centrality, race)
   
   diversities <- mutate(diversity, 
                         diss = similarity,
                         density = density, 
-                        infomap = community)
-  
-  metro <- "philadelphia"
+                        infomap = community) %>% 
+    mutate(city = metro)
   
   ## plotting it 
   correlate(correlation, glue("viz/results/correlations/correlation_{metro}.png"))
-  diversify(diversities, glue("viz/results/diversities/correlation_{metro}.png"))
+  diversify(diversities, glue("viz/results/diversities/diversity_{metro}.png"))
+  
+  centrality %>% 
+    mutate(city = metro) %>% 
+    write_csv(glue("data/processed/centralities/centrality_{metro}.csv"))
   
   correlations %>% 
     as_tibble() %>% 
     rownames_to_column(var = "month") %>% 
     pivot_longer(cols = January:December) %>% 
-    write_csv("data/processed/correlations/correlation_{metro}.csv")
+    mutate(city = metro) %>%
+    write_csv(glue("data/processed/correlations/correlation_{metro}.csv"))
+  
+  return(diversities)
   
 }
 
-get_centrality <- function(networks) {
+get_centrality <- function(networks, nodes) {
   
   centraliser <- 
     function(network) {
@@ -121,7 +126,7 @@ get_centrality <- function(networks) {
                ecc = eccentricity(graph),
                prc = page_rank(graph, directed = TRUE, weights = E(graph)$weight)$vector,
                infomap = infomap_clusters$membership) %>%
-        mutate(month = unique(x$month))
+        mutate(month = unique(network$month))
       
       return(cents)
       
@@ -171,7 +176,7 @@ get_dissimilarity <- function(centralities, race) {
   
   race_split <- 
     centralities %>% 
-    transmute(GEOID = GEOID, month = month, infomap = inf) %>%
+    transmute(GEOID, month, infomap) %>%
     left_join(wide) %>%
     group_by(month, infomap) %>%
     summarise(white = sum(white),
@@ -190,10 +195,10 @@ get_dissimilarity <- function(centralities, race) {
 }
 
 get_correlation <- function(networks, nodes, months) {
+
+  square <- array(dim = c(length(months), nrow(nodes), nrow(nodes)))
   
-  square <- array(dim = c(12, nrow(nodes), nrow(nodes)))
-  
-  for (i in 1:12) {
+  for (i in 1:length(months)) {
     
     new_edges <- 
       networks[[i]] %>%
@@ -230,7 +235,7 @@ get_diversity <- function(centralities, demographics) {
       base <- 
         centralities %>% 
         filter(month == x) %>% 
-        transmute(GEOID = GEOID, month = month, infomap = inf) %>%
+        transmute(GEOID, month, infomap) %>%
         right_join(race) %>% 
         group_by(infomap, variable) %>%
         summarise(value = sum(value)) %>%

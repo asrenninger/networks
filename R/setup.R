@@ -30,4 +30,3 @@ city_list <-
 
 ## looping through
 metrics <- map_df(city_list, ~get_metrics(.x, 1:12))
-
