@@ -31,8 +31,13 @@ get_metrics <- function(metro, months) {
     group_split()
   
   ## functions! 
+  print("density")
   density     <- get_density(ready, nodes)
+  
+  print("centrality")
   centrality  <- get_centrality(ready, nodes)
+  
+  print("correlation")
   correlation <- get_correlation(ready, nodes, months)
   
   rownames(correlation) <- lubridate::month(1:length(months), label = TRUE, abbr = FALSE)
@@ -44,6 +49,7 @@ get_metrics <- function(metro, months) {
            asian = "P005006",
            hispanic = "P004003")
   
+  print("race")
   race <-
     map_df(codes %>% 
              str_remove_all("\'") %>% 
@@ -57,6 +63,7 @@ get_metrics <- function(metro, months) {
            })
   
   ## getting community size
+  print("community size")
   community <- 
     centrality %>% 
     group_by(infomap, month) %>% 
@@ -67,9 +74,13 @@ get_metrics <- function(metro, months) {
     pull(infomap)
   
   ## adding dissimilarity index
+  print("similarity")
   similarity <- get_dissimilarity(centrality, race)
+  
+  print("diversity")
   diversity <- get_diversity(centrality, race)
   
+  print("combined")
   diversities <- mutate(diversity, 
                         diss = similarity,
                         density = density, 
@@ -77,20 +88,26 @@ get_metrics <- function(metro, months) {
     mutate(city = metro)
   
   ## plotting it 
-  correlate(correlation, glue("viz/results/correlations/correlation_{metro}.png"))
-  diversify(diversities, glue("viz/results/diversities/diversity_{metro}.png"))
+  print("viz")
+  correlate(correlation, metro, glue("viz/results/correlations/correlation_{metro}.png"))
+  diversify(diversities, metro, glue("viz/results/diversities/diversity_{metro}.png"))
   
+  print("writing centrality")
   centrality %>% 
     mutate(city = metro) %>% 
     write_csv(glue("data/processed/centralities/centrality_{metro}.csv"))
   
-  correlations %>% 
-    as_tibble() %>% 
+  print("writing correlation")
+  correlation %>% 
+    get_upper_tri() %>%
+    as_tibble() %>%
     rownames_to_column(var = "month") %>% 
-    pivot_longer(cols = January:December) %>% 
+    pivot_longer(cols = January:December) %>%
+    drop_na() %>% 
     mutate(city = metro) %>%
     write_csv(glue("data/processed/correlations/correlation_{metro}.csv"))
   
+  write_csv(diversities, glue("data/processed/diversities/diversity_{metro}.csv"))
   return(diversities)
   
 }
@@ -111,7 +128,7 @@ get_centrality <- function(networks, nodes) {
       graph <- 
         new_edges %>%
         graph_from_data_frame(vertices = new_nodes, directed = TRUE) %>%
-        set_edge_attr("weight", value = edges$weight)
+        set_edge_attr("weight", value = new_edges$weight)
       
       infomap_clusters <- cluster_infomap(graph)
       
@@ -236,7 +253,7 @@ get_diversity <- function(centralities, demographics) {
         centralities %>% 
         filter(month == x) %>% 
         transmute(GEOID, month, infomap) %>%
-        right_join(race) %>% 
+        right_join(demographics) %>% 
         group_by(infomap, variable) %>%
         summarise(value = sum(value)) %>%
         ungroup() %>%
@@ -275,7 +292,7 @@ get_diversity <- function(centralities, demographics) {
 }
 
 ## plotting functions
-diversify <- function(metrics, name) {
+diversify <- function(metrics, metro, name) {
   
   pal <- scico::scico(9, palette = 'turku')
   
@@ -292,12 +309,13 @@ diversify <- function(metrics, name) {
     facet_wrap(~ variable, ncol = 1, scales = 'free_y') + 
     ylab("") +
     xlab("") +
+    ggtitle(title = glue("{metro}")) +
     theme_hor() +
     ggsave(filename = name, height = 5, width = 5, dpi = 300)
   
 }
 
-correlate <- function(correlations, name) {
+correlate <- function(correlations, metro, name) {
   
   pal <- scico::scico(9, palette = 'turku')
   mat <- round(correlations, 2)
@@ -362,10 +380,21 @@ correlate <- function(correlations, name) {
   
   ggmatrix <- 
     ggheatmap +
-    geom_text(aes(Var2, Var1, label = value, colour = value), size = 3) 
+    geom_text(aes(Var2, Var1, label = value, colour = value), size = 3) +
+    ggtitle(title = glue("{metro}"))
   
   ggsave(ggmatrix, filename = name, height = 8, width = 8, dpi = 300)
   
   return(ggmatrix)
   
+}
+
+get_lower_tri <- function(cormat){
+  cormat[upper.tri(cormat)] <- NA
+  return(cormat)
+}
+
+get_upper_tri <- function(cormat){
+  cormat[lower.tri(cormat)] <- NA
+  return(cormat)
 }
