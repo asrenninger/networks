@@ -50,7 +50,7 @@ get_nodes <- function(fips) {
 
 ## a function to get origin-destination paths in long format
 
-get_edges <- function(fips, months, cbgs) {
+get_edges <- function(fips, month, cbgs) {
   
   query <- glue("SELECT poi_cbg, home_cbg, sum(visits) as visits
                FROM (SELECT 
@@ -78,4 +78,6 @@ get_edges <- function(fips, months, cbgs) {
 }
 
 ##
+
+
 

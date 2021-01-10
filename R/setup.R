@@ -30,11 +30,3 @@ city_list <-
 
 ## looping through
 metrics <- map_df(city_list, ~get_metrics(.x, 1:12))
-
-batch_1 <- city_list[1:10]
-batch_2 <- city_list[11:20]
-
-options(warn = -1)
-results_1 <- map_df(batch_1, ~get_metrics(.x, 1:12))
-results_2 <- map_df(batch_2, ~get_metrics(.x, 1:12))
-options(warn = 0)
