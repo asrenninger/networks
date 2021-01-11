@@ -164,7 +164,7 @@ correlate <- function(correlations, name) {
   }
   
   get_upper_tri <- function(cormat){
-    cormat[lower.tri(cormat)]<- NA
+    cormat[lower.tri(cormat)] <- NA
     return(cormat)
   }
   
@@ -181,7 +181,7 @@ correlate <- function(correlations, name) {
     scico::scale_colour_scico(palette = 'turku', direction = -1,
                        guide = 'none') +
     scico::scale_fill_scico(palette = 'turku',
-                     limit = c(0.8, 1), 
+                     limit = c(0.7, 1), 
                      oob = scales::squish,
                      name = "pearson\ncorrelation",
                      guide = guide_colorbar(direction = "vertical",

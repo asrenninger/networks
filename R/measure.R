@@ -360,6 +360,8 @@ correlate <- function(correlations, metro, name) {
     theme_minimal() +
     theme(legend.text = element_text(angle = 90),
           legend.title = element_text(angle = 90),
+          plot.title = element_text(face = 'bold', colour = 'black', hjust = 0.5),
+          plot.subtitle =  element_text(face = 'plain', colour = 'black', size = 15, hjust = 0.5),
           axis.text.x = element_text(angle = 90, vjust = 1, 
                                      size = 8, hjust = 1),
           axis.text.y = element_text(angle = 0, vjust = 1,
