@@ -181,15 +181,16 @@ get_density <- function(networks, nodes) {
   
 }
 
-get_dissimilarity <- function(centralities, race) {
+get_dissimilarity <- function(centralities, demographics) {
   
   wide <- 
-    race %>% 
+    demographics %>% 
     select(GEOID, variable, value) %>%
     pivot_wider(id_cols = GEOID, names_from = variable, values_from = value) %>%
     transmute(GEOID = GEOID,
               white = white,
-              nonwhite = black + hispanic)
+              nonwhite = black + hispanic) %>%
+    replace_na(list("white" = 0, "nonwhite" = 0))
   
   race_split <- 
     centralities %>% 
@@ -309,7 +310,7 @@ diversify <- function(metrics, metro, name) {
     facet_wrap(~ variable, ncol = 1, scales = 'free_y') + 
     ylab("") +
     xlab("") +
-    ggtitle(title = glue("{metro}")) +
+    ggtitle(label = glue("{metro}")) +
     theme_hor() +
     ggsave(filename = name, height = 5, width = 5, dpi = 300)
   
@@ -381,7 +382,7 @@ correlate <- function(correlations, metro, name) {
   ggmatrix <- 
     ggheatmap +
     geom_text(aes(Var2, Var1, label = value, colour = value), size = 3) +
-    ggtitle(title = glue("{metro}"))
+    ggtitle(label = glue("{metro}"))
   
   ggsave(ggmatrix, filename = name, height = 8, width = 8, dpi = 300)
   
