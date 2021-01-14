@@ -29,7 +29,4 @@ city_list <-
   pull(city)
 
 ## looping through
-metrics <- map_df(city_list, ~get_metrics(.x, 1:12))
-
-
-get_metrics(city_list[2], 1:12)
+metrics <- map_df(rev(city_list)[19:20], ~get_metrics(.x, 1:12))

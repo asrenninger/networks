@@ -149,7 +149,10 @@ get_centrality <- function(networks, nodes) {
       
     }
   
-  centralities <- map_df(networks, centraliser)
+  library(furrr)
+  plan(multisession, workers = 6)
+  
+  centralities <- future_map_dfr(networks, centraliser)
   return(centralities)
   
 }
@@ -189,17 +192,17 @@ get_dissimilarity <- function(centralities, demographics) {
     pivot_wider(id_cols = GEOID, names_from = variable, values_from = value) %>%
     transmute(GEOID = GEOID,
               white = white,
-              nonwhite = black + hispanic) %>%
-    replace_na(list("white" = 0, "nonwhite" = 0))
+              nonwhite = black + hispanic)
   
   race_split <- 
     centralities %>% 
     transmute(GEOID, month, infomap) %>%
     left_join(wide) %>%
     group_by(month, infomap) %>%
-    summarise(white = sum(white),
-              nonwhite = sum(nonwhite)) %>%
+    summarise(white = sum(white, na.rm = TRUE),
+              nonwhite = sum(nonwhite, na.rm = TRUE)) %>%
     ungroup() %>%
+    drop_na() %>%
     group_by(month) %>%
     group_split()
   
@@ -259,7 +262,8 @@ get_diversity <- function(centralities, demographics) {
         summarise(value = sum(value)) %>%
         ungroup() %>%
         filter(value > 0) %>%
-        pivot_wider(names_from = variable, values_from = value) 
+        pivot_wider(names_from = variable, values_from = value) %>%
+        drop_na()
       
       working <- select(base, -infomap)
       working <- as.matrix(working)
@@ -269,7 +273,7 @@ get_diversity <- function(centralities, demographics) {
       working[is.na(working)] <- 0
       
       indices <- 
-        diverse::diversity(working) %>%
+        diverse::diversity(na.omit(working)) %>%
         as_tibble() %>% 
         rownames_to_column(var = "infomap") %>% 
         select(infomap, entropy, HHI, gini.simpson, berger.parker.D) %>%
@@ -310,7 +314,7 @@ diversify <- function(metrics, metro, name) {
     facet_wrap(~ variable, ncol = 1, scales = 'free_y') + 
     ylab("") +
     xlab("") +
-    ggtitle(label = glue("{metro}")) +
+    ggtitle(label = glue("{metro}"), subtitle = "NETWORK CHANGES") +
     theme_hor() +
     ggsave(filename = name, height = 5, width = 5, dpi = 300)
   
@@ -384,7 +388,7 @@ correlate <- function(correlations, metro, name) {
   ggmatrix <- 
     ggheatmap +
     geom_text(aes(Var2, Var1, label = value, colour = value), size = 3) +
-    ggtitle(label = glue("{metro}"))
+    ggtitle(label = glue("{metro}"), subtitle = "MATRIX CORRELATIONS")
   
   ggsave(ggmatrix, filename = name, height = 8, width = 8, dpi = 300)
   

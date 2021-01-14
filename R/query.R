@@ -8,17 +8,30 @@ library(bigrquery)
 library(sf)
 
 ## load project information
-
-projectid <- jsonlite::fromJSON("secrets/musa-509-75492c1cf2ae.json")$project_id
+projectid <- jsonlite::fromJSON("secrets/spatial-interaction-project-b528921f271f.json")$project_id
 
 ## a function to extract all county fips codes from a metro area based on a key word
-
-get_codes <- function(key_word) {
-  
+search_codes <- function(key_word) {
+   
   kword <- str_to_lower(key_word)
-  metro <- 
-    read_csv("https://raw.githubusercontent.com/asrenninger/networks/master/data/metrolist.csv", n_max = 1159, col_names = FALSE) %>%
-    set_names(c('metro_fips', 'metro_name', 'county_fips', 'county_name')) 
+  metro <- read_csv("https://raw.githubusercontent.com/asrenninger/networks/master/data/metrolist_two.csv")
+  
+  codes <- 
+    metro %>%
+    filter(str_detect(str_to_lower(metro_name), kword)) %>%
+    pull(county_fips) %>%
+    glue_collapse(sep = "\', \'")
+  
+  tuple <- paste("\'", codes, "\'", sep = "")
+  
+  return(tuple)
+
+}
+
+get_codes <- function(metro_area) {
+  
+  kword <- str_to_lower(metro_area)
+  metro <- read_csv("https://raw.githubusercontent.com/asrenninger/networks/master/data/metrolist_two.csv")
   
   codes <- 
     metro %>%
@@ -33,7 +46,6 @@ get_codes <- function(key_word) {
 }
 
 ## a function to get nodes for an block group-block group network
-
 get_nodes <- function(fips) {
   
   query <- glue("SELECT geo_id as cbg, 
@@ -49,7 +61,6 @@ get_nodes <- function(fips) {
 }
 
 ## a function to get origin-destination paths in long format
-
 get_edges <- function(fips, month, cbgs) {
   
   query <- glue("SELECT poi_cbg, home_cbg, sum(visits) as visits
@@ -77,7 +88,57 @@ get_edges <- function(fips, month, cbgs) {
   
 }
 
-##
+## a function for getting time series data
+get_trends <- function(fips, month) {
+  
+  query <- glue("SELECT safegraph_place_id, location_name, top_category, sub_category, visits,
+                   DATE(year, month, RANK() OVER(PARTITION BY safegraph_place_id ORDER BY index)) AS date,
+                 FROM (SELECT safegraph_place_id, location_name, 
+                         CAST(unnested AS NUMERIC) AS visits,
+                         EXTRACT(year FROM date_range_start) AS year,
+                         EXTRACT(month FROM date_range_start) AS month,
+                         ROW_NUMBER() OVER(ORDER BY safegraph_place_id) AS index
+                      FROM \`{{projectid}}.safegraph.2020_{{month}}`
+                      CROSS JOIN UNNEST(SPLIT(REPLACE(REPLACE(visits_by_day, \'[\', \'\'), \']\', \'\'))) AS unnested
+                      WHERE SUBSTR(lpad(CAST(poi_cbg AS STRING), 12, \'0\'), 0, 5) IN ({{fips}})) AS m
+                JOIN (SELECT safegraph_place_id AS join_id, top_category, sub_category
+                      FROM \`{{projectid}}.safegraph.places\`) AS p
+                ON m.safegraph_place_id = p.join_id", 
+                .open = '{{', .close = '}}')
+  
+  df <- bq_project_query(projectid, query)
+  df <- bq_table_download(df)
+  
+  return(df)
+  
+}
+
+## a function for getting time series data with a where clause
+search_trends <- function(fips, month, category, clause) {
+  
+  query <- glue("SELECT safegraph_place_id, location_name, top_category, sub_category, visits,
+                   DATE(year, month, RANK() OVER(PARTITION BY safegraph_place_id ORDER BY index)) AS date,
+                 FROM (SELECT safegraph_place_id, location_name, 
+                         CAST(unnested AS NUMERIC) AS visits,
+                         EXTRACT(year FROM date_range_start) AS year,
+                         EXTRACT(month FROM date_range_start) AS month,
+                         ROW_NUMBER() OVER(ORDER BY safegraph_place_id) AS index
+                      FROM \`{{projectid}}.safegraph.2020_{{month}}`
+                      CROSS JOIN UNNEST(SPLIT(REPLACE(REPLACE(visits_by_day, \'[\', \'\'), \']\', \'\'))) AS unnested
+                      WHERE SUBSTR(lpad(CAST(poi_cbg AS STRING), 12, \'0\'), 0, 5) IN ({{fips}})) AS m
+                JOIN (SELECT safegraph_place_id AS join_id, top_category, sub_category
+                      FROM \`{{projectid}}.safegraph.places\`) AS p
+                ON m.safegraph_place_id = p.join_id
+                WHERE REGEXP_CONTAINS({{category}}, {{\'clause\'}})", 
+                .open = '{{', .close = '}}')
+  
+  df <- bq_project_query(projectid, query)
+  df <- bq_table_download(df)
+  
+  return(df)
+  
+}
+
 
 
 

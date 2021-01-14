@@ -7,7 +7,7 @@ library(tmaptools)
 
 tmap_mode("view")
 
-projectid <- jsonlite::fromJSON("secrets/musa-509-75492c1cf2ae.json") %>% magrittr::extract("project_id")
+projectid <- jsonlite::fromJSON("secrets/spatial-interaction-project-b528921f271f.json")$"project_id"
   
 ##
 

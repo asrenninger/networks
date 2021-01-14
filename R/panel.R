@@ -13,6 +13,10 @@ codes <-  "'36005', '36047', '36061', '36081', '36085'"
 ## getting node data
 nodes <- get_nodes(codes)
 
+## parallel processing
+library(furrr)
+plan(multisession, workers = 6)
+
 ## getting edge data 
 index <- str_pad(1:12, side = 'left', width = 2, pad = "0")
 edges <- map_df(index, function(x) { get_edges(codes, x, nodes$cbg) %>% mutate(month = as.numeric(x)) })
@@ -175,7 +179,13 @@ centraliser <-
     
   }
 
+tictoc::tic()
 centralities <- map_df(ready, centraliser)
+tictoc::toc()
+
+tictoc::tic()
+centralities <- future_map_dfr(ready, centraliser)
+tictoc::toc()
 
 ## adding demography
 sf1 <- c(white = "P005003",

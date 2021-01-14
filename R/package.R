@@ -16,7 +16,6 @@ library(lubridate)
 ## spatial
 
 library(sf)
-library(sfnetworks)
 library(tmap)
 library(tmaptools)
 library(rmapshaper)

@@ -40,3 +40,4 @@ joined %>%
   arrange(desc(metro_population)) %>% 
   rename(county_population = population) %>% 
   write_csv("metro_list_improved.csv")
+

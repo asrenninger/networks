@@ -11,7 +11,7 @@ source("R/measure.R")
 city_list <- 
   read_csv("data/metrolist_two.csv") %>%
   drop_na(metro_name) %>%
-  filter(rank > 0, rank < 101) %>%
+  filter(rank > 45, rank < 101) %>%
   pull(metro_name) %>%
   unique()
 
