@@ -116,6 +116,8 @@ get_trends <- function(fips, month) {
 ## a function for getting time series data with a where clause
 search_trends <- function(fips, month, category, clause) {
   
+  clause <- str_to_title(clause)
+  
   query <- glue("SELECT safegraph_place_id, location_name, top_category, sub_category, visits,
                    DATE(year, month, RANK() OVER(PARTITION BY safegraph_place_id ORDER BY index)) AS date,
                  FROM (SELECT safegraph_place_id, location_name, 
@@ -129,7 +131,7 @@ search_trends <- function(fips, month, category, clause) {
                 JOIN (SELECT safegraph_place_id AS join_id, top_category, sub_category
                       FROM \`{{projectid}}.safegraph.places\`) AS p
                 ON m.safegraph_place_id = p.join_id
-                WHERE REGEXP_CONTAINS({{category}}, {{\'clause\'}})", 
+                WHERE REGEXP_CONTAINS({{category}}, \'{{clause}}\')", 
                 .open = '{{', .close = '}}')
   
   df <- bq_project_query(projectid, query)
