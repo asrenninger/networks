@@ -11,11 +11,11 @@ files <- dir_ls("data/processed/correlations")
 ## bind tables
 correlations <- map_df(files, vroom)
 
-correlations %>%
-  filter(month == 1 & name != "January") %>% 
-  mutate(name = factor(name, levels = c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))) %>%
-  ggplot(aes(x = name, y = city, fill = value)) +
-  geom_tile() +
+ggplot() +
+  geom_tile(data = correlations %>%
+              filter(month == 1 & name != "January") %>% 
+              mutate(name = factor(name, levels = c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))),
+            aes(x = name, y = city, fill = value)) +
   scale_fill_gradientn(colours = pal,
                        limits = c(0.5, 1), 
                        oob = scales::squish,
@@ -67,24 +67,25 @@ states <-
 ## animation
 library(gganimate)
 
-animation <- 
-  correlations %>%
-  filter(month == 1 & name != "January") %>% 
-  mutate(name = factor(name, levels = c("February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))) %>% 
-  rename(metro_name = city) %>% 
-  left_join(cities) %>%
-  filter(!str_detect(metro_name, ", PR|, HI")) %>%
-  st_as_sf() %>%
-  st_centroid() %>%
-  st_transform(2163) %>%
+animation <-
   ggplot() +
   geom_sf(data = states, aes(), fill = NA, colour = '#E5E5E3', lwd = 0.5) + 
-  geom_sf(aes(colour = value, size = sqrt(metro_population))) +
+  geom_sf(data =   correlations %>%
+            filter(month == 1 & name != "January") %>% 
+            mutate(name = factor(name, levels = c("February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))) %>% 
+            rename(metro_name = city) %>% 
+            left_join(cities) %>%
+            filter(!str_detect(metro_name, ", PR|, HI")) %>%
+            st_as_sf() %>%
+            st_centroid() %>%
+            st_transform(2163), 
+          aes(colour = value, size = sqrt(metro_population))) +
   scale_colour_gradientn(colours = pal,
                          limits = c(0.7, 1), 
                          oob = scales::squish,
                          guide = guide_continuous) +
   scale_size_continuous(range = c(1, 10), guide = 'none') +
+  coord_sf(crs = 2163) +
   transition_manual(name) +
   ease_aes() + 
   theme_map() +
@@ -96,25 +97,26 @@ anim_save("correlations.gif", animation = animation,
           start_pause = 0, end_pause = 1) 
 
 ## facets
-correlations %>%
-  filter(month == 1 & name != "January") %>% 
-  mutate(name = factor(name, levels = c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))) %>% 
-  #filter(str_detect(name, "April")) %>% 
-  rename(metro_name = city) %>% 
-  left_join(cities) %>%
-  filter(!str_detect(metro_name, ", PR|, HI")) %>%
-  st_as_sf() %>%
-  st_centroid() %>%
-  st_transform(2163) %>%
-  ggplot() +
+ggplot() +
   geom_sf(data = states, aes(), fill = NA, colour = '#E5E5E3', lwd = 0.5) + 
-  geom_sf(aes(colour = value, size = sqrt(metro_population))) +
+  geom_sf(data = correlations %>%
+            filter(month == 1 & name != "January") %>% 
+            mutate(name = factor(name, levels = c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))) %>% 
+            #filter(str_detect(name, "April")) %>% 
+            rename(metro_name = city) %>% 
+            left_join(cities) %>%
+            filter(!str_detect(metro_name, ", PR|, HI")) %>%
+            st_as_sf() %>%
+            st_centroid() %>%
+            st_transform(2163),
+          aes(colour = value, size = sqrt(metro_population))) +
   scale_colour_gradientn(colours = pal,
                          limits = c(0.7, 1), 
                          oob = scales::squish,
                          name = "Matrix Correlation between January and April",
                          guide = guide_continuous) +
   scale_size_continuous(range = c(1, 10), guide = 'none') +
+  coord_sf(crs = 2163) +
   facet_wrap(~ name) +
   theme_map() +
   theme(legend.position = 'bottom') +
