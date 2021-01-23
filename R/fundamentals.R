@@ -1,15 +1,16 @@
-n <- 10:1000
+n <- 5:100
 
 ## Probabilities
-par(mfrow = c(4, 4))
+par(mfrow = c(1, 1), bg = 'white')
+plot(n, (log(n) / n), type = "b", frame = FALSE, pch = 19, 
+     col = "red", xlab = "", ylab = "", ylim = c(0, 0.4))
 
-plot(n, (log(n) / n))
-plot(n, (1 / n^1))
-plot(n, (1 / n^2))
-plot(n, (1 / n^3))
-plot(n, (log(n)))
-plot(n, ((log(n)^2) / n))
-plot(n, (log(n) / (n)^2))
+lines(n, (1 / n^1.0), pch = 18, col = "blue", type = "b", lty = 2)
+lines(n, (1 / n^1.5), pch = 17, col = "green", type = "b", lty = 2)
+lines(n, (1 / n^2.0), pch = 16, col = "yellow", type = "b", lty = 2)
+
+legend("top", legend = c("log(n) / n", "1 / n ^ 1.0", "1 / n ^ 1.5", "1 / n ^ 2.0"),
+       col = c("red", "blue", "green", "yellow"), lty = 1:2, cex = 0.8)
 
 k <- 100
 
