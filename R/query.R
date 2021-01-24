@@ -125,7 +125,7 @@ search_trends <- function(fips, month, category, clause) {
                          EXTRACT(year FROM date_range_start) AS year,
                          EXTRACT(month FROM date_range_start) AS month,
                          ROW_NUMBER() OVER(ORDER BY safegraph_place_id) AS index
-                      FROM \`{{projectid}}.safegraph.2020_{{month}}`
+                      FROM \`{{projectid}}.safegraph.2020_{{month}}\`
                       CROSS JOIN UNNEST(SPLIT(REPLACE(REPLACE(visits_by_day, \'[\', \'\'), \']\', \'\'))) AS unnested
                       WHERE SUBSTR(lpad(CAST(poi_cbg AS STRING), 12, \'0\'), 0, 5) IN ({{fips}})) AS m
                 JOIN (SELECT safegraph_place_id AS join_id, top_category, sub_category
@@ -141,6 +141,26 @@ search_trends <- function(fips, month, category, clause) {
   
 }
 
-
+## a function for getting points of interest by geography
+get_pois <- function(fips, month) {
+ 
+  query <- glue("SELECT safegraph_place_id, location_name, top_category, sub_category, poi_cbg, latitude, longitude
+                FROM (SELECT
+                  safegraph_place_id,
+                  location_name,
+                  lpad(CAST(poi_cbg AS STRING), 12, \'0\') as poi_cbg
+                FROM \`{{projectid}}.safegraph.2020_{{month}}\`
+                WHERE SUBSTR(lpad(CAST(poi_cbg AS STRING), 12, \'0\'), 0, 5) IN ({{fips}})) as m 
+                JOIN (SELECT safegraph_place_id AS join_id, top_category, sub_category, latitude, longitude
+                      FROM \`{{projectid}}.safegraph.places\`) AS p
+                ON m.safegraph_place_id = p.join_id",
+                .open = '{{', .close = '}}')
+  
+  df <- bq_project_query(projectid, query)
+  df <- bq_table_download(df)
+  
+  return(df)
+   
+}
 
 
