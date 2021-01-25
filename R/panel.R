@@ -317,7 +317,7 @@ O_i <- distances %>% group_by(target) %>% summarise(O_i = sum(weight))
 ## join it all together
 regression <- 
   distances %>%
-  filter(month == 4) %>% 
+  filter(month == 7) %>% 
   filter(focal != target) %>% 
   select(-month) %>%
   left_join(population) %>%
@@ -351,5 +351,4 @@ rsquared(regression$weight, regression$predictions)
 
 # 0.3783419
 # 0.3006752
-#
-
+# 0.3539772
