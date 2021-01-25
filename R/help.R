@@ -16,7 +16,7 @@ theme_hor <- function () {
   theme_minimal() +
     theme(plot.background = element_rect(fill = 'transparent', colour = 'transparent'),
           panel.grid.major.x = element_blank(),
-          panel.grid.major.y = element_line(size = 0.1, colour = 'black'),
+          panel.grid.major.y = element_blank(),
           panel.grid.minor.x = element_blank(),
           panel.grid.minor.y = element_blank(),
           axis.line.x = element_line(size = 0.5, colour = 'black'),
@@ -249,4 +249,9 @@ labeller <- function(values, max) {
 use <- function(label) { return(magrittr::use_series(label)) }
 
 
-
+## calculate r-squared
+rsquared <- function(observed, estimated){
+  r <- cor(observed,estimated)
+  R2 <- r^2
+  R2
+}
