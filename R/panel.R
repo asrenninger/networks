@@ -13,10 +13,6 @@ codes <-  "'36005', '36047', '36061', '36081', '36085'"
 ## getting node data
 nodes <- get_nodes(codes)
 
-## parallel processing
-library(furrr)
-plan(multisession, workers = 6)
-
 ## getting edge data 
 index <- str_pad(1:12, side = 'left', width = 2, pad = "0")
 edges <- map_df(index, function(x) { get_edges(codes, x, nodes$cbg) %>% mutate(month = as.numeric(x)) })
@@ -62,7 +58,7 @@ lines <- stplanr::od2line(edges,
                           nodes %>% 
                             st_as_sf(coords = c("X", "Y"), crs = 4326) %>% 
                             st_transform(4269))
-
+  
 flows <- 
   ggplot() +
   geom_sf(data = background, 
@@ -179,13 +175,12 @@ centraliser <-
     
   }
 
-tictoc::tic()
-centralities <- map_df(ready, centraliser)
-tictoc::toc()
+## parallel processing
+library(furrr)
+plan(multisession, workers = 6)
 
-tictoc::tic()
+## map with parallel processing
 centralities <- future_map_dfr(ready, centraliser)
-tictoc::toc()
 
 ## adding demography
 sf1 <- c(white = "P005003",
@@ -270,12 +265,91 @@ dissimilarity <-
   xlab("") +
   theme_hor() +
   ggsave("trends.png", height = 5, width = 5, dpi = 300)
-  
-## patching it all together
-patched_work <- flows / (corrplot | dissimilarity)
-patched_work <- patched_work + plot_annotation(title = "Demonstrating network construction and measurement in the case of New York City", 
-                                               caption = str_wrap("This panel is designed to establish the processes involved in this research. Figure A constructs the network from origin-destination flows and maps it over time to expore spatio-temporal variation. Figure B indicates a potential measure (graph correlation) for capturing change over time, and figure C shows the metrics that will allow us to compare one city to another which may be adjusted or developed over the course of the project.", 100),
-                                               tag_levels = 'a')
 
-ggsave(patched_work, filename = "test.png", height = 20, width = 15)
-  
+## getting distances
+distances <- 
+  lines %>% 
+  mutate(distance = units::drop_units(st_length(geometry))) %>% 
+  st_drop_geometry() 
+
+## getting demography
+income <- 
+  vroom("data/census/data/cbg_b19.csv") %>% 
+  filter(census_block_group %in% shape$GEOID) %>%
+  select(census_block_group, B19301e1, B19301m1) %>% 
+  transmute(target = census_block_group,
+            median_income = B19301e1)
+
+education <- 
+  vroom("data/census/data/cbg_b15.csv") %>% 
+  filter(census_block_group %in% shape$GEOID) %>%
+  select(census_block_group, B15003e1, B15003e22, B15003m1, B15003m22) %>%
+  transmute(target = census_block_group, 
+            college_degree = B15003e22 / B15003e1)
+
+size <- 
+  vroom("data/census/data/cbg_b25.csv") %>% 
+  filter(census_block_group %in% shape$GEOID) %>%
+  select(census_block_group, B25010e1) %>%
+  transmute(target = census_block_group, 
+            household_size = B25010e1)
+
+population <- 
+  vroom("data/census/data/cbg_b01.csv") %>% 
+  filter(census_block_group %in% shape$GEOID) %>%
+  select(census_block_group, B01001e1) %>%
+  transmute(target = census_block_group, 
+            population = B01001e1)
+
+## poi data for the model
+pois <- get_pois(codes, "01")
+
+businesses <- 
+  pois %>% 
+  group_by(poi_cbg) %>%
+  summarise(businesses = n()) %>%
+  rename(focal = poi_cbg)
+
+## first constraint
+D_j <- distances %>% group_by(focal) %>% summarise(D_j = sum(weight))
+O_i <- distances %>% group_by(target) %>% summarise(O_i = sum(weight))
+
+## join it all together
+regression <- 
+  distances %>%
+  filter(month == 4) %>% 
+  filter(focal != target) %>% 
+  select(-month) %>%
+  left_join(population) %>%
+  left_join(education) %>%
+  left_join(income) %>%
+  left_join(size) %>%
+  left_join(O_i) %>%
+  left_join(D_j) %>%
+  left_join(businesses) %>%
+  replace_na(list(businesses = 0)) %>%
+  as_tibble() %>% 
+  drop_na() %>%
+  select(-focal, -target)
+
+gravity <- 
+  glm(log(weight) ~
+        log(distance) + 
+        population + college_degree + household_size + 
+        log(median_income) +  log(businesses + 1) + 
+        log(D_j) + log(O_i), family = poisson(link = "log"), data = regression)
+
+regression$predictions <- exp(fitted(gravity))
+
+rsquared <- function(observed, estimated){
+  r <- cor(observed,estimated)
+  R2 <- r^2
+  R2
+}
+
+rsquared(regression$weight, regression$predictions)
+
+# 0.3783419
+# 0.3006752
+#
+

@@ -163,4 +163,3 @@ get_pois <- function(fips, month) {
    
 }
 
-
