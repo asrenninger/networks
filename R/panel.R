@@ -317,9 +317,7 @@ O_i <- distances %>% group_by(target) %>% summarise(O_i = sum(weight))
 ## join it all together
 regression <- 
   distances %>%
-  filter(month == 7) %>% 
   filter(focal != target) %>% 
-  select(-month) %>%
   left_join(population) %>%
   left_join(education) %>%
   left_join(income) %>%
@@ -332,23 +330,49 @@ regression <-
   drop_na() %>%
   select(-focal, -target)
 
+## testing on a month
+temp <- filter(regression, month == 1)
+
 gravity <- 
   glm(log(weight) ~
         log(distance) + 
         population + college_degree + household_size + 
         log(median_income) +  log(businesses + 1) + 
-        log(D_j) + log(O_i), family = poisson(link = "log"), data = regression)
+        log(D_j) + log(O_i), family = poisson(link = "log"), 
+      data = temp)
 
-regression$predictions <- exp(fitted(gravity))
+temp$predictions <- exp(fitted(gravity))
+rsquared(temp$weight, temp$predictions)
 
-rsquared <- function(observed, estimated){
-  r <- cor(observed,estimated)
-  R2 <- r^2
-  R2
-}
+## every month
+fits <- 
+  reduce(map(1:12, function(x){
+    
+    temp <- filter(regression, month == x)
+    
+    gravity <- 
+      glm(log(weight) ~
+            log(distance) + 
+            population + college_degree + household_size + 
+            log(median_income) +  log(businesses + 1) + 
+            log(D_j) + log(O_i), family = poisson(link = "log"), data = temp)
+    
+    temp$predictions <- exp(fitted(gravity))
+    
+    return(rsquared(temp$weight, temp$predictions))
+  }), 
+  c
+  )
 
-rsquared(regression$weight, regression$predictions)
-
-# 0.3783419
-# 0.3006752
-# 0.3539772
+## how does the fit change over time?
+ggplot(data = tibble(period = 1:12, 
+                     fit = fits), 
+       aes(x = period, y = fit)) + 
+  geom_step(size = 2, colour = scico::scico(palette = 'tokyo', 9)[8]) + 
+  scale_x_continuous(breaks = c(2, 4, 6, 8, 10), labels = lubridate::month(c(2, 4, 6, 8, 10), label = TRUE)) +
+  xlab("") +
+  ylab("") + 
+  labs(title = "Variance Explained Over Time") +
+  theme_hor() +
+  ggsave("rsquared.png", height = 6, width = 8, dpi = 300)
+  
