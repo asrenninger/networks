@@ -375,4 +375,45 @@ ggplot(data = tibble(period = 1:12,
   labs(title = "Variance Explained Over Time") +
   theme_hor() +
   ggsave("rsquared.png", height = 6, width = 8, dpi = 300)
-  
+
+## what about coefficients?
+results <- 
+  reduce(map(1:12, function(x){
+    
+    temp <- filter(regression, month == x)
+    
+    gravity <- 
+      glm(log(weight) ~
+            log(distance) + 
+            population + college_degree + household_size + 
+            log(median_income) +  log(businesses + 1) + 
+            log(D_j) + log(O_i), family = poisson(link = "log"), data = temp)
+    
+    results <-  
+      broom::tidy(gravity) %>% 
+      mutate(month = x)
+    
+    return(results)
+  }), 
+  rbind
+  )
+
+## plot it
+ggplot(data = results %>%
+         filter(term != "(Intercept)") %>%
+         mutate(term = str_replace_all(term, "_", " ")), 
+       aes(x = month, y = estimate, colour = term)) + 
+  geom_step(size = 2) + 
+  scale_x_continuous(breaks = c(2, 4, 6, 8, 10), labels = lubridate::month(c(2, 4, 6, 8, 10), label = TRUE)) +
+  scale_colour_manual(values = sample(scico(palette = 'tokyo', 9)[1:8], 8)) +
+  facet_wrap(~ term, scales = 'free_y', nrow = 2) + 
+  xlab("") +
+  ylab("") + 
+  labs(title = "Coefficients Over Time") +
+  theme_hor() +
+  theme(legend.position = 'botoom') +
+  ggsave("coefficients.png", height = 6, width = 8, dpi = 300)
+
+gravity %>% summary()
+
+
