@@ -107,6 +107,23 @@ par(mfrow = c(2, 5))
 for (i in seq(10, 100, by = 10)){
   
   print(i)
+  plot(igraph::erdos.renyi.game(n = i, p.or.m = (1 / i^1.50)), 
+       main = paste("n =", i),
+       layout = layout_with_fr,
+       vertex.size = 5,
+       vertex.label = NA,
+       vertex.color = 'black',
+       vertex.label.color = '#000000',
+       edge.arrow.size = 0)
+  
+}
+
+mtext("Threshold for Components at Various N", side = 1, outer = TRUE, line = -3)
+
+par(mfrow = c(2, 5))
+for (i in seq(10, 100, by = 10)){
+  
+  print(i)
   plot(igraph::erdos.renyi.game(n = i, p.or.m = (log(i) / i^1)), 
        main = paste("n =", i),
        layout = layout_with_fr,
