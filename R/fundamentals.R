@@ -1,6 +1,8 @@
 n <- 5:100
 
 ## Probabilities
+png(file = "probabilities.png", width = 900, height = 500)
+
 par(mfrow = c(1, 1), bg = 'white')
 plot(n, (log(n) / n), type = "b", frame = FALSE, pch = 19, 
      col = "red", xlab = "", ylab = "", ylim = c(0, 0.4))
@@ -12,10 +14,14 @@ lines(n, (1 / n^2.0), pch = 16, col = "yellow", type = "b", lty = 2)
 legend("top", legend = c("log(n) / n", "1 / n ^ 1.0", "1 / n ^ 1.5", "1 / n ^ 2.0"),
        col = c("red", "blue", "green", "yellow"), lty = 1:2, cex = 0.8)
 
+dev.off()
+
 k <- 100
 
 ## Threshold 1
 ## The point at which an edge will appear
+png(file = "thresholds_edges.png", width = 900, height = 500)
+
 par(mfrow = c(1, 2))
 
 plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^2.00)), 
@@ -36,8 +42,12 @@ plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^1.50)),
 
 mtext("Threshold for Edges", side = 1, outer = TRUE, line = -3)
 
+dev.off()
+
 ## Threshold 2
 ## The point at which a component will appear
+png(file = "thresholds_components.png", width = 900, height = 500)
+
 par(mfrow = c(1, 2))
 
 plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^1.50)), 
@@ -58,8 +68,12 @@ plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^1.00)),
 
 mtext("Threshold for Components", side = 1, outer = TRUE, line = -3)
 
+dev.off()
+
 ## Threshold 3
 ## The point at which a cycle will appear
+png(file = "thresholds_cycles.png", width = 900, height = 500)
+
 par(mfrow = c(1, 2))
 
 plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^1.0)), 
@@ -80,8 +94,12 @@ plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^0.98)),
 
 mtext("Threshold for Cycles", side = 1, outer = TRUE, line = -3)
 
+dev.off()
+
 ## Threshold 4
 ## The point at which the graph will be connected
+png(file = "thresholds_connection.png", width = 900, height = 500)
+
 par(mfrow = c(1, 2))
 
 plot(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^1.10)), 
@@ -102,7 +120,11 @@ plot(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^1.00)),
 
 mtext("Threshold for Complete Connection", side = 1, outer = TRUE, line = -3)
 
+dev.off()
+
 ## Testing the critical level
+png(file = "lln_components.png", width = 1100, height = 900)
+
 par(mfrow = c(2, 5))
 for (i in seq(10, 100, by = 10)){
   
@@ -120,6 +142,10 @@ for (i in seq(10, 100, by = 10)){
 
 mtext("Threshold for Components at Various N", side = 1, outer = TRUE, line = -3)
 
+dev.off()
+
+png(file = "lln_connections.png", width = 1100, height = 900)
+
 par(mfrow = c(2, 5))
 for (i in seq(10, 100, by = 10)){
   
@@ -136,3 +162,19 @@ for (i in seq(10, 100, by = 10)){
 }
 
 mtext("Threshold for Complete Connection at Various N", side = 1, outer = TRUE, line = -3)
+
+dev.off()
+
+k = 1000
+
+## degree distributions
+par(mfrow = c(2, 2))
+
+plot(density(degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^1.0)))), 
+     main = "log(n) / n ^ 1.0", ylim = c(0, 0.15), xlim = c(0, 500))
+plot(density(degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^0.8)))),
+     main = "log(n) / n ^ 0.8", ylim = c(0, 0.15), xlim = c(0, 500))
+plot(density(degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^0.6)))),
+     main = "log(n) / n ^ 0.6", ylim = c(0, 0.15), xlim = c(0, 500))
+plot(density(degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^0.4)))),
+     main = "log(n) / n ^ 0.4", ylim = c(0, 0.15), xlim = c(0, 500))
