@@ -168,6 +168,8 @@ dev.off()
 k = 1000
 
 ## degree distributions
+png(file = "degree_distributions.png", width = 1100, height = 900)
+
 par(mfrow = c(2, 2))
 
 plot(density(degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^1.0)))), 
@@ -178,3 +180,5 @@ plot(density(degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^0.6))))
      main = "log(n) / n ^ 0.6", ylim = c(0, 0.15), xlim = c(0, 500))
 plot(density(degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^0.4)))),
      main = "log(n) / n ^ 0.4", ylim = c(0, 0.15), xlim = c(0, 500))
+
+dev.off()

@@ -266,6 +266,22 @@ dissimilarity <-
   theme_hor() +
   ggsave("trends.png", height = 5, width = 5, dpi = 300)
 
+## getting fips codes, either whole metro or five boros
+codes <- get_codes("philadelphia")
+codes <-  "'36005', '36047', '36061', '36081', '36085'"
+
+## getting node data
+nodes <- get_nodes(codes)
+
+## getting edge data 
+index <- str_pad(1:12, side = 'left', width = 2, pad = "0")
+edges <- map_df(index, function(x) { get_edges(codes, x, nodes$cbg) %>% mutate(month = as.numeric(x)) })
+
+lines <- stplanr::od2line(edges, 
+                          nodes %>% 
+                            st_as_sf(coords = c("X", "Y"), crs = 4326) %>% 
+                            st_transform(4269))
+
 ## getting distances
 distances <- 
   lines %>% 
@@ -344,6 +360,8 @@ gravity <-
 temp$predictions <- exp(fitted(gravity))
 rsquared(temp$weight, temp$predictions)
 
+summary(gravity)
+
 ## every month
 fits <- 
   reduce(map(1:12, function(x){
@@ -373,8 +391,8 @@ ggplot(data = tibble(period = 1:12,
   xlab("") +
   ylab("") + 
   labs(title = "Variance Explained Over Time") +
-  theme_hor() +
-  ggsave("rsquared.png", height = 6, width = 8, dpi = 300)
+  theme_hor() + 
+  ggsave("rsquared_phl.png", height = 6, width = 8, dpi = 300)
 
 ## what about coefficients?
 results <- 
@@ -412,8 +430,43 @@ ggplot(data = results %>%
   labs(title = "Coefficients Over Time") +
   theme_hor() +
   theme(legend.position = 'botoom') +
-  ggsave("coefficients.png", height = 6, width = 8, dpi = 300)
+  ggsave("coefficients_phl.png", height = 6, width = 8, dpi = 300)
 
-gravity %>% summary()
+## adding rmse
+mape <- function(observed,estimated){
+  MAPE <- mean(abs(observed - estimated) / observed)
+  MAPE
+}
+
+fits <- 
+  reduce(map(1:12, function(x){
+    
+    temp <- filter(regression, month == x)
+    
+    gravity <- 
+      glm(log(weight) ~
+            log(distance) + 
+            population + college_degree + household_size + 
+            log(median_income) +  log(businesses + 1) + 
+            log(D_j) + log(O_i), family = poisson(link = "log"), data = temp)
+    
+    temp$predictions <- exp(fitted(gravity))
+    
+    return(mape(temp$weight, temp$predictions))
+  }), 
+  c
+  )
+
+## how does the fit change over time?
+ggplot(data = tibble(period = 1:12, 
+                     fit = fits), 
+       aes(x = period, y = fit)) + 
+  geom_step(size = 2, colour = scico::scico(palette = 'tokyo', 9)[8]) + 
+  scale_x_continuous(breaks = c(2, 4, 6, 8, 10), labels = lubridate::month(c(2, 4, 6, 8, 10), label = TRUE)) +
+  xlab("") +
+  ylab("") + 
+  labs(title = "Mean Absolute Percent Error Over Time") +
+  theme_hor() + 
+  ggsave("mape_phl.png", height = 6, width = 8, dpi = 300)
 
 
