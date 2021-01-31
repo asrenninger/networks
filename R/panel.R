@@ -268,7 +268,6 @@ dissimilarity <-
 
 ## getting fips codes, either whole metro or five boros
 codes <- get_codes("philadelphia")
-codes <-  "'36005', '36047', '36061', '36081', '36085'"
 
 ## getting node data
 nodes <- get_nodes(codes)
