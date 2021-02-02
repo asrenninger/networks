@@ -26,7 +26,7 @@ par(mfrow = c(1, 2))
 
 plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^2.00)), 
      main = "1 / n ^ 2.00",
-     layout = layout_with_fr,
+     layout = igraph::layout_with_fr,
      vertex.size = 1,
      vertex.label = NA,
      vertex.label.color = '#000000',
@@ -34,7 +34,7 @@ plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^2.00)),
 
 plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^1.50)), 
      main = "1 / n ^ 1.50",
-     layout = layout_with_fr,
+     layout = igraph::layout_with_fr,
      vertex.size = 1,
      vertex.label = NA,
      vertex.label.color = '#000000',
@@ -52,7 +52,7 @@ par(mfrow = c(1, 2))
 
 plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^1.50)), 
      main = "1 / n ^ 1.50",
-     layout = layout_with_fr,
+     layout = igraph::layout_with_fr,
      vertex.size = 1,
      vertex.label = NA,
      vertex.label.color = '#000000',
@@ -60,7 +60,7 @@ plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^1.50)),
 
 plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^1.00)), 
      main = "1 / n ^ 1.00",
-     layout = layout_with_fr,
+     layout = igraph::layout_with_fr,
      vertex.size = 1,
      vertex.label = NA,
      vertex.label.color = '#000000',
@@ -78,7 +78,7 @@ par(mfrow = c(1, 2))
 
 plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^1.0)), 
      main = "1 / n ^ 1.00",
-     layout = layout_with_fr,
+     layout = igraph::layout_with_fr,
      vertex.size = 1,
      vertex.label = NA,
      vertex.label.color = '#000000',
@@ -86,7 +86,7 @@ plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^1.0)),
 
 plot(igraph::erdos.renyi.game(n = k, p.or.m = (1 / k^0.98)), 
      main = "1 / n ^ 0.98",
-     layout = layout_with_fr,
+     layout = igraph::layout_with_fr,
      vertex.size = 1,
      vertex.label = NA,
      vertex.label.color = '#000000',
@@ -104,7 +104,7 @@ par(mfrow = c(1, 2))
 
 plot(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^1.10)), 
      main = "log(n) / n ^ 1.10",
-     layout = layout_with_fr,
+     layout = igraph::layout_with_fr,
      vertex.size = 1,
      vertex.label = NA,
      vertex.label.color = '#000000',
@@ -112,7 +112,7 @@ plot(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^1.10)),
 
 plot(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^1.00)), 
      main = "log(n) / n ^ 1.00",
-     layout = layout_with_fr,
+     layout = igraph::layout_with_fr,
      vertex.size = 1,
      vertex.label = NA,
      vertex.label.color = '#000000',
@@ -131,7 +131,7 @@ for (i in seq(10, 100, by = 10)){
   print(i)
   plot(igraph::erdos.renyi.game(n = i, p.or.m = (1 / i^1.50)), 
        main = paste("n =", i),
-       layout = layout_with_fr,
+       layout = igraph::layout_with_fr,
        vertex.size = 5,
        vertex.label = NA,
        vertex.color = 'black',
@@ -152,7 +152,7 @@ for (i in seq(10, 100, by = 10)){
   print(i)
   plot(igraph::erdos.renyi.game(n = i, p.or.m = (log(i) / i^1)), 
        main = paste("n =", i),
-       layout = layout_with_fr,
+       layout = igraph::layout_with_fr,
        vertex.size = 5,
        vertex.label = NA,
        vertex.color = 'black',
@@ -172,13 +172,13 @@ png(file = "degree_distributions.png", width = 1100, height = 900)
 
 par(mfrow = c(2, 2))
 
-plot(density(degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^1.0)))), 
+plot(density(igraph::degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^1.0)))), 
      main = "log(n) / n ^ 1.0", ylim = c(0, 0.15), xlim = c(0, 500))
-plot(density(degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^0.8)))),
+plot(density(igraph::degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^0.8)))),
      main = "log(n) / n ^ 0.8", ylim = c(0, 0.15), xlim = c(0, 500))
-plot(density(degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^0.6)))),
+plot(density(igraph::degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^0.6)))),
      main = "log(n) / n ^ 0.6", ylim = c(0, 0.15), xlim = c(0, 500))
-plot(density(degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^0.4)))),
+plot(density(igraph::degree(igraph::erdos.renyi.game(n = k, p.or.m = (log(k) / k^0.4)))),
      main = "log(n) / n ^ 0.4", ylim = c(0, 0.15), xlim = c(0, 500))
 
 dev.off()
