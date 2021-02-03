@@ -163,3 +163,31 @@ get_pois <- function(fips, month) {
    
 }
 
+## a function for getting points of interest by geography
+get_bipartite <- function(fips, month, cbgs) {
+  
+  query <- glue("SELECT poi_id, poi_cbg, home_cbg, visits, top_category, sub_category, latitude, longitude,
+                 FROM (SELECT 
+                        safegraph_place_id as poi_id,
+                        lpad(CAST(poi_cbg AS STRING), 12, \'0\') as poi_cbg, 
+                        REGEXP_EXTRACT(unnested, \'(.*?):\') as home_cbg, 
+                        CAST(REGEXP_EXTRACT(unnested, \':(.*)\') AS NUMERIC) as visits
+                FROM \`{{projectid}}.safegraph.2020_{{month}}\`
+                CROSS JOIN UNNEST(SPLIT(regexp_replace(REPLACE(REPLACE(visitor_home_cbgs, \'{\', \'\'), \'}\', \'\'), \'\"\', \'\'))) as unnested
+                WHERE SUBSTR(lpad(CAST(poi_cbg AS STRING), 12, \'0\'), 0, 5) IN ({{fips}}) AND visitor_home_cbgs != \'{}\')
+                JOIN (SELECT safegraph_place_id AS join_id, top_category, sub_category, latitude, longitude
+                      FROM \`{{projectid}}.safegraph.places\`) AS p
+                ON poi_id = p.join_id", 
+                .open = '{{', .close = '}}')
+  
+  df <- bq_project_query(projectid, query)
+  df <- bq_table_download(df)
+  
+  df <- df %>%
+    filter(home_cbg %in% cbgs) %>%
+    filter(visits > 10)
+  
+  return(df)
+  
+}
+
