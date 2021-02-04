@@ -269,3 +269,81 @@ ggplot(data = tibble(period = 1:12,
 ####################################
 ## Philadelphia, multiplex
 ####################################
+
+## get pois
+pois <- get_pois(codes, "01")
+
+grocers <- 
+  pois %>% 
+  filter(str_detect(str_to_lower(top_category), "grocery"), 
+         str_detect(str_to_lower(sub_category), "convenience"))
+
+## get nodes
+nodes <- get_nodes("'42101'")
+
+## get edges
+index <- str_pad(1:12, side = 'left', width = 2, pad = "0")
+edges <- map_df(index, function(x) { get_bipartite(codes, x, nodes$cbg) %>% mutate(month = as.numeric(x)) })
+
+
+edges %>%
+  filter(str_detect(top_category, "Grocery"))
+
+## get block groups
+shape <- block_groups('PA', "Philadelphia", cb = TRUE, class = 'sf')
+tract <-  
+  shape %>% 
+  mutate(GEOID = str_sub(GEOID, 1, 11)) %>% 
+  group_by(GEOID) %>%
+  summarise() %>% 
+  st_transform(4326)
+
+## attached origin centroid
+cent_o <-
+  edges %>% 
+  mutate(poi_cbg = str_sub(poi_cbg, 1, 11),
+         home_cbg = str_sub(home_cbg, 1, 11)) %>%
+  filter(poi_cbg != home_cbg) %>%
+  group_by(month, home_cbg) %>%
+  summarise(visits = sum(visits)) %>%
+  rename(GEOID = home_cbg) %>%
+  left_join(tract) %>%
+  st_as_sf()
+
+cent_o <-
+  cent_o %>% 
+  st_centroid() %>% 
+  st_coordinates() %>% 
+  as_tibble() %>%
+  bind_cols(cent_o) %>%
+  transmute(GEOID, 
+            month, 
+            latitude = Y,
+            longitude = X,
+            visits)
+
+## create mean destination  
+mean_d <- 
+  edges %>% 
+  mutate(poi_cbg = str_sub(poi_cbg, 1, 11),
+         home_cbg = str_sub(home_cbg, 1, 11)) %>%
+  filter(poi_cbg != home_cbg) %>%
+  group_by(home_cbg, month) %>% 
+  summarise(latitude = weighted.mean(latitude, w = visits, na.rm = TRUE),
+            longitude = weighted.mean(longitude, w = visits, na.rm = TRUE),
+            visits = sum(visits)) %>%
+  rename(GEOID = home_cbg)
+
+## plot interaction winds
+ggplot() +
+  geom_path(data = bind_rows(cent_o, mean_d), 
+            aes(x = longitude, y = latitude, group = GEOID, colour = log(visits), alpha = log(visits)), arrow = grid::arrow(length = unit(0.05, unit = "inches"), type = 'closed')) +
+  geom_sf(data = tract, 
+          aes(), fill = NA, colour = '#ffffff', lwd = 0.05, alpha = 0.01) + 
+  scale_colour_scico(palette = 'tokyo', guide = 'none') +
+  scale_alpha_continuous(range = c(0.5, 1), guide = 'none') +
+  facet_wrap(~ lubridate::month(month, label = TRUE, abbr = FALSE), ncol = 4) + 
+  coord_sf(crs = 4326) + 
+  labs(title = "Interaction Winds") +
+  theme_black() +
+  ggsave("winds.png", height = 15, width = 18, dpi = 300)
