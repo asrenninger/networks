@@ -340,4 +340,48 @@ ggplot() +
 ## ICDR flows
 ####################################
 
+## start with flow graphs 
+library(ggraph)
 
+graph_df <- map_df(c(25, 50, 75, 100), function(x){
+  graph_df <-
+    edges %>% 
+    filter(poi_cbg != home_cbg) %>%
+    group_by(home_cbg, poi_cbg, month) %>%
+    summarise(weight = sum(visits)) %>%
+    filter(weight > x) %>% 
+    rename(from = home_cbg,
+           to = poi_cbg) %>%
+    mutate(threshold = paste(x))
+})
+
+graph <- graph_from_data_frame(graph_df)
+
+ggraph(graph, 'circle') + 
+  geom_edge_link(aes(alpha = log(weight)), colour = '#ffffff', show.legend = FALSE) + 
+  geom_node_point(colour = '#ffffff', size = 0.5) +
+  scale_alpha_continuous(range = c(0.25, 0.75), guide = 'none') + 
+  facet_grid(threshold ~ lubridate::month(month, label= TRUE, abbr = FALSE)) + 
+  coord_fixed() +
+  theme_black() + 
+  ggsave("thresholds_monthxthreshold.png", height = 5, width = 14, dpi = 300)
+
+graph_df <-
+  edges %>% 
+  filter(poi_cbg != home_cbg) %>%
+  group_by(home_cbg, poi_cbg, month) %>%
+  summarise(weight = sum(visits)) %>%
+  filter(weight > 50) %>% 
+  rename(from = home_cbg,
+         to = poi_cbg)
+
+graph <- graph_from_data_frame(graph_df)
+
+ggraph(graph, 'circle') + 
+  geom_edge_link(aes(alpha = log(weight)), colour = '#ffffff', show.legend = FALSE) + 
+  geom_node_point(colour = '#ffffff', size = 0.5) +
+  scale_alpha_continuous(range = c(0.25, 0.75), guide = 'none') + 
+  facet_wrap(~ lubridate::month(month, label= TRUE, abbr = FALSE)) + 
+  coord_fixed() +
+  theme_black() + 
+  ggsave("thresholds_month.png", height = 6, width = 7.4, dpi = 300)
