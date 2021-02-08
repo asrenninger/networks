@@ -282,3 +282,17 @@ rsquared <- function(observed, estimated){
   R2 <- r^2
   R2
 }
+
+## calculate mape
+mape <- function(observed,estimated){
+  MAPE <- mean(abs(observed - estimated) / observed)
+  MAPE
+}
+
+## calculate rmse
+CalcRMSE <- function(observed,estimated){
+  res <- (observed - estimated)^2
+  RMSE <- round(sqrt(mean(res)),3)
+  RMSE
+}
+
