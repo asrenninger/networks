@@ -229,12 +229,6 @@ ggplot(data = results %>%
   theme(legend.position = 'botoom') +
   ggsave("coefficients_phl.png", height = 6, width = 8, dpi = 300)
 
-## adding rmse
-mape <- function(observed,estimated){
-  MAPE <- mean(abs(observed - estimated) / observed)
-  MAPE
-}
-
 fits <- 
   reduce(map(1:12, function(x){
     
@@ -273,18 +267,12 @@ ggplot(data = tibble(period = 1:12,
 ## get pois
 pois <- get_pois(codes, "01")
 
-grocers <- 
-  pois %>% 
-  filter(str_detect(str_to_lower(top_category), "grocery"), 
-         str_detect(str_to_lower(sub_category), "convenience"))
-
 ## get nodes
 nodes <- get_nodes("'42101'")
 
 ## get edges
 index <- str_pad(1:12, side = 'left', width = 2, pad = "0")
 edges <- map_df(index, function(x) { get_bipartite(codes, x, nodes$cbg) %>% mutate(month = as.numeric(x)) })
-
 
 edges %>%
   filter(str_detect(top_category, "Grocery"))
@@ -347,3 +335,9 @@ ggplot() +
   labs(title = "Interaction Winds") +
   theme_black() +
   ggsave("winds.png", height = 15, width = 18, dpi = 300)
+
+####################################
+## ICDR flows
+####################################
+
+
