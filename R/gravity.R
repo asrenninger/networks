@@ -289,6 +289,7 @@ tract <-
 ## attached origin centroid
 cent_o <-
   edges %>% 
+  #filter(visits > 20) %>%
   mutate(poi_cbg = str_sub(poi_cbg, 1, 11),
          home_cbg = str_sub(home_cbg, 1, 11)) %>%
   filter(poi_cbg != home_cbg) %>%
@@ -313,6 +314,7 @@ cent_o <-
 ## create mean destination  
 mean_d <- 
   edges %>% 
+  #filter(visits > 20) %>%
   mutate(poi_cbg = str_sub(poi_cbg, 1, 11),
          home_cbg = str_sub(home_cbg, 1, 11)) %>%
   filter(poi_cbg != home_cbg) %>%
@@ -325,16 +327,18 @@ mean_d <-
 ## plot interaction winds
 ggplot() +
   geom_path(data = bind_rows(cent_o, mean_d), 
-            aes(x = longitude, y = latitude, group = GEOID, colour = log(visits), alpha = log(visits)), arrow = grid::arrow(length = unit(0.05, unit = "inches"), type = 'closed')) +
-  geom_sf(data = tract, 
+            aes(x = longitude, y = latitude, group = GEOID, alpha = log(visits)), colour = '#ffffff', arrow = grid::arrow(length = unit(0.05, unit = "inches"), type = 'closed')) +
+  geom_sf(data = tract %>%
+            st_union() %>%
+            st_combine(), 
           aes(), fill = NA, colour = '#ffffff', lwd = 0.05, alpha = 0.01) + 
-  scale_colour_scico(palette = 'tokyo', guide = 'none') +
-  scale_alpha_continuous(range = c(0.5, 1), guide = 'none') +
+  #scale_colour_scico(palette = 'tokyo', guide = 'none') +
+  scale_alpha_continuous(range = c(0.25, 0.50), guide = 'none') +
   facet_wrap(~ lubridate::month(month, label = TRUE, abbr = FALSE), ncol = 4) + 
   coord_sf(crs = 4326) + 
-  labs(title = "Interaction Winds") +
+  #labs(title = "Interaction Winds") +
   theme_black() +
-  ggsave("winds.png", height = 15, width = 18, dpi = 300)
+  ggsave("winds.png", height = 15.1, width = 18, dpi = 300)
 
 ####################################
 ## ICDR flows
@@ -352,36 +356,37 @@ graph_df <- map_df(c(25, 50, 75, 100), function(x){
     filter(weight > x) %>% 
     rename(from = home_cbg,
            to = poi_cbg) %>%
-    mutate(threshold = paste(x))
+    mutate(threshold = x)
 })
 
 graph <- graph_from_data_frame(graph_df)
 
 ggraph(graph, 'circle') + 
   geom_edge_link(aes(alpha = log(weight)), colour = '#ffffff', show.legend = FALSE) + 
-  geom_node_point(colour = '#ffffff', size = 0.5) +
+  geom_node_point(colour = '#ffffff', size = 0.1) +
   scale_alpha_continuous(range = c(0.25, 0.75), guide = 'none') + 
   facet_grid(threshold ~ lubridate::month(month, label= TRUE, abbr = FALSE)) + 
   coord_fixed() +
   theme_black() + 
-  ggsave("thresholds_monthxthreshold.png", height = 5, width = 14, dpi = 300)
+  ggsave("thresholds_monthxthreshold.png", height = 5, width = 13.8, dpi = 300)
 
 graph_df <-
   edges %>% 
   filter(poi_cbg != home_cbg) %>%
   group_by(home_cbg, poi_cbg, month) %>%
-  summarise(weight = sum(visits)) %>%
+  summarise(weight = sum(visits, na.rm = TRUE)) %>%
   filter(weight > 50) %>% 
   rename(from = home_cbg,
          to = poi_cbg)
 
 graph <- graph_from_data_frame(graph_df)
 
-ggraph(graph, 'circle') + 
+ggraph(graph, 'linear', circular = TRUE) + 
   geom_edge_link(aes(alpha = log(weight)), colour = '#ffffff', show.legend = FALSE) + 
-  geom_node_point(colour = '#ffffff', size = 0.5) +
+  geom_node_point(colour = '#ffffff', size = 0.1) +
   scale_alpha_continuous(range = c(0.25, 0.75), guide = 'none') + 
   facet_wrap(~ lubridate::month(month, label= TRUE, abbr = FALSE)) + 
   coord_fixed() +
   theme_black() + 
   ggsave("thresholds_month.png", height = 6, width = 7.4, dpi = 300)
+
