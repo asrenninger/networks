@@ -1,9 +1,11 @@
-# Gravity Mdoels
+# Gravity Models
 
 Tasks covered: 
 - [Building exploratory models](#models)
 - [Goodness of Fit](#fits)
+- [Building a better mode](#augmentations)
 - [Testing by type of visit](#disaggregations)
+- [Generalizability](#generalizability)
 
 # models
 We develop models where the dependent variable is a **flow** between an origin and a destination, a continuous variable representing the number of visitors passing between them. That means that in Philadelpha there are 1784896 possible flows from 1336 Census block groups, including visitors that stay to shop within their home Census block group—or loops. The first pass at a model takes all visits from all origins to all destinations (the complete graph) and fits a model based on 8 variables: 
@@ -42,6 +44,18 @@ We see contradictory fits: the MAPE and RMSE fall in April, suggesting that thes
 
 RMSE is more difficult to interpret and R-Square assumes linearity so we proceed with MAPE as the best measure of model fit going forward. 
 
+# augmentations
+
+Below is a side-by-side comparison of MAPE values for two models, one containing demographic variables for both the origin and destination, the other containing just those variables for the origins. The larger model predicts with almost identical accuracy.
+
+| Kitchen Sink   | Lean     |
+|-----------|-----------|
+| ![](https://raw.githubusercontent.com/asrenninger/networks/master/viz/mape_phl_sink.png)     | ![](https://raw.githubusercontent.com/asrenninger/networks/master/viz/mape_phl_lean.png)    |
+
+To see just how strong the simple gravity model is and just how weak the contributions of the demographic variables, below is the MAPE for a model that includes just distance, origin population and destination business count. 
+
+![](https://raw.githubusercontent.com/asrenninger/networks/master/viz/mape_phl_simple.png)
+
 # disaggregations
 What happens when we predict for a specific category of business rather that all activity flowing from one area to another? Here we build a model to predict trips to grocery stores; we aggregate the unit of analysis to Census tracts rather than block groups to compensate for the relative lack of trips. The following shows the general direction of flows in the data.
 
@@ -54,3 +68,13 @@ The model is largely similar to the preliminary one. The notable exception is th
 Finally, the model fit for grocery stores is more noisy, but it still performed best during April and May according to Mean Absolute Percent Error. 
 
 ![](https://raw.githubusercontent.com/asrenninger/networks/master/viz/mape_phl_grocery.png)
+
+## Generalizability
+
+In this section, we separate flows by neighborhood character—either of the origin or the destination, or both. We want to see if the model fits better or worse at the extremes of income to better understand its biases. 
+
+#### ...rich/poor
+#### ...white/black
+#### ...present/future
+
+
