@@ -145,19 +145,30 @@ regression <-
   select(-focal, -target)
 
 ## testing on a month
-temp <- filter(regression, month == 4)
+temp <- filter(regression, month == 1)
 
 gravity <- 
   glm(log(weight) ~
         log(distance) +  population +
         log(median_income) +  log(businesses + 1) + college_degree + household_size + 
-        log(D_j) + log(O_i), family = poisson(link = "log"), 
+        + D_j + O_i, family = poisson(link = "log"), 
       data = temp)
 
-temp$predictions <- exp(fitted(gravity))
-rsquared(temp$weight, temp$predictions)
-
 summary(gravity)
+
+gravity %>% 
+  broom::tidy() %>% 
+  mutate(estimate = case_when(str_detect(term, "log") ~ exp(estimate),
+                                                          TRUE ~ estimate)) %>% 
+  mutate_if(is.numeric, ~round(.x, 4)) %>%
+  gt() %>%
+  tab_style(style = list(cell_text(weight = "bold")),
+            locations = cells_column_labels(vars(`term`))) %>% 
+  data_color(columns = vars(`estimate`),
+             colors = scales::col_numeric(scico::scico(9, palette = 'tokyo'), domain = NULL)) %>% 
+  gtsave("mod2.png", expand = 10)
+
+length(nodes$cbg) *  length(nodes$cbg) 
 
 ## every month
 fits <- 
@@ -190,6 +201,38 @@ ggplot(data = tibble(period = 1:12,
   labs(title = "Variance Explained Over Time") +
   theme_hor() + 
   ggsave("rsquared_phl.png", height = 6, width = 8, dpi = 300)
+
+## try again with rmse
+fits <- 
+  reduce(map(1:12, function(x){
+    
+    temp <- filter(regression, month == x)
+    
+    gravity <- 
+      glm(log(weight) ~
+            log(distance) + 
+            population + college_degree + household_size + 
+            log(median_income) +  log(businesses + 1) + 
+            log(D_j) + log(O_i), family = poisson(link = "log"), data = temp)
+    
+    temp$predictions <- exp(fitted(gravity))
+    
+    return(rmse(temp$weight, temp$predictions))
+  }), 
+  c
+  )
+
+## how does the fit change over time?
+ggplot(data = tibble(period = 1:12, 
+                     fit = fits), 
+       aes(x = period, y = fit)) + 
+  geom_step(size = 2, colour = scico::scico(palette = 'tokyo', 9)[8]) + 
+  scale_x_continuous(breaks = c(2, 4, 6, 8, 10), labels = lubridate::month(c(2, 4, 6, 8, 10), label = TRUE)) +
+  xlab("") +
+  ylab("") + 
+  labs(title = "RMSE Over Time") +
+  theme_hor() + 
+  ggsave("rmse_phl.png", height = 6, width = 8, dpi = 300)
 
 ## what about coefficients?
 results <- 
@@ -289,6 +332,7 @@ tract <-
 ## attached origin centroid
 cent_o <-
   edges %>% 
+  #filter(str_detect(sub_category, "Grocery")) %>%
   #filter(visits > 20) %>%
   mutate(poi_cbg = str_sub(poi_cbg, 1, 11),
          home_cbg = str_sub(home_cbg, 1, 11)) %>%
@@ -313,7 +357,8 @@ cent_o <-
 
 ## create mean destination  
 mean_d <- 
-  edges %>% 
+  edges %>%
+  #filter(str_detect(sub_category, "Grocery")) %>%
   #filter(visits > 20) %>%
   mutate(poi_cbg = str_sub(poi_cbg, 1, 11),
          home_cbg = str_sub(home_cbg, 1, 11)) %>%
@@ -338,10 +383,10 @@ ggplot() +
   coord_sf(crs = 4326) + 
   #labs(title = "Interaction Winds") +
   theme_black() +
-  ggsave("winds.png", height = 15.1, width = 18, dpi = 300)
+  ggsave("winds_grocery.png", height = 15.1, width = 18, dpi = 300)
 
 ####################################
-## ICDR flows
+## Thresholding
 ####################################
 
 ## start with flow graphs 
@@ -390,3 +435,175 @@ ggraph(graph, 'linear', circular = TRUE) +
   theme_black() + 
   ggsave("thresholds_month.png", height = 6, width = 7.4, dpi = 300)
 
+####################################
+## modelling
+####################################
+
+edges_grocery <- 
+  edges %>% 
+  #filter(str_detect(sub_category, "Grocery")) %>% 
+  group_by(poi_cbg, home_cbg, month) %>% 
+  summarise(weight = sum(visits)) %>% 
+  rename(focal = poi_cbg,
+        target = home_cbg) 
+
+lines <- stplanr::od2line(edges_grocery, 
+                          nodes %>% 
+                            st_as_sf(coords = c("X", "Y"), crs = 4326) %>% 
+                            st_transform(4269))
+distances <- 
+  lines %>% 
+  mutate(distance = units::drop_units(st_length(geometry))) %>% 
+  st_drop_geometry() 
+
+D_j <- distances %>% group_by(focal) %>% summarise(D_j = sum(weight))
+O_i <- distances %>% group_by(target) %>% summarise(O_i = sum(weight))
+
+## join it all together
+regression <- 
+  distances %>%
+  filter(focal != target) %>% 
+  left_join(population) %>%
+  left_join(education) %>%
+  left_join(income) %>%
+  left_join(size) %>%
+  left_join(O_i) %>%
+  left_join(D_j) %>%
+  left_join(businesses) %>%
+  replace_na(list(businesses = 0)) %>%
+  as_tibble() %>% 
+  drop_na() %>%
+  select(-focal, -target)
+
+## every month
+fits <- 
+  reduce(map(1:12, function(x){
+    
+    temp <- filter(regression, month == x)
+    
+    gravity <- 
+      glm(log(weight) ~
+            log(distance) + 
+            population + college_degree + household_size + 
+            log(median_income) +  log(businesses + 1) + 
+            log(D_j) + log(O_i), family = poisson(link = "log"), data = temp)
+    
+    temp$predictions <- exp(fitted(gravity))
+    
+    return(rsquared(temp$weight, temp$predictions))
+  }), 
+  c
+  )
+
+## how does the fit change over time?
+ggplot(data = tibble(period = 1:12, 
+                     fit = fits), 
+       aes(x = period, y = fit)) + 
+  geom_step(size = 2, colour = scico::scico(palette = 'tokyo', 9)[8]) + 
+  scale_x_continuous(breaks = c(2, 4, 6, 8, 10), labels = lubridate::month(c(2, 4, 6, 8, 10), label = TRUE)) +
+  xlab("") +
+  ylab("") + 
+  labs(title = "Variance Explained Over Time") +
+  theme_hor() + 
+  ggsave("rsquared_phl.png", height = 6, width = 8, dpi = 300)
+
+## try again with rmse
+fits <- 
+  reduce(map(1:12, function(x){
+    
+    temp <- filter(regression, month == x)
+    
+    gravity <- 
+      glm(log(weight) ~
+            log(distance) + 
+            population + college_degree + household_size + 
+            log(median_income) +  log(businesses + 1) + 
+            log(D_j) + log(O_i), family = poisson(link = "log"), data = temp)
+    
+    temp$predictions <- exp(fitted(gravity))
+    
+    return(rmse(temp$weight, temp$predictions))
+  }), 
+  c
+  )
+
+## how does the fit change over time?
+ggplot(data = tibble(period = 1:12, 
+                     fit = fits), 
+       aes(x = period, y = fit)) + 
+  geom_step(size = 2, colour = scico::scico(palette = 'tokyo', 9)[8]) + 
+  scale_x_continuous(breaks = c(2, 4, 6, 8, 10), labels = lubridate::month(c(2, 4, 6, 8, 10), label = TRUE)) +
+  xlab("") +
+  ylab("") + 
+  labs(title = "RMSE Over Time") +
+  theme_hor() + 
+  ggsave("rmse_phl.png", height = 6, width = 8, dpi = 300)
+
+## what about coefficients?
+results <- 
+  reduce(map(1:12, function(x){
+    
+    temp <- filter(regression, month == x)
+    
+    gravity <- 
+      glm(log(weight) ~
+            log(distance) + 
+            population + college_degree + household_size + 
+            log(median_income) +  log(businesses + 1) + 
+            log(D_j) + log(O_i), family = poisson(link = "log"), data = temp)
+    
+    results <-  
+      broom::tidy(gravity) %>% 
+      mutate(month = x)
+    
+    return(results)
+  }), 
+  rbind
+  )
+
+## plot it
+ggplot(data = results %>%
+         filter(term != "(Intercept)") %>%
+         mutate(term = str_replace_all(term, "_", " ")), 
+       aes(x = month, y = estimate, colour = term)) + 
+  geom_step(size = 2) + 
+  scale_x_continuous(breaks = c(2, 4, 6, 8, 10), labels = lubridate::month(c(2, 4, 6, 8, 10), label = TRUE)) +
+  scale_colour_manual(values = sample(scico(palette = 'tokyo', 9)[1:8], 8)) +
+  facet_wrap(~ term, scales = 'free_y', nrow = 2) + 
+  xlab("") +
+  ylab("") + 
+  labs(title = "Coefficients Over Time") +
+  theme_hor() +
+  theme(legend.position = 'botoom') +
+  ggsave("coefficients_phl.png", height = 6, width = 8, dpi = 300)
+
+fits <- 
+  reduce(map(1:12, function(x){
+    
+    temp <- filter(regression, month == x)
+    
+    gravity <- 
+      glm(log(weight) ~
+            log(distance) + 
+            population + log(businesses + 1) + 
+            college_degree + household_size + log(median_income) + 
+            log(D_j) + log(O_i), family = poisson(link = "log"), data = temp)
+    
+    temp$predictions <- exp(fitted(gravity))
+    
+    return(mape(temp$weight, temp$predictions))
+  }), 
+  c
+  )
+
+## how does the fit change over time?
+ggplot(data = tibble(period = 1:12, 
+                     fit = fits), 
+       aes(x = period, y = fit)) + 
+  geom_step(size = 2, colour = scico::scico(palette = 'tokyo', 9)[8]) + 
+  scale_x_continuous(breaks = c(2, 4, 6, 8, 10), labels = lubridate::month(c(2, 4, 6, 8, 10), label = TRUE)) +
+  xlab("") +
+  ylab("") + 
+  labs(title = "Simple Gravity Mean Absolute Percent Error") +
+  theme_hor() + 
+  ggsave("mape_phl_simple.png", height = 6, width = 8, dpi = 300)
