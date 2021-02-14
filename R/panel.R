@@ -210,6 +210,11 @@ wide <-
 
 race_split <- 
   centralities %>% 
+  group_by(inf) %>%
+  add_tally() %>%
+  ungroup() %>%
+  filter(n > 1) %>%
+  select(-n) %>%
   transmute(GEOID = GEOID, month = month, infomap = inf) %>%
   left_join(wide) %>%
   group_by(month, infomap) %>%
@@ -217,7 +222,7 @@ race_split <-
             nonwhite = sum(nonwhite)) %>%
   ungroup() %>%
   group_by(month) %>%
-  group_split()
+  group_split() 
 
 list <- 
   purrr::map(race_split, function(x){
@@ -225,7 +230,7 @@ list <-
   })
 
 ## palette 
-pal <- scico::scico(9, palette = 'turku')
+pal <- scico::scico(9, palette = 'turku', direction = -1)
 
 ## building a table
 dissimilarity <- 
@@ -242,7 +247,8 @@ dissimilarity <-
   tab_style(style = list(cell_text(weight = "bold")),
             locations = cells_column_labels(vars(`month`))) %>% 
   data_color(columns = vars(`dissimilarity index`),
-             colors = scales::col_numeric(pal, domain = NULL))
+             colors = scales::col_numeric(pal, domain = NULL)) %>%
+  gtsave("dissimilarity_nyc.png", expand = 10)
 
 dissimilarity <- 
   centralities %>%
@@ -259,12 +265,12 @@ dissimilarity <-
   filter(variable != "dissimilarity index") %>%
   ggplot(aes(x = month, y = value, colour = variable, group = variable)) +
   geom_line(size = 2) +
-  scale_colour_manual(values = c(pal[3], pal[7]), guide = 'none') + 
+  scale_colour_manual(values = c(pal[7], pal[3]), guide = 'none') + 
   facet_wrap(~ variable, ncol = 1, scales = 'free_y') + 
   ylab("") +
   xlab("") +
   theme_hor() +
-  ggsave("trends.png", height = 5, width = 5, dpi = 300)
+  ggsave("trends_nyc.png", height = 5, width = 5, dpi = 300)
 
 
 
