@@ -166,7 +166,8 @@ correlations %>%
 files <- dir_ls("data/processed/centralities")
 
 ## new palette for sample cities
-temp <- sample(pal, 5)
+temp <- sample(scico(n = 9, palette = 'hawaii'), 5)
+temp <- c("#6BD48C", "#66E8D3", "#89BC48", "#922D55", "#9A6E28")
 
 ## bind tables
 centralities <- map_df(files, ~vroom(.x, col_types = cols(GEOID = col_character())))
@@ -198,7 +199,7 @@ diversities %>%
   geom_line(colour = '#E5E5E3', size = 1) +
   geom_line(data = diversities %>%
               filter(str_detect(city, "New York|San Francisco|Houston|Boston|Phoenix")),
-            aes(x = lubridate::month(month, label = TRUE), y = density, colour = city), size = 1) + 
+            aes(x = lubridate::month(month, label = TRUE), y = density, colour = city), size = 1, show.legend = FALSE) + 
   scale_colour_manual(values = temp,
                       name = "Network Density") + 
   labs(x = "", y = "") +
@@ -212,13 +213,41 @@ diversities %>%
   geom_line(colour = '#E5E5E3', size = 1) +
   geom_line(data = diversities %>%
               filter(str_detect(city, "New York|San Francisco|Houston|Boston|Phoenix")),
-            aes(x = lubridate::month(month, label = TRUE), y = entropy, colour = city), size = 1) + 
+            aes(x = lubridate::month(month, label = TRUE), y = entropy, colour = city), size = 1, show.legend = FALSE) + 
   scale_colour_manual(values = temp,
                       name = "Network Entropy") + 
   labs(x = "", y = "") +
   theme_hor() +
   theme(legend.position = c(0.7, 0.3)) +
   ggsave("density_entropy.png", height = 8, width = 11, dpi = 300)
+
+## hhi
+diversities %>%
+  ggplot(aes(x = lubridate::month(month, label = TRUE), y = entropy, group = city)) +
+  geom_line(colour = '#E5E5E3', size = 1) +
+  geom_line(data = diversities %>%
+              filter(str_detect(city, "New York|San Francisco|Houston|Boston|Phoenix")),
+            aes(x = lubridate::month(month, label = TRUE), y = hhi, colour = city), size = 1) + 
+  scale_colour_manual(values = temp,
+                      name = "Network Entropy") + 
+  labs(x = "", y = "") +
+  theme_hor() +
+  theme(legend.position = c(0.7, 0.3)) +
+  ggsave("density_hhi.png", height = 8, width = 11, dpi = 300)
+
+## dissimilarity
+diversities %>%
+  ggplot(aes(x = lubridate::month(month, label = TRUE), y = entropy, group = city)) +
+  geom_line(colour = '#E5E5E3', size = 1) +
+  geom_line(data = diversities %>%
+              filter(str_detect(city, "New York|San Francisco|Houston|Boston|Phoenix")),
+            aes(x = lubridate::month(month, label = TRUE), y = diss, colour = city), size = 1) + 
+  scale_colour_manual(values = temp,
+                      name = "Index of Dissimilarity") + 
+  labs(x = "", y = "") +
+  theme_hor() +
+  theme(legend.position = c(0.7, 0.7)) +
+  ggsave("density_dissimilarity.png", height = 8, width = 11, dpi = 300)
 
 ## community size
 diversities %>%
