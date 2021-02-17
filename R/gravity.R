@@ -441,8 +441,8 @@ ggraph(graph, 'linear', circular = TRUE) +
 
 edges_grocery <- 
   edges %>% 
-  #filter(str_detect(sub_category, "Grocery")) %>% 
-  group_by(poi_cbg, home_cbg, month) %>% 
+  filter(str_detect(sub_category, "Grocery")) %>% 
+  group_by(poi_cbg, home_cbg) %>% 
   summarise(weight = sum(visits)) %>% 
   rename(focal = poi_cbg,
         target = home_cbg) 
@@ -451,6 +451,28 @@ lines <- stplanr::od2line(edges_grocery,
                           nodes %>% 
                             st_as_sf(coords = c("X", "Y"), crs = 4326) %>% 
                             st_transform(4269))
+
+footprints <- 
+  vroom("data/footprints/may2020release/SafeGraphPlacesGeoSupplementSquareFeet.csv.gz") %>% 
+  filter(safegraph_place_id %in% edges$poi_id)
+
+businesses <- 
+  pois %>% 
+  left_join(footprints) %>%
+  group_by(poi_cbg) %>%
+  summarise(businesses = n(), 
+            floor_area = sum(area_square_feet, na.rm = TRUE)) %>%
+  rename(focal = poi_cbg)
+
+grocers <- 
+  pois %>% 
+  filter(str_detect(sub_category, "Grocery")) %>%
+  left_join(footprints) %>%
+  group_by(poi_cbg) %>%
+  summarise(grocers = n(), 
+            grocers_area = sum(area_square_feet, na.rm = TRUE)) %>%
+  rename(focal = poi_cbg)
+
 distances <- 
   lines %>% 
   mutate(distance = units::drop_units(st_length(geometry))) %>% 
@@ -458,6 +480,29 @@ distances <-
 
 D_j <- distances %>% group_by(focal) %>% summarise(D_j = sum(weight))
 O_i <- distances %>% group_by(target) %>% summarise(O_i = sum(weight))
+
+centroid <- 
+  pois %>%
+  filter(str_detect(location_name, "City Hall")) %>%
+  st_as_sf(coords = c("longitude", "latitude"), crs = 4326) %>%
+  st_transform(4269) %>% 
+  st_centroid() %>%
+  st_coordinates() %>% 
+  as_tibble()
+
+location <- 
+  shape %>%
+  st_centroid() %>%
+  st_coordinates() %>% 
+  as_tibble()
+
+nn <- FNN::get.knnx(centroid, location, k = 1)
+
+centrality <- 
+  shape %>% 
+  st_drop_geometry() %>% 
+  transmute(focal = GEOID, 
+            centrality = nn$nn.dist[, 1])
 
 ## join it all together
 regression <- 
@@ -470,140 +515,782 @@ regression <-
   left_join(O_i) %>%
   left_join(D_j) %>%
   left_join(businesses) %>%
-  replace_na(list(businesses = 0)) %>%
+  left_join(grocers) %>%
+  left_join(centrality) %>%
+  replace_na(list(businesses = 0, grocers = 0)) %>%
   as_tibble() %>% 
   drop_na() %>%
   select(-focal, -target)
 
-## every month
-fits <- 
-  reduce(map(1:12, function(x){
-    
-    temp <- filter(regression, month == x)
-    
-    gravity <- 
-      glm(log(weight) ~
-            log(distance) + 
-            population + college_degree + household_size + 
-            log(median_income) +  log(businesses + 1) + 
-            log(D_j) + log(O_i), family = poisson(link = "log"), data = temp)
-    
-    temp$predictions <- exp(fitted(gravity))
-    
-    return(rsquared(temp$weight, temp$predictions))
-  }), 
-  c
-  )
+gravity <- 
+  glm(log(weight) ~
+        log(distance) + 
+        population + 
+        log(grocers + 1) + 
+        log(grocers_area + 1), 
+      family = poisson(link = "log"), 
+      data = regression)
 
-## how does the fit change over time?
-ggplot(data = tibble(period = 1:12, 
-                     fit = fits), 
-       aes(x = period, y = fit)) + 
-  geom_step(size = 2, colour = scico::scico(palette = 'tokyo', 9)[8]) + 
-  scale_x_continuous(breaks = c(2, 4, 6, 8, 10), labels = lubridate::month(c(2, 4, 6, 8, 10), label = TRUE)) +
-  xlab("") +
-  ylab("") + 
-  labs(title = "Variance Explained Over Time") +
-  theme_hor() + 
-  ggsave("rsquared_phl.png", height = 6, width = 8, dpi = 300)
+summary(gravity)
 
-## try again with rmse
-fits <- 
-  reduce(map(1:12, function(x){
-    
-    temp <- filter(regression, month == x)
-    
-    gravity <- 
-      glm(log(weight) ~
-            log(distance) + 
-            population + college_degree + household_size + 
-            log(median_income) +  log(businesses + 1) + 
-            log(D_j) + log(O_i), family = poisson(link = "log"), data = temp)
-    
-    temp$predictions <- exp(fitted(gravity))
-    
-    return(rmse(temp$weight, temp$predictions))
-  }), 
-  c
-  )
+regression$predictions <- exp(fitted(gravity))
+hist(abs(regression$weight - regression$predictions), breaks = 50)
 
-## how does the fit change over time?
-ggplot(data = tibble(period = 1:12, 
-                     fit = fits), 
-       aes(x = period, y = fit)) + 
-  geom_step(size = 2, colour = scico::scico(palette = 'tokyo', 9)[8]) + 
-  scale_x_continuous(breaks = c(2, 4, 6, 8, 10), labels = lubridate::month(c(2, 4, 6, 8, 10), label = TRUE)) +
-  xlab("") +
-  ylab("") + 
-  labs(title = "RMSE Over Time") +
-  theme_hor() + 
-  ggsave("rmse_phl.png", height = 6, width = 8, dpi = 300)
+ggplot(regression %>% 
+         filter(weight < 200), aes(x = weight, y = predictions)) +
+  geom_hex(bins = 100) + 
+  geom_abline(colour = '#848484', size = 1, linetype = 2) +
+  scale_fill_gradientn(colours = pal, guide = guide_continuous) +
+  theme_ver() +
+  labs(title =  glue("MAE: {round(mae(regression$weight, regression$predictions), 4)} | SDAE: {round(sdae(regression$weight, regression$predictions), 4)} | MAPE: {round(mape(regression$weight, regression$predictions), 4)} | SDAPE: {round(sdape(regression$weight, regression$predictions), 4)}"),
+       caption = glue("mean observed and mean predicted, {round(mean(regression$weight), 2)} and {round(mean(regression$predictions), 2)}")) +
+  theme(legend.position = 'bottom') +
+  ggsave("observedxpredicted_1.png", height = 8, width = 8, dpi = 300)
 
-## what about coefficients?
-results <- 
-  reduce(map(1:12, function(x){
-    
-    temp <- filter(regression, month == x)
-    
-    gravity <- 
-      glm(log(weight) ~
-            log(distance) + 
-            population + college_degree + household_size + 
-            log(median_income) +  log(businesses + 1) + 
-            log(D_j) + log(O_i), family = poisson(link = "log"), data = temp)
-    
-    results <-  
-      broom::tidy(gravity) %>% 
-      mutate(month = x)
-    
-    return(results)
-  }), 
-  rbind
-  )
+error_lines <- 
+  regression %>% 
+  left_join(distances) %>% 
+  left_join(lines) %>% 
+  st_as_sf() %>% 
+  mutate(percent_error = abs(weight - predictions) / weight,
+         absolute_error = abs(weight - predictions),
+         error = weight - predictions,
+         quartile = ntile(error, 4))
 
-## plot it
-ggplot(data = results %>%
-         filter(term != "(Intercept)") %>%
-         mutate(term = str_replace_all(term, "_", " ")), 
-       aes(x = month, y = estimate, colour = term)) + 
-  geom_step(size = 2) + 
-  scale_x_continuous(breaks = c(2, 4, 6, 8, 10), labels = lubridate::month(c(2, 4, 6, 8, 10), label = TRUE)) +
-  scale_colour_manual(values = sample(scico(palette = 'tokyo', 9)[1:8], 8)) +
-  facet_wrap(~ term, scales = 'free_y', nrow = 2) + 
-  xlab("") +
-  ylab("") + 
-  labs(title = "Coefficients Over Time") +
-  theme_hor() +
-  theme(legend.position = 'botoom') +
-  ggsave("coefficients_phl.png", height = 6, width = 8, dpi = 300)
+flows <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_sf(data = error_lines, 
+          aes(colour = factor(ntile(error, 9)), lwd = error, alpha = error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_lines$error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "absolute error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.1, 1), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.5), guide = 'none') +
+  facet_wrap(~ quartile, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
 
-fits <- 
-  reduce(map(1:12, function(x){
-    
-    temp <- filter(regression, month == x)
-    
-    gravity <- 
-      glm(log(weight) ~
-            log(distance) + 
-            population + log(businesses + 1) + 
-            college_degree + household_size + log(median_income) + 
-            log(D_j) + log(O_i), family = poisson(link = "log"), data = temp)
-    
-    temp$predictions <- exp(fitted(gravity))
-    
-    return(mape(temp$weight, temp$predictions))
-  }), 
-  c
-  )
+ggsave(flows, filename = "absolute_flows_1.png", height = 6, width = 8, dpi = 300)
 
-## how does the fit change over time?
-ggplot(data = tibble(period = 1:12, 
-                     fit = fits), 
-       aes(x = period, y = fit)) + 
-  geom_step(size = 2, colour = scico::scico(palette = 'tokyo', 9)[8]) + 
-  scale_x_continuous(breaks = c(2, 4, 6, 8, 10), labels = lubridate::month(c(2, 4, 6, 8, 10), label = TRUE)) +
-  xlab("") +
-  ylab("") + 
-  labs(title = "Simple Gravity Mean Absolute Percent Error") +
-  theme_hor() + 
-  ggsave("mape_phl_simple.png", height = 6, width = 8, dpi = 300)
+error_blocks <-
+  error_lines %>%
+  st_drop_geometry() %>% 
+  group_by(focal) %>% 
+  summarise(percent_error = mean(percent_error),
+            absolute_error = mean(absolute_error),
+            error = mean(error)) %>%
+  mutate(quartile_error = ntile(error, 4),
+         quartile_absolute = ntile(absolute_error, 4), 
+         GEOID = focal) %>%
+  left_join(shape) %>%
+  st_as_sf()
+
+fills <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_point(data = error_blocks %>% 
+               st_centroid() %>%
+               st_coordinates() %>%
+               as_tibble() %>% 
+               bind_cols(error_blocks) %>%
+               select(-geometry), 
+          aes(X, Y, colour = factor(ntile(absolute_error, 9)), size = absolute_error, alpha = absolute_error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_blocks$absolute_error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "absolute error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.5, 5), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.9), guide = 'none') +
+  facet_wrap(~ quartile_absolute, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(fills, filename = "absolute_blocks_1.png", height = 6, width = 8, dpi = 300)
+
+fills_error <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_point(data = error_blocks %>% 
+               st_centroid() %>%
+               st_coordinates() %>%
+               as_tibble() %>% 
+               bind_cols(error_blocks) %>%
+               select(-geometry), 
+             aes(X, Y, colour = factor(ntile(error, 9)), size = error, alpha = error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_blocks$error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.5, 5), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.9), guide = 'none') +
+  facet_wrap(~ quartile_error, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(fills_error, filename = "error_blocks_1.png", height = 6, width = 8, dpi = 300)
+
+## new model
+gravity <- 
+  glm(log(weight) ~
+        log(distance) + 
+        population + 
+        log(businesses + 1) + 
+        log(floor_area + 1), 
+      family = poisson(link = "log"), 
+      data = regression)
+
+summary(gravity)
+
+regression$predictions <- exp(fitted(gravity))
+hist(abs(regression$weight - regression$predictions), breaks = 50)
+
+ggplot(regression %>% 
+         filter(weight < 200), aes(x = weight, y = predictions)) +
+  geom_hex(bins = 100) + 
+  geom_abline(colour = '#848484', size = 1, linetype = 2) +
+  scale_fill_gradientn(colours = pal, guide = guide_continuous) +
+  theme_ver() +
+  labs(title =  glue("MAE: {round(mae(regression$weight, regression$predictions), 4)} | SDAE: {round(sdae(regression$weight, regression$predictions), 4)} | MAPE: {round(mape(regression$weight, regression$predictions), 4)} | SDAPE: {round(sdape(regression$weight, regression$predictions), 4)}"),
+       caption = glue("mean observed and mean predicted, {round(mean(regression$weight), 2)} and {round(mean(regression$predictions), 2)}")) +
+  theme(legend.position = 'bottom') +
+  ggsave("observedxpredicted_2.png", height = 8, width = 8, dpi = 300)
+
+error_lines <- 
+  regression %>% 
+  left_join(distances) %>% 
+  left_join(lines) %>% 
+  st_as_sf() %>% 
+  mutate(percent_error = abs(weight - predictions) / weight,
+         absolute_error = abs(weight - predictions),
+         error = weight - predictions,
+         quartile = ntile(error, 4))
+
+flows <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_sf(data = error_lines, 
+          aes(colour = factor(ntile(error, 9)), lwd = error, alpha = error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_lines$error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "absolute error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.1, 1), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.5), guide = 'none') +
+  facet_wrap(~ quartile, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(flows, filename = "absolute_flows_2.png", height = 6, width = 8, dpi = 300)
+
+error_blocks <-
+  error_lines %>%
+  st_drop_geometry() %>% 
+  group_by(focal) %>% 
+  summarise(percent_error = mean(percent_error),
+            absolute_error = mean(absolute_error),
+            error = mean(error)) %>%
+  mutate(quartile_error = ntile(error, 4),
+         quartile_absolute = ntile(absolute_error, 4), 
+         GEOID = focal) %>%
+  left_join(shape) %>%
+  st_as_sf()
+
+fills <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_point(data = error_blocks %>% 
+               st_centroid() %>%
+               st_coordinates() %>%
+               as_tibble() %>% 
+               bind_cols(error_blocks) %>%
+               select(-geometry), 
+             aes(X, Y, colour = factor(ntile(absolute_error, 9)), size = absolute_error, alpha = absolute_error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_blocks$absolute_error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "absolute error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.5, 5), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.9), guide = 'none') +
+  facet_wrap(~ quartile_absolute, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(fills, filename = "absolute_blocks_2.png", height = 6, width = 8, dpi = 300)
+
+fills_error <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_point(data = error_blocks %>% 
+               st_centroid() %>%
+               st_coordinates() %>%
+               as_tibble() %>% 
+               bind_cols(error_blocks) %>%
+               select(-geometry), 
+             aes(X, Y, colour = factor(ntile(error, 9)), size = error, alpha = error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_blocks$error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.5, 5), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.9), guide = 'none') +
+  facet_wrap(~ quartile_error, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(fills_error, filename = "error_blocks_2.png", height = 6, width = 8, dpi = 300)
+
+## penultimate model
+gravity <- 
+  glm(log(weight) ~
+        log(distance) + 
+        population + 
+        log(grocers + 1) + 
+        log(grocers_area + 1) +
+        log(O_i), 
+      family = poisson(link = "log"), 
+      data = regression)
+
+summary(gravity)
+
+regression$predictions <- exp(fitted(gravity))
+hist(abs(regression$weight - regression$predictions), breaks = 50)
+
+ggplot(regression %>% 
+         filter(weight < 200), aes(x = weight, y = predictions)) +
+  geom_hex(bins = 100) + 
+  geom_abline(colour = '#848484', size = 1, linetype = 2) +
+  scale_fill_gradientn(colours = pal, guide = guide_continuous) +
+  theme_ver() +
+  labs(title =  glue("MAE: {round(mae(regression$weight, regression$predictions), 4)} | SDAE: {round(sdae(regression$weight, regression$predictions), 4)} | MAPE: {round(mape(regression$weight, regression$predictions), 4)} | SDAPE: {round(sdape(regression$weight, regression$predictions), 4)}"),
+       caption = glue("mean observed and mean predicted, {round(mean(regression$weight), 2)} and {round(mean(regression$predictions), 2)}")) +
+  theme(legend.position = 'bottom') +
+  ggsave("observedxpredicted_3.png", height = 8, width = 8, dpi = 300)
+
+error_lines <- 
+  regression %>% 
+  left_join(distances) %>% 
+  left_join(lines) %>% 
+  st_as_sf() %>% 
+  mutate(percent_error = abs(weight - predictions) / weight,
+         absolute_error = abs(weight - predictions),
+         error = weight - predictions,
+         quartile = ntile(error, 4))
+
+flows <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_sf(data = error_lines, 
+          aes(colour = factor(ntile(error, 9)), lwd = error, alpha = error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_lines$error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "absolute error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.1, 1), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.5), guide = 'none') +
+  facet_wrap(~ quartile, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(flows, filename = "absolute_flows_3.png", height = 6, width = 8, dpi = 300)
+
+error_blocks <-
+  error_lines %>%
+  st_drop_geometry() %>% 
+  group_by(focal) %>% 
+  summarise(percent_error = mean(percent_error),
+            absolute_error = mean(absolute_error),
+            error = mean(error)) %>%
+  mutate(quartile_error = ntile(error, 4),
+         quartile_absolute = ntile(absolute_error, 4), 
+         GEOID = focal) %>%
+  left_join(shape) %>%
+  st_as_sf()
+
+fills <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_point(data = error_blocks %>% 
+               st_centroid() %>%
+               st_coordinates() %>%
+               as_tibble() %>% 
+               bind_cols(error_blocks) %>%
+               select(-geometry), 
+             aes(X, Y, colour = factor(ntile(absolute_error, 9)), size = absolute_error, alpha = absolute_error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_blocks$absolute_error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "absolute error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.5, 5), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.9), guide = 'none') +
+  facet_wrap(~ quartile_absolute, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(fills, filename = "absolute_blocks_3.png", height = 6, width = 8, dpi = 300)
+
+fills_error <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_point(data = error_blocks %>% 
+               st_centroid() %>%
+               st_coordinates() %>%
+               as_tibble() %>% 
+               bind_cols(error_blocks) %>%
+               select(-geometry), 
+             aes(X, Y, colour = factor(ntile(error, 9)), size = error, alpha = error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_blocks$error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.5, 5), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.9), guide = 'none') +
+  facet_wrap(~ quartile_error, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(fills_error, filename = "error_blocks_3.png", height = 6, width = 8, dpi = 300)
+
+## final model
+gravity <- 
+  glm(log(weight) ~
+        log(distance) + 
+        population + 
+        log(grocers + 1) + 
+        log(grocers_area + 1) +
+        log(O_i) +
+        log(D_j), 
+      family = poisson(link = "log"), 
+      data = regression)
+
+summary(gravity)
+
+regression$predictions <- exp(fitted(gravity))
+hist(abs(regression$weight - regression$predictions), breaks = 50)
+
+ggplot(regression %>% 
+         filter(weight < 200), aes(x = weight, y = predictions)) +
+  geom_hex(bins = 100) + 
+  geom_abline(colour = '#848484', size = 1, linetype = 2) +
+  scale_fill_gradientn(colours = pal, guide = guide_continuous) +
+  theme_ver() +
+  labs(title =  glue("MAE: {round(mae(regression$weight, regression$predictions), 4)} | SDAE: {round(sdae(regression$weight, regression$predictions), 4)} | MAPE: {round(mape(regression$weight, regression$predictions), 4)} | SDAPE: {round(sdape(regression$weight, regression$predictions), 4)}"),
+       caption = glue("mean observed and mean predicted, {round(mean(regression$weight), 2)} and {round(mean(regression$predictions), 2)}")) +
+  theme(legend.position = 'bottom') +
+  ggsave("observedxpredicted_4.png", height = 8, width = 8, dpi = 300)
+
+error_lines <- 
+  regression %>% 
+  left_join(distances) %>% 
+  left_join(lines) %>% 
+  st_as_sf() %>% 
+  mutate(percent_error = abs(weight - predictions) / weight,
+         absolute_error = abs(weight - predictions),
+         error = weight - predictions,
+         quartile = ntile(error, 4))
+
+flows <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_sf(data = error_lines, 
+          aes(colour = factor(ntile(error, 9)), lwd = error, alpha = error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_lines$error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "absolute error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.1, 1), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.5), guide = 'none') +
+  facet_wrap(~ quartile, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(flows, filename = "absolute_flows_4.png", height = 6, width = 8, dpi = 300)
+
+error_blocks <-
+  error_lines %>%
+  st_drop_geometry() %>% 
+  group_by(focal) %>% 
+  summarise(percent_error = mean(percent_error),
+            absolute_error = mean(absolute_error),
+            error = mean(error)) %>%
+  mutate(quartile_error = ntile(error, 4),
+         quartile_absolute = ntile(absolute_error, 4), 
+         GEOID = focal) %>%
+  left_join(shape) %>%
+  st_as_sf()
+
+fills <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_point(data = error_blocks %>% 
+               st_centroid() %>%
+               st_coordinates() %>%
+               as_tibble() %>% 
+               bind_cols(error_blocks) %>%
+               select(-geometry), 
+             aes(X, Y, colour = factor(ntile(absolute_error, 9)), size = absolute_error, alpha = absolute_error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_blocks$absolute_error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "absolute error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.5, 5), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.9), guide = 'none') +
+  facet_wrap(~ quartile_absolute, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(fills, filename = "absolute_blocks_4.png", height = 6, width = 8, dpi = 300)
+
+fills_error <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_point(data = error_blocks %>% 
+               st_centroid() %>%
+               st_coordinates() %>%
+               as_tibble() %>% 
+               bind_cols(error_blocks) %>%
+               select(-geometry), 
+             aes(X, Y, colour = factor(ntile(error, 9)), size = error, alpha = error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_blocks$error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.5, 5), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.9), guide = 'none') +
+  facet_wrap(~ quartile_error, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(fills_error, filename = "error_blocks_4.png", height = 6, width = 8, dpi = 300)
+
+## kitchen sink model
+gravity <- 
+  glm(log(weight) ~
+        log(distance) + 
+        population + 
+        log(grocers + 1) + 
+        log(grocers_area + 1) +
+        log(median_income) +
+        log(O_i) +
+        log(D_j), 
+      family = poisson(link = "log"), 
+      data = regression)
+
+summary(gravity)
+
+regression$predictions <- exp(fitted(gravity))
+hist(abs(regression$weight - regression$predictions), breaks = 50)
+
+ggplot(regression %>% 
+         filter(weight < 200), aes(x = weight, y = predictions)) +
+  geom_hex(bins = 100) + 
+  geom_abline(colour = '#848484', size = 1, linetype = 2) +
+  scale_fill_gradientn(colours = pal, guide = guide_continuous) +
+  theme_ver() +
+  labs(title =  glue("MAE: {round(mae(regression$weight, regression$predictions), 4)} | SDAE: {round(sdae(regression$weight, regression$predictions), 4)} | MAPE: {round(mape(regression$weight, regression$predictions), 4)} | SDAPE: {round(sdape(regression$weight, regression$predictions), 4)}"),
+       caption = glue("mean observed and mean predicted, {round(mean(regression$weight), 2)} and {round(mean(regression$predictions), 2)}")) +
+  theme(legend.position = 'bottom') +
+  ggsave("observedxpredicted_5.png", height = 8, width = 8, dpi = 300)
+
+error_lines <- 
+  regression %>% 
+  left_join(distances) %>% 
+  left_join(lines) %>% 
+  st_as_sf() %>% 
+  mutate(percent_error = abs(weight - predictions) / weight,
+         absolute_error = abs(weight - predictions),
+         error = weight - predictions,
+         quartile = ntile(error, 4))
+
+flows <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_sf(data = error_lines, 
+          aes(colour = factor(ntile(error, 9)), lwd = error, alpha = error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_lines$error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "absolute error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.1, 1), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.5), guide = 'none') +
+  facet_wrap(~ quartile, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(flows, filename = "absolute_flows_5.png", height = 6, width = 8, dpi = 300)
+
+error_blocks <-
+  error_lines %>%
+  st_drop_geometry() %>% 
+  group_by(focal) %>% 
+  summarise(percent_error = mean(percent_error),
+            absolute_error = mean(absolute_error),
+            error = mean(error)) %>%
+  mutate(quartile_error = ntile(error, 4),
+         quartile_absolute = ntile(absolute_error, 4), 
+         GEOID = focal) %>%
+  left_join(shape) %>%
+  st_as_sf()
+
+fills <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_point(data = error_blocks %>% 
+               st_centroid() %>%
+               st_coordinates() %>%
+               as_tibble() %>% 
+               bind_cols(error_blocks) %>%
+               select(-geometry), 
+             aes(X, Y, colour = factor(ntile(absolute_error, 9)), size = absolute_error, alpha = absolute_error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_blocks$absolute_error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "absolute error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.5, 5), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.9), guide = 'none') +
+  facet_wrap(~ quartile_absolute, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(fills, filename = "absolute_blocks_5.png", height = 6, width = 8, dpi = 300)
+
+fills_error <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_point(data = error_blocks %>% 
+               st_centroid() %>%
+               st_coordinates() %>%
+               as_tibble() %>% 
+               bind_cols(error_blocks) %>%
+               select(-geometry), 
+             aes(X, Y, colour = factor(ntile(error, 9)), size = error, alpha = error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_blocks$error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.5, 5), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.9), guide = 'none') +
+  facet_wrap(~ quartile_error, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(fills_error, filename = "error_blocks_5.png", height = 6, width = 8, dpi = 300)
+
+## once more, with distance to city hall
+gravity <- 
+  glm(log(weight) ~
+        log(distance) + 
+        population + 
+       # log(grocers + 1) + 
+        log(grocers_area + 1) +
+        log(median_income) +
+        centrality + 
+        log(O_i) +
+        log(D_j), 
+      family = poisson(link = "log"), 
+      data = regression)
+
+summary(gravity)
+
+regression$predictions <- exp(fitted(gravity))
+hist(abs(regression$weight - regression$predictions), breaks = 50)
+
+ggplot(regression %>% 
+         filter(weight < 200), aes(x = weight, y = predictions)) +
+  geom_hex(bins = 100) + 
+  geom_abline(colour = '#848484', size = 1, linetype = 2) +
+  scale_fill_gradientn(colours = pal, guide = guide_continuous) +
+  theme_ver() +
+  labs(title =  glue("MAE: {round(mae(regression$weight, regression$predictions), 4)} | SDAE: {round(sdae(regression$weight, regression$predictions), 4)} | MAPE: {round(mape(regression$weight, regression$predictions), 4)} | SDAPE: {round(sdape(regression$weight, regression$predictions), 4)}"),
+       caption = glue("mean observed and mean predicted, {round(mean(regression$weight), 2)} and {round(mean(regression$predictions), 2)}")) +
+  theme(legend.position = 'bottom') +
+  ggsave("observedxpredicted_6.png", height = 8, width = 8, dpi = 300)
+
+error_lines <- 
+  regression %>% 
+  left_join(distances) %>% 
+  left_join(lines) %>% 
+  st_as_sf() %>% 
+  mutate(percent_error = abs(weight - predictions) / weight,
+         absolute_error = abs(weight - predictions),
+         error = weight - predictions,
+         quartile = ntile(error, 4))
+
+flows <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_sf(data = error_lines, 
+          aes(colour = factor(ntile(error, 9)), lwd = error, alpha = error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_lines$error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "absolute error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.1, 1), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.5), guide = 'none') +
+  facet_wrap(~ quartile, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(flows, filename = "absolute_flows_6.png", height = 6, width = 8, dpi = 300)
+
+error_blocks <-
+  error_lines %>%
+  st_drop_geometry() %>% 
+  group_by(focal) %>% 
+  summarise(percent_error = mean(percent_error),
+            absolute_error = mean(absolute_error),
+            error = mean(error)) %>%
+  mutate(quartile_error = ntile(error, 4),
+         quartile_absolute = ntile(absolute_error, 4), 
+         GEOID = focal) %>%
+  left_join(shape) %>%
+  st_as_sf()
+
+fills <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_point(data = error_blocks %>% 
+               st_centroid() %>%
+               st_coordinates() %>%
+               as_tibble() %>% 
+               bind_cols(error_blocks) %>%
+               select(-geometry), 
+             aes(X, Y, colour = factor(ntile(absolute_error, 9)), size = absolute_error, alpha = absolute_error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_blocks$absolute_error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "absolute error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.5, 5), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.9), guide = 'none') +
+  facet_wrap(~ quartile_absolute, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(fills, filename = "absolute_blocks_6.png", height = 6, width = 8, dpi = 300)
+
+fills_error <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_point(data = error_blocks %>% 
+               st_centroid() %>%
+               st_coordinates() %>%
+               as_tibble() %>% 
+               bind_cols(error_blocks) %>%
+               select(-geometry), 
+             aes(X, Y, colour = factor(ntile(error, 9)), size = error, alpha = error)) +
+  scale_colour_manual(values = pal,
+                      labels = as.character(round(quantile(error_blocks$error,
+                                                           c(.1, .2, .3, .4, .5, .6, .7, .8, .9),
+                                                           na.rm = TRUE), 2)),
+                      name = "error",
+                      guide = guide_discrete) +
+  scale_size_continuous(range = c(0.5, 5), guide = 'none') +
+  scale_alpha(range = c(0.1, 0.9), guide = 'none') +
+  facet_wrap(~ quartile_error, ncol = 2) +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(fills_error, filename = "error_blocks_6.png", height = 6, width = 8, dpi = 300)
+
+## Adding zeros
+od_list <-
+  vroom("~/Desktop/R/git/philamonitor/data/processed/od_monthly.csv") %>% 
+  left_join(pois) %>%
+  filter(cbg %in% shape$GEOID) %>%
+  group_by(poi_cbg, cbg) %>%
+  summarise(n = n()) %>% 
+  select(-n)
+
+total <- 
+  od_list %>% 
+  rename(focal = poi_cbg,
+         target = cbg) %>%
+  left_join(edges_grocery) %>% 
+  replace_na(list(weight = 0)) %>%
+  filter(focal %in% nodes$cbg)
+
+total_lines <- stplanr::od2line(total, 
+                                nodes %>% 
+                                  st_as_sf(coords = c("X", "Y"), crs = 4326) %>% 
+                                  st_transform(4269)) %>% 
+  mutate(distance = units::drop_units(st_length(geometry)))
+
+ggplot(total_lines,
+       aes(x = distance, y = weight)) +
+  geom_hex(bins = 100) + 
+  scale_fill_gradientn(colours = pal, guide = guide_continuous) +
+  theme_ver() +
+  theme(legend.position = 'bottom') + 
+  ggsave("weightxdistance.png", height = 6, width = 8, dpi = 300)
+
+## context
+poi_map <- 
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_sf(data = pois %>% 
+            filter(str_detect(str_to_lower(sub_category), "supermarket")) %>% 
+            left_join(footprints) %>%
+            st_as_sf(coords = c("longitude", "latitude"), crs = 4326), 
+          aes(colour = factor(ntile(area_square_feet, 9)),size = area_square_feet, alpha = area_square_feet), show.legend = FALSE) +
+  scale_colour_manual(values = pal) + 
+  scale_size_continuous(range = c(0.5, 5), guide = 'none') +
+  scale_alpha(range = c(0.5, 1), guide = 'none') +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(poi_map, filename = "pois.png", height = 6, width = 8, dpi = 300)
+
