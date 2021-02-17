@@ -278,7 +278,7 @@ use <- function(label) { return(magrittr::use_series(label)) }
 
 ## calculate r-squared
 rsquared <- function(observed, estimated){
-  r <- cor(observed,estimated)
+  r <- cor(observed, estimated)
   R2 <- r^2
   R2
 }
@@ -289,8 +289,23 @@ mape <- function(observed,estimated){
   MAPE
 }
 
+sdape <- function(observed, estimated){
+  SDAPE <- sd(abs(observed - estimated) / observed)
+  SDAPE
+}
+
+mae <- function(observed, estimated){
+  MAE <- mean(abs(observed - estimated))
+  MAE
+}
+
+sdae <- function(observed, estimated){
+  SDAE <- sd(abs(observed - estimated))
+  SDAE
+}
+
 ## calculate rmse
-CalcRMSE <- function(observed,estimated){
+rmse <- function(observed,estimated){
   res <- (observed - estimated)^2
   RMSE <- round(sqrt(mean(res)),3)
   RMSE
