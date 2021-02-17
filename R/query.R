@@ -164,7 +164,7 @@ get_pois <- function(fips, month) {
 }
 
 ## a function for getting points of interest by geography
-get_bipartite <- function(fips, month, cbgs) {
+get_bipartite <- function(fips, month, cbgs, min) {
   
   query <- glue("SELECT poi_id, poi_cbg, home_cbg, visits, top_category, sub_category, latitude, longitude,
                  FROM (SELECT 
@@ -185,7 +185,7 @@ get_bipartite <- function(fips, month, cbgs) {
   
   df <- df %>%
     filter(home_cbg %in% cbgs) %>%
-    filter(visits > 10)
+    filter(visits > min)
   
   return(df)
   
