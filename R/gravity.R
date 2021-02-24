@@ -315,7 +315,7 @@ nodes <- get_nodes("'42101'")
 
 ## get edges
 index <- str_pad(1:12, side = 'left', width = 2, pad = "0")
-edges <- map_df(index, function(x) { get_bipartite(codes, x, nodes$cbg) %>% mutate(month = as.numeric(x)) })
+edges <- map_df(index, function(x) { get_bipartite(codes, x, nodes$cbg, 5) %>% mutate(month = as.numeric(x)) })
 
 edges %>%
   filter(str_detect(top_category, "Grocery"))
