@@ -315,7 +315,7 @@ nodes <- get_nodes("'42101'")
 
 ## get edges
 index <- str_pad(1:12, side = 'left', width = 2, pad = "0")
-edges <- map_df(index, function(x) { get_bipartite(codes, x, nodes$cbg, 5) %>% mutate(month = as.numeric(x)) })
+edges <- map_df(index, function(x) { get_bipartite(codes, x, nodes$cbg, 0) %>% mutate(month = as.numeric(x)) })
 
 edges %>%
   filter(str_detect(top_category, "Grocery"))
@@ -526,24 +526,24 @@ gravity <-
   glm(log(weight) ~
         log(distance) + 
         population + 
-        log(grocers + 1) + 
+        #log(grocers + 1) + 
         log(grocers_area + 1), 
       family = poisson(link = "log"), 
       data = regression)
 
 summary(gravity)
 
-regression$predictions <- exp(fitted(gravity))
-hist(abs(regression$weight - regression$predictions), breaks = 50)
+regression$lean <- exp(fitted(gravity))
+hist(abs(regression$weight - regression$lean), breaks = 50)
 
 ggplot(regression %>% 
-         filter(weight < 200), aes(x = weight, y = predictions)) +
+         filter(weight < 200), aes(x = weight, y = lean)) +
   geom_hex(bins = 100) + 
   geom_abline(colour = '#848484', size = 1, linetype = 2) +
   scale_fill_gradientn(colours = pal, guide = guide_continuous) +
   theme_ver() +
-  labs(title =  glue("MAE: {round(mae(regression$weight, regression$predictions), 4)} | SDAE: {round(sdae(regression$weight, regression$predictions), 4)} | MAPE: {round(mape(regression$weight, regression$predictions), 4)} | SDAPE: {round(sdape(regression$weight, regression$predictions), 4)}"),
-       caption = glue("mean observed and mean predicted, {round(mean(regression$weight), 2)} and {round(mean(regression$predictions), 2)}")) +
+  labs(title =  glue("MAE: {round(mae(regression$weight, regression$lean), 4)} | SDAE: {round(sdae(regression$weight, regression$lean), 4)} | MAPE: {round(mape(regression$weight, regression$lean), 4)} | SDAPE: {round(sdape(regression$weight, regression$lean), 4)}"),
+       caption = glue("mean observed and mean predicted, {round(mean(regression$weight), 2)} and {round(mean(regression$lean), 2)}")) +
   theme(legend.position = 'bottom') +
   ggsave("observedxpredicted_1.png", height = 8, width = 8, dpi = 300)
 
@@ -552,9 +552,9 @@ error_lines <-
   left_join(distances) %>% 
   left_join(lines) %>% 
   st_as_sf() %>% 
-  mutate(percent_error = abs(weight - predictions) / weight,
-         absolute_error = abs(weight - predictions),
-         error = weight - predictions,
+  mutate(percent_error = abs(weight - lean) / weight,
+         absolute_error = abs(weight - lean),
+         error = weight - lean,
          quartile = ntile(error, 4))
 
 flows <- 
@@ -640,12 +640,12 @@ fills_error <-
 
 ggsave(fills_error, filename = "error_blocks_1.png", height = 6, width = 8, dpi = 300)
 
-## new model
+## new model (skip this one)
 gravity <- 
   glm(log(weight) ~
         log(distance) + 
         population + 
-        log(businesses + 1) + 
+        #log(businesses + 1) + 
         log(floor_area + 1), 
       family = poisson(link = "log"), 
       data = regression)
@@ -764,7 +764,7 @@ gravity <-
   glm(log(weight) ~
         log(distance) + 
         population + 
-        log(grocers + 1) + 
+        #log(grocers + 1) + 
         log(grocers_area + 1) +
         log(O_i), 
       family = poisson(link = "log"), 
@@ -772,17 +772,17 @@ gravity <-
 
 summary(gravity)
 
-regression$predictions <- exp(fitted(gravity))
-hist(abs(regression$weight - regression$predictions), breaks = 50)
+regression$singly <- exp(fitted(gravity))
+hist(abs(regression$weight - regression$singly), breaks = 50)
 
 ggplot(regression %>% 
-         filter(weight < 200), aes(x = weight, y = predictions)) +
+         filter(weight < 200), aes(x = weight, y = singly)) +
   geom_hex(bins = 100) + 
   geom_abline(colour = '#848484', size = 1, linetype = 2) +
   scale_fill_gradientn(colours = pal, guide = guide_continuous) +
   theme_ver() +
-  labs(title =  glue("MAE: {round(mae(regression$weight, regression$predictions), 4)} | SDAE: {round(sdae(regression$weight, regression$predictions), 4)} | MAPE: {round(mape(regression$weight, regression$predictions), 4)} | SDAPE: {round(sdape(regression$weight, regression$predictions), 4)}"),
-       caption = glue("mean observed and mean predicted, {round(mean(regression$weight), 2)} and {round(mean(regression$predictions), 2)}")) +
+  labs(title =  glue("MAE: {round(mae(regression$weight, regression$singly), 4)} | SDAE: {round(sdae(regression$weight, regression$singly), 4)} | MAPE: {round(mape(regression$weight, regression$singly), 4)} | SDAPE: {round(sdape(regression$weight, regression$singly), 4)}"),
+       caption = glue("mean observed and mean predicted, {round(mean(regression$weight), 2)} and {round(mean(regression$singly), 2)}")) +
   theme(legend.position = 'bottom') +
   ggsave("observedxpredicted_3.png", height = 8, width = 8, dpi = 300)
 
@@ -791,9 +791,9 @@ error_lines <-
   left_join(distances) %>% 
   left_join(lines) %>% 
   st_as_sf() %>% 
-  mutate(percent_error = abs(weight - predictions) / weight,
-         absolute_error = abs(weight - predictions),
-         error = weight - predictions,
+  mutate(percent_error = abs(weight - singly) / weight,
+         absolute_error = abs(weight - singly),
+         error = weight - singly,
          quartile = ntile(error, 4))
 
 flows <- 
@@ -884,7 +884,7 @@ gravity <-
   glm(log(weight) ~
         log(distance) + 
         population + 
-        log(grocers + 1) + 
+        #log(grocers + 1) + 
         log(grocers_area + 1) +
         log(O_i) +
         log(D_j), 
@@ -893,17 +893,17 @@ gravity <-
 
 summary(gravity)
 
-regression$predictions <- exp(fitted(gravity))
-hist(abs(regression$weight - regression$predictions), breaks = 50)
+regression$doubly <- exp(fitted(gravity))
+hist(abs(regression$weight - regression$doubly), breaks = 50)
 
 ggplot(regression %>% 
-         filter(weight < 200), aes(x = weight, y = predictions)) +
+         filter(weight < 200), aes(x = weight, y = doubly)) +
   geom_hex(bins = 100) + 
   geom_abline(colour = '#848484', size = 1, linetype = 2) +
   scale_fill_gradientn(colours = pal, guide = guide_continuous) +
   theme_ver() +
-  labs(title =  glue("MAE: {round(mae(regression$weight, regression$predictions), 4)} | SDAE: {round(sdae(regression$weight, regression$predictions), 4)} | MAPE: {round(mape(regression$weight, regression$predictions), 4)} | SDAPE: {round(sdape(regression$weight, regression$predictions), 4)}"),
-       caption = glue("mean observed and mean predicted, {round(mean(regression$weight), 2)} and {round(mean(regression$predictions), 2)}")) +
+  labs(title =  glue("MAE: {round(mae(regression$weight, regression$doubly), 4)} | SDAE: {round(sdae(regression$weight, regression$doubly), 4)} | MAPE: {round(mape(regression$weight, regression$doubly), 4)} | SDAPE: {round(sdape(regression$weight, regression$doubly), 4)}"),
+       caption = glue("mean observed and mean predicted, {round(mean(regression$weight), 2)} and {round(mean(regression$doubly), 2)}")) +
   theme(legend.position = 'bottom') +
   ggsave("observedxpredicted_4.png", height = 8, width = 8, dpi = 300)
 
@@ -912,9 +912,9 @@ error_lines <-
   left_join(distances) %>% 
   left_join(lines) %>% 
   st_as_sf() %>% 
-  mutate(percent_error = abs(weight - predictions) / weight,
-         absolute_error = abs(weight - predictions),
-         error = weight - predictions,
+  mutate(percent_error = abs(weight - doubly) / weight,
+         absolute_error = abs(weight - doubly),
+         error = weight - doubly,
          quartile = ntile(error, 4))
 
 flows <- 
@@ -1127,7 +1127,7 @@ gravity <-
   glm(log(weight) ~
         log(distance) + 
         population + 
-       # log(grocers + 1) + 
+        #log(grocers + 1) + 
         log(grocers_area + 1) +
         log(median_income) +
         centrality + 
@@ -1244,6 +1244,53 @@ fills_error <-
   theme(legend.position = 'bottom')
 
 ggsave(fills_error, filename = "error_blocks_6.png", height = 6, width = 8, dpi = 300)
+
+## looking by decile
+maes <- 
+  regression %>% 
+  select(weight, lean:doubly) %>%
+  pivot_longer(cols = lean:doubly) %>% 
+  mutate(name = fct_relevel(name, levels = c("lean", "singly", "doubly"))) %>%
+  mutate(error = weight - value) %>% 
+  group_by(name) %>% 
+  mutate(quintile = ntile(weight, 5)) %>% 
+  ungroup() %>%
+  group_by(quintile, name) %>%
+  group_split() %>%
+  map_df(function(x){ 
+    x %>%  
+      mutate(mae = mae(x$weight, x$value))}) %>%
+  group_by(name, quintile) %>%
+  summarise(mae = mean(mae))
+
+## plotting by decile
+regression %>% 
+  select(weight, lean:doubly) %>%
+  pivot_longer(cols = lean:doubly) %>% 
+  mutate(error = weight - value) %>% 
+  group_by(name) %>% 
+  mutate(quintile = ntile(weight, 5)) %>% 
+  ungroup() %>%
+  group_by(quintile, name) %>% 
+  summarise(observed = mean(weight),
+            predicted = mean(value)) %>%
+  ungroup() %>%
+  pivot_longer(cols = observed:predicted, names_to = "variable") %>%
+  mutate(name = fct_relevel(name, levels = c("lean", "singly", "doubly"))) %>%
+  left_join(maes) %>%
+  ggplot(aes(quintile, value, shape = variable)) +
+  geom_point(size = 2) + 
+  geom_path(aes(group = quintile), colour = "black") +
+  geom_text(aes(x = quintile - 0.25, y = 30, label = round(mae, 2), colour = ntile(mae, 5)), angle = 90, fontface = 'bold') +
+  scale_shape_manual(values = c(2, 17)) +
+  scale_x_continuous(limits = c(0.5, 5), breaks = 1:5) + 
+  scale_colour_gradientn(colours = rev(pal), guide = 'none') +
+  facet_wrap(~ name, nrow = 1) + 
+  labs(title = "Predicted and Observed Visits by Observed Decile") +
+  ylab("") + 
+  xlab("") +
+  theme_hor() + 
+  ggsave("errorxdecile.png", height = 5, width = 8, dpi = 300)
 
 ## Adding zeros
 od_list <-
