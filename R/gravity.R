@@ -462,7 +462,7 @@ businesses <-
   group_by(poi_cbg) %>%
   summarise(businesses = n(), 
             floor_area = sum(area_square_feet, na.rm = TRUE)) %>%
-  rename(focal = poi_cbg)
+  rename(focal = poi_cbg) 
 
 grocers <- 
   pois %>% 
@@ -1292,6 +1292,83 @@ regression %>%
   theme_hor() + 
   ggsave("errorxdecile.png", height = 5, width = 8, dpi = 300)
 
+mae(regression$weight, exp(predict(gravity, regression)))
+mae(regression$weight, exp(fitted(gravity)))
+
+## turning the dials
+regression <- 
+  distances %>% 
+  filter(focal != target) %>% 
+  left_join(population) %>%
+  left_join(education) %>%
+  left_join(income) %>%
+  left_join(size) %>%
+  left_join(O_i) %>%
+  left_join(D_j) %>%
+  left_join(businesses) %>%
+  left_join(grocers) %>%
+  left_join(centrality) %>%
+  replace_na(list(businesses = 0, grocers = 0)) %>%
+  mutate(grocers_area_updated = if_else(focal == "421010012023", grocers_area + 30000, grocers_area)) %>%
+  as_tibble() %>% 
+  drop_na()
+
+gravity <- 
+  glm(log(weight) ~
+        log(distance) + 
+        population + 
+        #log(grocers + 1) + 
+        log(grocers_area + 1) +
+        log(O_i) +
+        log(D_j), 
+      family = poisson(link = "log"), 
+      data = regression)
+
+summary(gravity)
+
+regression$pred_1 <- exp(predict(gravity, regression))
+regression$pred_2 <- exp(predict(gravity, mutate(regression, grocers_area = grocers_area_updated)))
+
+change <- 
+  regression %>% 
+  filter(pred_1 != pred_2) %>% 
+  left_join(lines) %>%
+  st_as_sf() %>% 
+  transmute(difference = pred_2 - pred_1) %>%
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_sf(aes(colour = difference, lwd = difference)) +
+  scale_colour_gradientn(colours = rev(pal),
+                         name = "change in travel",
+                         guide = guide_continuous) +
+  scale_size_continuous(range = c(0.1, 1), guide = 'none') +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(change, filename = "absolute_change_1.png", height = 6, width = 8, dpi = 300)
+
+regression$pred_3 <- exp(predict(gravity, mutate(regression, grocers_area = if_else(target == "421010010023", grocers_area + 30000, grocers_area))))
+
+change <- 
+  regression %>% 
+  filter(pred_1 != pred_3) %>% 
+  left_join(lines) %>%
+  st_as_sf() %>% 
+  transmute(difference = pred_3 - pred_1) %>%
+  ggplot() +
+  geom_sf(data = background, 
+          aes(), fill = NA, colour = '#000000', lwd = 0.5) +
+  geom_sf(aes(colour = difference, lwd = difference)) +
+  scale_colour_gradientn(colours = rev(pal),
+                         name = "change in travel",
+                         guide = guide_continuous) +
+  scale_size_continuous(range = c(0.1, 1), guide = 'none') +
+  theme_map() +
+  theme(legend.position = 'bottom')
+
+ggsave(change, filename = "absolute_change_2.png", height = 6, width = 8, dpi = 300)
+
 ## Adding zeros
 od_list <-
   vroom("~/Desktop/R/git/philamonitor/data/processed/od_monthly.csv") %>% 
@@ -1324,6 +1401,13 @@ ggplot(total_lines,
   ggsave("weightxdistance.png", height = 6, width = 8, dpi = 300)
 
 ## context
+pois %>% 
+  filter(str_detect(str_to_lower(sub_category), "supermarket")) %>% 
+  left_join(footprints) %>%
+  st_as_sf(coords = c("longitude", "latitude"), crs = 4326) %>% 
+  mutate(area = log(area_square_feet)) %>% 
+  mapview::mapview(zcol = "area")
+
 poi_map <- 
   ggplot() +
   geom_sf(data = background, 
