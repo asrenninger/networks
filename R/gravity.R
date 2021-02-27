@@ -1370,18 +1370,23 @@ change <-
 ggsave(change, filename = "absolute_change_2.png", height = 6, width = 8, dpi = 300)
 
 ## Adding zeros
+square <- array(dim = c(nrow(nodes), nrow(nodes)))
+
+square[ , ] <- 0
+
+rownames(square) <- nodes$cbg
+colnames(square) <- nodes$cbg
+
 od_list <-
-  vroom("~/Desktop/R/git/philamonitor/data/processed/od_monthly.csv") %>% 
-  left_join(pois) %>%
-  filter(cbg %in% shape$GEOID) %>%
-  group_by(poi_cbg, cbg) %>%
-  summarise(n = n()) %>% 
-  select(-n)
+  square %>% 
+  as_tibble() %>% 
+  mutate(focal = nodes$cbg) %>% 
+  select(focal, everything()) %>% 
+  pivot_longer(names_to = "target", cols = nodes$cbg) %>%
+  select(-value)
 
 total <- 
-  od_list %>% 
-  rename(focal = poi_cbg,
-         target = cbg) %>%
+  od_list %>%
   left_join(edges_grocery) %>% 
   replace_na(list(weight = 0)) %>%
   filter(focal %in% nodes$cbg)
@@ -1424,4 +1429,3 @@ poi_map <-
   theme(legend.position = 'bottom')
 
 ggsave(poi_map, filename = "pois.png", height = 6, width = 8, dpi = 300)
-
