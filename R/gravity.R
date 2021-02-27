@@ -1400,7 +1400,8 @@ total_lines <- stplanr::od2line(total,
 ggplot(total_lines,
        aes(x = distance, y = weight)) +
   geom_hex(bins = 100) + 
-  scale_fill_gradientn(colours = pal, guide = guide_continuous) +
+  scale_fill_gradientn(colours = pal, 
+                       guide = guide_continuous) +
   theme_ver() +
   theme(legend.position = 'bottom') + 
   ggsave("weightxdistance.png", height = 6, width = 8, dpi = 300)
