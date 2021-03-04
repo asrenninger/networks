@@ -144,14 +144,14 @@ search_trends <- function(fips, month, category, clause) {
 ## a function for getting points of interest by geography
 get_pois <- function(fips, month) {
  
-  query <- glue("SELECT safegraph_place_id, location_name, top_category, sub_category, poi_cbg, latitude, longitude
+  query <- glue("SELECT safegraph_place_id, location_name, brand, top_category, sub_category, poi_cbg, latitude, longitude
                 FROM (SELECT
                   safegraph_place_id,
                   location_name,
                   lpad(CAST(poi_cbg AS STRING), 12, \'0\') as poi_cbg
                 FROM \`{{projectid}}.safegraph.2020_{{month}}\`
                 WHERE SUBSTR(lpad(CAST(poi_cbg AS STRING), 12, \'0\'), 0, 5) IN ({{fips}})) as m 
-                JOIN (SELECT safegraph_place_id AS join_id, top_category, sub_category, latitude, longitude
+                JOIN (SELECT safegraph_place_id AS join_id, brands AS brand, top_category, sub_category, latitude, longitude
                       FROM \`{{projectid}}.safegraph.places\`) AS p
                 ON m.safegraph_place_id = p.join_id",
                 .open = '{{', .close = '}}')
@@ -166,7 +166,7 @@ get_pois <- function(fips, month) {
 ## a function for getting points of interest by geography
 get_bipartite <- function(fips, month, cbgs, min) {
   
-  query <- glue("SELECT poi_id, poi_cbg, home_cbg, visits, top_category, sub_category, latitude, longitude,
+  query <- glue("SELECT poi_id, poi_cbg, home_cbg, visits,top_category, sub_category, latitude, longitude,
                  FROM (SELECT 
                         safegraph_place_id as poi_id,
                         lpad(CAST(poi_cbg AS STRING), 12, \'0\') as poi_cbg, 
