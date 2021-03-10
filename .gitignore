@@ -1,5 +1,10 @@
 secrets
 data/census
+data/opensky
+data/archive
+data/footprints
+data/pois
+data/septa
 .Rproj.user
 .Rhistory
 .RData
