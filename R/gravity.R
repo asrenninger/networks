@@ -471,10 +471,6 @@ businesses <-
             brands = sum(is_brand)) %>%
   rename(focal = poi_cbg) 
 
-pois %>% 
-  filter(str_detect(brand, "Fresh Grocer")) %>%
-  pull(brand)
-
 grocers <- 
   pois %>% 
   filter(str_detect(sub_category, "Supermarket")) %>%
