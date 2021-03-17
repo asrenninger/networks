@@ -5,7 +5,7 @@
 source("R/query.R")
 source("R/package.R")
 source("R/help.R")
-source("R/measure.R")
+source("R/remeasure.R")
 
 ## grab largest cities according to the census
 county_list <- 
