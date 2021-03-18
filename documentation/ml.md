@@ -26,7 +26,7 @@ Finally, we can map the results to see how they differ.
 ![](https://raw.githubusercontent.com/asrenninger/networks/master/viz/gravity/foresterrormap.png)
 
 #### XGBoost
-![](https://github.com/asrenninger/networks/blob/master/viz/gravity/boosterrormap.png)
+![](https://raw.githubusercontent.com/asrenninger/networks/master/viz/gravity/boosterrormap.png)
 
 Next we take the difference of errors from our best model and our gravity model. The estimates are pretty similar but there are—as we would expect—big differences at the extremes, where we know that the machine learning approaches work better. Where the error is negative, though, is where the simple gravity model performs better. 
 
