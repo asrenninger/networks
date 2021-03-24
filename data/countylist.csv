@@ -1,0 +1,947 @@
+metro_fips,metro_name,county_fips,county_name,population,rank
+31080,"Los Angeles-Long Beach-Anaheim, CA",06037,"Los Angeles County, California",10081570,1
+16980,"Chicago-Naperville-Elgin, IL-IN-WI",17031,"Cook County, Illinois",5198275,2
+26420,"Houston-The Woodlands-Sugar Land, TX",48201,"Harris County, Texas",4646630,3
+38060,"Phoenix-Mesa-Scottsdale, AZ",04013,"Maricopa County, Arizona",4328810,4
+41740,"San Diego-Carlsbad, CA",06073,"San Diego County, California",3316073,5
+33100,"Miami-Fort Lauderdale-West Palm Beach, FL",12086,"Miami-Dade County, Florida",2699428,6
+19100,"Dallas-Fort Worth-Arlington, TX",48113,"Dallas County, Texas",2606868,7
+35620,"New York-Newark-Jersey City, NY-NJ-PA",36047,"Kings County, New York",2589974,8
+40140,"Riverside-San Bernardino-Ontario, CA",06065,"Riverside County, California",2411439,9
+42660,"Seattle-Tacoma-Bellevue, WA",53033,"King County, Washington",2195502,10
+29820,"Las Vegas-Henderson-Paradise, NV",32003,"Clark County, Nevada",2182004,11
+41700,"San Antonio-New Braunfels, TX",48029,"Bexar County, Texas",1952843,12
+41940,"San Jose-Sunnyvale-Santa Clara, CA",06085,"Santa Clara County, California",1927470,13
+19820,"Detroit-Warren-Dearborn, MI",26163,"Wayne County, Michigan",1757299,14
+41860,"San Francisco-Oakland-Hayward, CA",06001,"Alameda County, California",1656754,15
+14460,"Boston-Cambridge-Newton, MA-NH",25017,"Middlesex County, Massachusetts",1600842,16
+37980,"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",42101,"Philadelphia County, Pennsylvania",1579075,17
+40900,"Sacramento--Roseville--Arden-Arcade, CA",06067,"Sacramento County, California",1524553,18
+45300,"Tampa-St. Petersburg-Clearwater, FL",12057,"Hillsborough County, Florida",1422278,19
+36740,"Orlando-Kissimmee-Sanford, FL",12095,"Orange County, Florida",1349746,20
+18140,"Columbus, OH",39049,"Franklin County, Ohio",1290360,21
+17460,"Cleveland-Elyria, OH",39035,"Cuyahoga County, Ohio",1247451,22
+33460,"Minneapolis-St. Paul-Bloomington, MN-WI",27053,"Hennepin County, Minnesota",1245837,23
+12420,"Austin-Round Rock, TX",48453,"Travis County, Texas",1226805,24
+38300,"Pittsburgh, PA",42003,"Allegheny County, Pennsylvania",1221744,25
+47900,"Washington-Arlington-Alexandria, DC-VA-MD-WV",51059,"Fairfax County, Virginia",1145862,26
+41620,"Salt Lake City, UT",49035,"Salt Lake County, Utah",1133646,27
+16740,"Charlotte-Concord-Gastonia, NC-SC",37119,"Mecklenburg County, North Carolina",1074475,28
+39580,"Raleigh, NC",37183,"Wake County, North Carolina",1069079,29
+12060,"Atlanta-Sandy Springs-Roswell, GA",13121,"Fulton County, Georgia",1036200,30
+46060,"Tucson, AZ",04019,"Pima County, Arizona",1027207,31
+41180,"St. Louis, MO-IL",29189,"St. Louis County, Missouri",996919,32
+46520,"Urban Honolulu, HI",15003,"Honolulu County, Hawaii",984821,33
+23420,"Fresno, CA",06019,"Fresno County, California",984521,34
+26900,"Indianapolis-Carmel-Anderson, IN",18097,"Marion County, Indiana",951869,35
+33340,"Milwaukee-Waukesha-West Allis, WI",55079,"Milwaukee County, Wisconsin",951226,36
+14860,"Bridgeport-Stamford-Norwalk, CT",09001,"Fairfield County, Connecticut",943926,37
+32820,"Memphis, TN-MS-AR",47157,"Shelby County, Tennessee",936374,38
+27260,"Jacksonville, FL",12031,"Duval County, Florida",936186,39
+15380,"Buffalo-Cheektowaga-Niagara Falls, NY",36029,"Erie County, New York",919355,40
+25540,"Hartford-West Hartford-East Hartford, CT",09003,"Hartford County, Connecticut",893561,41
+12540,"Bakersfield, CA",06029,"Kern County, California",887641,42
+35300,"New Haven-Milford, CT",09009,"New Haven County, Connecticut",857513,43
+32580,"McAllen-Edinburg-Mission, TX",48215,"Hidalgo County, Texas",855176,44
+37100,"Oxnard-Thousand Oaks-Ventura, CA",06111,"Ventura County, California",847263,45
+21340,"El Paso, TX",48141,"El Paso County, Texas",836062,46
+12580,"Baltimore-Columbia-Towson, MD",24005,"Baltimore County, Maryland",828018,47
+49340,"Worcester, MA-CT",25027,"Worcester County, Massachusetts",824772,48
+17140,"Cincinnati, OH-KY-IN",39061,"Hamilton County, Ohio",813589,49
+38900,"Portland-Vancouver-Hillsboro, OR-WA",41051,"Multnomah County, Oregon",804606,50
+36420,"Oklahoma City, OK",40109,"Oklahoma County, Oklahoma",787216,51
+31140,"Louisville/Jefferson County, KY-IN",21111,"Jefferson County, Kentucky",767419,52
+40380,"Rochester, NY",36055,"Monroe County, New York",743341,53
+44700,"Stockton-Lodi, CA",06077,"San Joaquin County, California",742603,54
+15980,"Cape Coral-Fort Myers, FL",12071,"Lee County, Florida",737468,55
+19740,"Denver-Aurora-Lakewood, CO",08031,"Denver County, Colorado",705576,56
+17820,"Colorado Springs, CO",08041,"El Paso County, Colorado",698974,57
+28140,"Kansas City, MO-KS",29095,"Jackson County, Missouri",696216,58
+34980,"Nashville-Davidson--Murfreesboro--Franklin, TN",47037,"Davidson County, Tennessee",687488,59
+29460,"Lakeland-Winter Haven, FL",12105,"Polk County, Florida",686218,60
+10740,"Albuquerque, NM",35001,"Bernalillo County, New Mexico",677858,61
+13820,"Birmingham-Hoover, AL",01073,"Jefferson County, Alabama",659680,62
+24340,"Grand Rapids-Wyoming, MI",26081,"Kent County, Michigan",648121,63
+46140,"Tulsa, OK",40143,"Tulsa County, Oklahoma",646419,64
+39300,"Providence-Warwick, RI-MA",44007,"Providence County, Rhode Island",635737,65
+39340,"Provo-Orem, UT",49049,"Utah County, Utah",605490,66
+37340,"Palm Bay-Melbourne-Titusville, FL",12009,"Brevard County, Florida",585507,67
+36540,"Omaha-Council Bluffs, NE-IA",31055,"Douglas County, Nebraska",560617,68
+33700,"Modesto, CA",06099,"Stanislaus County, California",543194,69
+10420,"Akron, OH",39153,"Summit County, Ohio",541334,70
+29540,"Lancaster, PA",42071,"Lancaster County, Pennsylvania",540999,71
+19660,"Deltona-Daytona Beach-Ormond Beach, FL",12127,"Volusia County, Florida",536487,72
+31540,"Madison, WI",55025,"Dane County, Wisconsin",536078,73
+19380,"Dayton, OH",39113,"Montgomery County, Ohio",531670,74
+24660,"Greensboro-High Point, NC",37081,"Guilford County, North Carolina",527868,75
+48620,"Wichita, KS",20173,"Sedgwick County, Kansas",513375,76
+24860,"Greenville-Anderson-Mauldin, SC",45045,"Greenville County, South Carolina",507003,77
+44060,"Spokane-Spokane Valley, WA",53063,"Spokane County, Washington",505505,78
+42220,"Santa Rosa, CA",06097,"Sonoma County, California",499772,79
+19780,"Des Moines-West Des Moines, IA",19153,"Polk County, Iowa",479612,80
+44140,"Springfield, MA",25013,"Hampden County, Massachusetts",467871,81
+45060,"Syracuse, NY",36067,"Onondaga County, New York",462872,82
+47300,"Visalia-Porterville, CA",06107,"Tulare County, California",461898,83
+28940,"Knoxville, TN",47093,"Knox County, Tennessee",461104,84
+39900,"Reno, NV",32031,"Washoe County, Nevada",456936,85
+14260,"Boise City, ID",16001,"Ada County, Idaho",456849,86
+47260,"Virginia Beach-Norfolk-Newport News, VA-NC",51810,"Virginia Beach city, Virginia",450201,87
+49620,"York-Hanover, PA",42133,"York County, Pennsylvania",445565,88
+42200,"Santa Maria-Santa Barbara, CA",06083,"Santa Barbara County, California",444829,89
+12940,"Baton Rouge, LA",22033,"East Baton Rouge Parish, Louisiana",443763,90
+46700,"Vallejo-Fairfield, CA",06095,"Solano County, California",441829,91
+35380,"New Orleans-Metairie, LA",22051,"Jefferson Parish, Louisiana",434850,92
+41500,"Salinas, CA",06053,"Monterey County, California",433410,93
+45780,"Toledo, OH",39095,"Lucas County, Ohio",431102,94
+15180,"Brownsville-Harlingen, TX",48061,"Cameron County, Texas",421666,95
+35840,"North Port-Sarasota-Bradenton, FL",12115,"Sarasota County, Florida",419496,96
+39740,"Reading, PA",42011,"Berks County, Pennsylvania",418025,97
+33660,"Mobile, AL",01097,"Mobile County, Alabama",414114,98
+31700,"Manchester-Nashua, NH",33011,"Hillsborough County, New Hampshire",413035,99
+17900,"Columbia, SC",45079,"Richland County, South Carolina",411357,100
+22420,"Flint, MI",26049,"Genesee County, Michigan",407875,101
+16700,"Charleston-North Charleston, SC",45019,"Charleston County, South Carolina",401165,102
+30780,"Little Rock-North Little Rock-Conway, AR",05119,"Pulaski County, Arkansas",392967,103
+49180,"Winston-Salem, NC",37067,"Forsyth County, North Carolina",375195,104
+21660,"Eugene, OR",41039,"Lane County, Oregon",373340,105
+23060,"Fort Wayne, IN",18003,"Allen County, Indiana",372575,106
+15940,"Canton-Massillon, OH",39151,"Stark County, Ohio",372404,107
+34940,"Naples-Immokalee-Marco Island, FL",12021,"Collier County, Florida",371453,108
+45940,"Trenton, NJ",34021,"Mercer County, New Jersey",367922,109
+11460,"Ann Arbor, MI",26161,"Washtenaw County, Michigan",367000,110
+10900,"Allentown-Bethlehem-Easton, PA-NJ",42077,"Lehigh County, Pennsylvania",365052,111
+26620,"Huntsville, AL",01089,"Madison County, Alabama",362276,112
+18580,"Corpus Christi, TX",48355,"Nueces County, Texas",361540,113
+16860,"Chattanooga, TN-GA",47065,"Hamilton County, Tennessee",360919,114
+36100,"Ocala, FL",12083,"Marion County, Florida",353526,115
+28660,"Killeen-Temple, TX",48027,"Bell County, Texas",348574,116
+36260,"Ogden-Clearfield, UT",49011,"Davis County, Utah",345767,117
+22660,"Fort Collins, CO",08069,"Larimer County, Colorado",344786,118
+40060,"Richmond, VA",51041,"Chesterfield County, Virginia",343551,119
+41420,"Salem, OR",41047,"Marion County, Oregon",339641,120
+41980,"San Juan-Carolina-Caguas, PR",72127,"San Juan Municipio, Puerto Rico",335468,121
+22180,"Fayetteville, NC",37051,"Cumberland County, North Carolina",332861,122
+34820,"Myrtle Beach-Conway-North Myrtle Beach, SC-NC",45051,"Horry County, South Carolina",332172,123
+14500,"Boulder, CO",08013,"Boulder County, Colorado",322510,124
+30460,"Lexington-Fayette, KY",21067,"Fayette County, Kentucky",320601,125
+42540,"Scranton--Wilkes-Barre--Hazleton, PA",42079,"Luzerne County, Pennsylvania",317663,126
+37860,"Pensacola-Ferry Pass-Brent, FL",12033,"Escambia County, Florida",313491,127
+30700,"Lincoln, NE",31109,"Lancaster County, Nebraska",313158,128
+38940,"Port St. Lucie, FL",12111,"St. Lucie County, Florida",312947,129
+20500,"Durham-Chapel Hill, NC",37063,"Durham County, North Carolina",311848,130
+43900,"Spartanburg, SC",45083,"Spartanburg County, South Carolina",307617,131
+10580,"Albany-Schenectady-Troy, NY",36001,"Albany County, New York",306968,132
+24540,"Greeley, CO",08123,"Weld County, Colorado",305345,133
+31180,"Lubbock, TX",48303,"Lubbock County, Texas",304808,134
+11260,"Anchorage, AK",02020,"Anchorage Municipality, Alaska",293531,135
+38860,"Portland-South Portland, ME",23005,"Cumberland County, Maine",292307,136
+29620,"Lansing-East Lansing, MI",26065,"Ingham County, Michigan",290587,137
+45220,"Tallahassee, FL",12073,"Leon County, Florida",289770,138
+44180,"Springfield, MO",29077,"Greene County, Missouri",289756,139
+42340,"Savannah, GA",13051,"Chatham County, Georgia",288496,140
+40420,"Rockford, IL",17201,"Winnebago County, Illinois",284819,141
+42020,"San Luis Obispo-Paso Robles-Arroyo Grande, CA",06079,"San Luis Obispo County, California",282165,142
+36500,"Olympia-Tumwater, WA",53067,"Thurston County, Washington",279711,143
+25420,"Harrisburg-Carlisle, PA",42043,"Dauphin County, Pennsylvania",275632,144
+42100,"Santa Cruz-Watsonville, CA",06087,"Santa Cruz County, California",273962,145
+21500,"Erie, PA",42049,"Erie County, Pennsylvania",273835,146
+29700,"Laredo, TX",48479,"Webb County, Texas",273526,147
+32900,"Merced, CA",06047,"Merced County, California",271382,148
+43780,"South Bend-Mishawaka, IN-MI",18141,"St. Joseph County, Indiana",270216,149
+35980,"Norwich-New London, CT",09011,"New London County, Connecticut",267390,150
+12100,"Atlantic City-Hammonton, NJ",34001,"Atlantic County, New Jersey",266105,151
+14740,"Bremerton-Silverdale, WA",53035,"Kitsap County, Washington",265882,152
+22220,"Fayetteville-Springdale-Rogers, AR-MO",05007,"Benton County, Arkansas",265759,153
+23540,"Gainesville, FL",12001,"Alachua County, Florida",265443,154
+28020,"Kalamazoo-Portage, MI",26077,"Kalamazoo County, Michigan",262745,155
+24580,"Green Bay, WI",55009,"Brown County, Wisconsin",261368,156
+11700,"Asheville, NC",37021,"Buncombe County, North Carolina",256886,157
+13140,"Beaumont-Port Arthur, TX",48245,"Jefferson County, Texas",254340,158
+47380,"Waco, TX",48309,"McLennan County, Texas",251089,159
+49420,"Yakima, WA",53077,"Yakima County, Washington",249697,160
+43340,"Shreveport-Bossier City, LA",22017,"Caddo Parish, Louisiana",245831,161
+29180,"Lafayette, LA",22055,"Lafayette Parish, Louisiana",241973,162
+27140,"Jackson, MS",28049,"Hinds County, Mississippi",238797,163
+49660,"Youngstown-Warren-Boardman, OH-PA",39099,"Mahoning County, Ohio",229961,164
+46540,"Utica-Rome, NY",36065,"Oneida County, New York",229959,165
+39140,"Prescott, AZ",04025,"Yavapai County, Arizona",228067,166
+48900,"Wilmington, NC",37129,"New Hanover County, North Carolina",227938,167
+46340,"Tyler, TX",48423,"Smith County, Texas",227449,168
+33860,"Montgomery, AL",01101,"Montgomery County, Alabama",226941,169
+17020,"Chico, CA",06007,"Butte County, California",225817,170
+41540,"Salisbury, MD-DE",10005,"Sussex County, Delaware",224384,171
+16300,"Cedar Rapids, IA",19113,"Linn County, Iowa",223861,172
+17780,"College Station-Bryan, TX",48041,"Brazos County, Texas",222981,173
+13380,"Bellingham, WA",53073,"Whatcom County, Washington",220821,174
+32780,"Medford, OR",41029,"Jackson County, Oregon",216574,175
+29740,"Las Cruces, NM",35013,"Doña Ana County, New Mexico",216069,176
+12700,"Barnstable Town, MA",25001,"Barnstable County, Massachusetts",213496,177
+19300,"Daphne-Fairhope-Foley, AL",01003,"Baldwin County, Alabama",212830,178
+16580,"Champaign-Urbana, IL",17019,"Champaign County, Illinois",209922,179
+49740,"Yuma, AZ",04027,"Yuma County, Arizona",209468,180
+29420,"Lake Havasu City-Kingman, AZ",04015,"Mohave County, Arizona",207695,181
+46220,"Tuscaloosa, AL",01125,"Tuscaloosa County, Alabama",207305,182
+21140,"Elkhart-Goshen, IN",18039,"Elkhart County, Indiana",204558,183
+25060,"Gulfport-Biloxi-Pascagoula, MS",28047,"Harrison County, Mississippi",204502,184
+18880,"Crestview-Fort Walton Beach-Destin, FL",12091,"Okaloosa County, Florida",203794,185
+12260,"Augusta-Richmond County, GA-SC",13245,"Richmond County, Georgia",201852,186
+29340,"Lake Charles, LA",22019,"Calcasieu Parish, Louisiana",201619,187
+17300,"Clarksville, TN-KY",47125,"Montgomery County, Tennessee",200180,188
+20260,"Duluth, MN-WI",27137,"St. Louis County, Minnesota",199759,189
+25900,"Hilo, HI",15001,"Hawaii County, Hawaii",199459,190
+23580,"Gainesville, GA",13139,"Hall County, Georgia",198667,191
+28420,"Kennewick-Richland, WA",53005,"Benton County, Washington",197518,192
+44100,"Springfield, IL",17167,"Sangamon County, Illinois",196861,193
+17980,"Columbus, GA-AL",13215,"Muscogee County, Georgia",195739,194
+39540,"Racine, WI",55101,"Racine County, Wisconsin",195602,195
+27340,"Jacksonville, NC",37133,"Onslow County, North Carolina",195069,196
+13780,"Binghamton, NY",36007,"Broome County, New York",193188,197
+40980,"Saginaw, MI",26145,"Saginaw County, Michigan",191821,198
+29200,"Lafayette-West Lafayette, IN",18157,"Tippecanoe County, Indiana",191553,199
+43620,"Sioux Falls, SD",46099,"Minnehaha County, South Dakota",188674,200
+13460,"Bend-Redmond, OR",41017,"Deschutes County, Oregon",186251,201
+25940,"Hilton Head Island-Bluffton-Beaufort, SC",45013,"Beaufort County, South Carolina",186095,202
+11540,"Appleton, WI",55087,"Outagamie County, Wisconsin",185700,203
+16620,"Charleston, WV",54039,"Kanawha County, West Virginia",183279,204
+37900,"Peoria, IL",17143,"Peoria County, Illinois",182770,205
+37460,"Panama City, FL",12005,"Bay County, Florida",182161,206
+45860,"Torrington, CT",09005,"Litchfield County, Connecticut",182002,207
+21780,"Evansville, IN-KY",18163,"Vanderburgh County, Indiana",181291,208
+39460,"Punta Gorda, FL",12015,"Charlotte County, Florida",181067,209
+20940,"El Centro, CA",06025,"Imperial County, California",180701,210
+39820,"Redding, CA",06089,"Shasta County, California",179212,211
+28740,"Kingston, NY",36111,"Ulster County, New York",178665,212
+24780,"Greenville, NC",37147,"Pitt County, North Carolina",178433,213
+45820,"Topeka, KS",20177,"Shawnee County, Kansas",177852,214
+17860,"Columbia, MO",29019,"Boone County, Missouri",177651,215
+22020,"Fargo, ND-MN",38017,"Cass County, North Dakota",176975,216
+20100,"Dover, DE",10001,"Kent County, Delaware",176699,217
+34740,"Muskegon, MI",26121,"Muskegon County, Michigan",173297,218
+14010,"Bloomington, IL",17113,"McLean County, Illinois",172578,219
+19340,"Davenport-Moline-Rock Island, IA-IL",19163,"Scott County, Iowa",172446,220
+36780,"Oshkosh-Neenah, WI",55139,"Winnebago County, Wisconsin",170411,221
+33260,"Midland, TX",48329,"Midland County, Texas",168167,222
+20700,"East Stroudsburg, PA",42089,"Monroe County, Pennsylvania",168032,223
+39380,"Pueblo, CO",08101,"Pueblo County, Colorado",165982,224
+27980,"Kahului-Wailuku-Lahaina, HI",15009,"Maui County, Hawaii",165979,225
+41100,"St. George, UT",49053,"Washington County, Utah",165811,226
+15500,"Burlington, NC",37001,"Alamance County, North Carolina",163324,227
+15540,"Burlington-South Burlington, VT",50007,"Chittenden County, Vermont",162646,228
+27500,"Janesville-Beloit, WI",55105,"Rock County, Wisconsin",162152,229
+44300,"State College, PA",42027,"Centre County, Pennsylvania",161960,230
+12220,"Auburn-Opelika, AL",01081,"Lee County, Alabama",161152,231
+36220,"Odessa, TX",48135,"Ector County, Texas",160579,232
+13740,"Billings, MT",30111,"Yellowstone County, Montana",159008,233
+27100,"Jackson, MI",26075,"Jackson County, Michigan",158636,234
+41060,"St. Cloud, MN",27145,"Stearns County, Minnesota",158452,235
+25860,"Hickory-Lenoir-Morganton, NC",37035,"Catawba County, North Carolina",157613,236
+17660,"Coeur d'Alene, ID",16055,"Kootenai County, Idaho",157322,237
+28700,"Kingsport-Bristol-Bristol, TN-VA",47163,"Sullivan County, Tennessee",157050,238
+33740,"Monroe, LA",22073,"Ouachita Parish, Louisiana",155494,239
+31460,"Madera, CA",06039,"Madera County, California",155433,240
+40340,"Rochester, MN",27109,"Olmsted County, Minnesota",154809,241
+16540,"Chambersburg-Waynesboro, PA",42055,"Franklin County, Pennsylvania",154147,242
+35660,"Niles-Benton Harbor, MI",26021,"Berrien County, Michigan",154133,243
+42680,"Sebastian-Vero Beach, FL",12061,"Indian River County, Florida",153989,244
+47580,"Warner Robins, GA",13153,"Houston County, Georgia",153507,245
+31420,"Macon-Bibb County, GA",13021,"Bibb County, Georgia",153200,246
+47220,"Vineland-Bridgeton, NJ",34011,"Cumberland County, New Jersey",151906,247
+12620,"Bangor, ME",23019,"Penobscot County, Maine",151774,248
+24300,"Grand Junction, CO",08077,"Mesa County, Colorado",151218,249
+25260,"Hanford-Corcoran, CA",06031,"Kings County, California",150691,250
+25180,"Hagerstown-Martinsburg, MD-WV",24043,"Washington County, Maryland",150109,251
+18180,"Concord, NH",33013,"Merrimack County, New Hampshire",149917,252
+33780,"Monroe, MI",26115,"Monroe County, Michigan",149727,253
+42140,"Santa Fe, NM",35049,"Santa Fe County, New Mexico",149293,254
+26980,"Iowa City, IA",19103,"Johnson County, Iowa",148577,255
+14020,"Bloomington, IN",18105,"Monroe County, Indiana",146461,256
+26140,"Homosassa Springs, FL",12017,"Citrus County, Florida",145169,257
+39060,"Pottsville, PA",42107,"Schuylkill County, Pennsylvania",142674,258
+22380,"Flagstaff, AZ",04005,"Coconino County, Arizona",141274,259
+30140,"Lebanon, PA",42075,"Lebanon County, Pennsylvania",139729,260
+38660,"Ponce, PR",72113,"Ponce Municipio, Puerto Rico",139671,261
+34900,"Napa, CA",06055,"Napa County, California",139623,262
+22500,"Florence, SC",45041,"Florence County, South Carolina",138475,263
+10180,"Abilene, TX",48441,"Taylor County, Texas",136870,264
+21700,"Eureka-Arcata-Fortuna, CA",06023,"Humboldt County, California",135940,265
+48140,"Wausau, WI",55073,"Marathon County, Wisconsin",135396,266
+44220,"Springfield, OH",39023,"Clark County, Ohio",134726,267
+12980,"Battle Creek, MI",26025,"Calhoun County, Michigan",134212,268
+11100,"Amarillo, TX",48381,"Randall County, Texas",134026,269
+27780,"Johnstown, PA",42021,"Cambria County, Pennsylvania",133009,270
+31300,"Lumberton, NC",37155,"Robeson County, North Carolina",132596,271
+47940,"Waterloo-Cedar Falls, IA",19013,"Black Hawk County, Iowa",132393,272
+20380,"Dunn, NC",37085,"Harnett County, North Carolina",132283,273
+25220,"Hammond, LA",22105,"Tangipahoa Parish, Louisiana",132057,274
+48660,"Wichita Falls, TX",48485,"Wichita County, Texas",131596,275
+43300,"Sherman-Denison, TX",48181,"Grayson County, Texas",131014,276
+10780,"Alexandria, LA",22079,"Rapides Parish, Louisiana",130970,277
+14540,"Bowling Green, KY",21227,"Warren County, Kentucky",128652,278
+27460,"Jamestown-Dunkirk-Fredonia, NY",36013,"Chautauqua County, New York",128496,279
+27740,"Johnson City, TN",47179,"Washington County, Tennessee",127805,280
+22900,"Fort Smith, AR-OK",05131,"Sebastian County, Arkansas",127591,281
+22140,"Farmington, NM",35045,"San Juan County, New Mexico",126515,282
+38340,"Pittsfield, MA",25003,"Berkshire County, Massachusetts",126425,283
+12020,"Athens-Clarke County, GA",13059,"Clarke County, Georgia",126176,284
+43420,"Sierra Vista-Douglas, AZ",04003,"Cochise County, Arizona",125867,285
+34580,"Mount Vernon-Anacortes, WA",53057,"Skagit County, Washington",125612,286
+10540,"Albany, OR",41043,"Linn County, Oregon",125048,287
+45540,"The Villages, FL",12119,"Sumter County, Florida",125044,288
+30860,"Logan, UT-ID",49005,"Cache County, Utah",124165,289
+24140,"Goldsboro, NC",37191,"Wayne County, North Carolina",123603,290
+30980,"Longview, TX",48183,"Gregg County, Texas",123443,291
+11020,"Altoona, PA",42013,"Blair County, Pennsylvania",123157,292
+30020,"Lawton, OK",40031,"Comanche County, Oklahoma",121762,293
+12300,"Augusta-Waterville, ME",23011,"Kennebec County, Maine",121753,294
+31900,"Mansfield, OH",39139,"Richland County, Ohio",121100,295
+29940,"Lawrence, KS",20045,"Douglas County, Kansas",120290,296
+27900,"Joplin, MO",29097,"Jasper County, Missouri",119920,297
+19460,"Decatur, AL",01103,"Morgan County, Alabama",119213,298
+41660,"San Angelo, TX",48451,"Tom Green County, Texas",117986,299
+29100,"La Crosse-Onalaska, WI-MN",55063,"La Crosse County, Wisconsin",117894,300
+33540,"Missoula, MT",30063,"Missoula County, Montana",117309,301
+26090,"Holland, MI",26005,"Allegan County, Michigan",116143,302
+49300,"Wooster, OH",39169,"Wayne County, Ohio",116099,303
+46660,"Valdosta, GA",13185,"Lowndes County, Georgia",115364,304
+43100,"Sheboygan, WI",55117,"Sheboygan County, Wisconsin",115178,305
+34620,"Muncie, IN",18035,"Delaware County, Indiana",115020,306
+11500,"Anniston-Oxford-Jacksonville, AL",01015,"Calhoun County, Alabama",114618,307
+26820,"Idaho Falls, ID",16019,"Bonneville County, Idaho",114392,308
+48700,"Williamsport, PA",42081,"Lycoming County, Pennsylvania",114330,309
+48060,"Watertown-Fort Drum, NY",36045,"Jefferson County, New York",112842,310
+15680,"California-Lexington Park, MD",24037,"St. Mary's County, Maryland",112290,311
+26380,"Houma-Thibodaux, LA",22109,"Terrebonne Parish, Louisiana",112054,312
+39660,"Rapid City, SD",46103,"Pennington County, South Dakota",110685,313
+28100,"Kankakee, IL",17091,"Kankakee County, Illinois",110637,314
+33140,"Michigan City-La Porte, IN",18091,"LaPorte County, Indiana",110154,315
+36860,"Ottawa-Peru, IL",17099,"LaSalle County, Illinois",109737,316
+43320,"Show Low, AZ",04017,"Navajo County, Arizona",109270,317
+40700,"Roseburg, OR",41019,"Douglas County, Oregon",109114,318
+36300,"Ogdensburg-Massena, NY",36089,"St. Lawrence County, New York",108913,319
+21060,"Elizabethtown-Fort Knox, KY",21093,"Hardin County, Kentucky",108527,320
+14580,"Bozeman, MT",30031,"Gallatin County, Montana",108063,321
+30340,"Lewiston-Auburn, ME",23001,"Androscoggin County, Maine",107602,322
+45460,"Terre Haute, IN",18167,"Vigo County, Indiana",107459,323
+16820,"Charlottesville, VA",51003,"Albemarle County, Virginia",107405,324
+27860,"Jonesboro, AR",05031,"Craighead County, Arkansas",107345,325
+31020,"Longview, WA",53015,"Cowlitz County, Washington",106778,326
+44940,"Sumter, SC",45085,"Sumter County, South Carolina",106757,327
+17420,"Cleveland, TN",47011,"Bradley County, Tennessee",105749,328
+19500,"Decatur, IL",17115,"Macon County, Illinois",105528,329
+34060,"Morgantown, WV",54061,"Monongalia County, West Virginia",105474,330
+20020,"Dothan, AL",01069,"Houston County, Alabama",104702,331
+19140,"Dalton, GA",13313,"Whitfield County, Georgia",104237,332
+13020,"Bay City, MI",26017,"Bay County, Michigan",104104,333
+20740,"Eau Claire, WI",55035,"Eau Claire County, Wisconsin",103514,334
+42700,"Sebring, FL",12055,"Highlands County, Florida",103437,335
+41400,"Salem, OH",39029,"Columbiana County, Ohio",103190,336
+30620,"Lima, OH",39003,"Allen County, Ohio",103175,337
+48580,"Whitewater-Elkhorn, WI",55127,"Walworth County, Wisconsin",103074,338
+23460,"Gadsden, AL",01055,"Etowah County, Alabama",102748,339
+27060,"Ithaca, NY",36109,"Tompkins County, New York",102642,340
+22540,"Fond du Lac, WI",55039,"Fond du Lac County, Wisconsin",102597,341
+43580,"Sioux City, IA-NE-SD",19193,"Woodbury County, Iowa",102586,342
+35100,"New Bern, NC",37049,"Craven County, North Carolina",102491,343
+23900,"Gettysburg, PA",42001,"Adams County, Pennsylvania",102470,344
+36980,"Owensboro, KY",21059,"Daviess County, Kentucky",100474,345
+28060,"Kalispell, MT",30029,"Flathead County, Montana",99899,346
+46020,"Truckee-Grass Valley, CA",06057,"Nevada County, California",99244,347
+40220,"Roanoke, VA",51770,"Roanoke city, Virginia",99229,348
+21820,"Fairbanks, AK",02090,"Fairbanks North Star Borough, Alaska",99072,349
+26300,"Hot Springs, AR",05051,"Garland County, Arkansas",98555,350
+10300,"Adrian, MI",26091,"Lenawee County, Michigan",98381,351
+16940,"Cheyenne, WY",56021,"Laramie County, Wyoming",98320,352
+13980,"Blacksburg-Christiansburg-Radford, VA",51121,"Montgomery County, Virginia",98140,353
+11780,"Ashtabula, OH",39007,"Ashtabula County, Ohio",97830,354
+27180,"Jackson, TN",47113,"Madison County, Tennessee",97625,355
+40660,"Rome, GA",13115,"Floyd County, Georgia",97369,356
+38240,"Pinehurst-Southern Pines, NC",37125,"Moore County, North Carolina",97294,357
+43140,"Shelby, NC",37045,"Cleveland County, North Carolina",97282,358
+42940,"Sevierville, TN",47155,"Sevier County, Tennessee",97068,359
+20220,"Dubuque, IA",19061,"Dubuque County, Iowa",96982,360
+11180,"Ames, IA",19169,"Story County, Iowa",96941,361
+18500,"Corning, NY",36101,"Steuben County, New York",96422,362
+49700,"Yuba City, CA",06101,"Sutter County, California",96109,363
+10700,"Albertville, AL",01095,"Marshall County, Alabama",95643,364
+34180,"Moses Lake, WA",53025,"Grant County, Washington",95502,365
+13900,"Bismarck, ND",38015,"Burleigh County, North Dakota",94793,366
+26580,"Huntington-Ashland, WV-KY-OH",54011,"Cabell County, West Virginia",94339,367
+40580,"Rocky Mount, NC",37127,"Nash County, North Carolina",94030,368
+45500,"Texarkana, TX-AR",48037,"Bowie County, Texas",93373,369
+36140,"Ocean City, NJ",34009,"Cape May County, New Jersey",93086,370
+22520,"Florence-Muscle Shoals, AL",01077,"Lauderdale County, Alabama",92556,371
+35420,"New Philadelphia-Dover, OH",39157,"Tuscarawas County, Ohio",92335,372
+45900,"Traverse City, MI",26055,"Grand Traverse County, Michigan",92181,373
+47020,"Victoria, TX",48469,"Victoria County, Texas",92109,374
+44980,"Sunbury, PA",42097,"Northumberland County, Pennsylvania",91761,375
+18700,"Corvallis, OR",41003,"Benton County, Oregon",91107,376
+40080,"Richmond-Berea, KY",21151,"Madison County, Kentucky",90802,377
+17200,"Claremont-Lebanon, NH-VT",33009,"Grafton County, New Hampshire",89777,378
+10500,"Albany, GA",13095,"Dougherty County, Georgia",89703,379
+41140,"St. Joseph, MO-KS",29021,"Buchanan County, Missouri",88460,380
+13180,"Beaver Dam, WI",55027,"Dodge County, Wisconsin",87715,381
+36700,"Orangeburg, SC",45075,"Orangeburg County, South Carolina",87687,382
+31260,"Lufkin, TX",48005,"Angelina County, Texas",87322,383
+46380,"Ukiah, CA",06045,"Mendocino County, California",87224,384
+35260,"New Castle, PA",42073,"Lawrence County, Pennsylvania",86727,385
+49020,"Winchester, VA-WV",51069,"Frederick County, Virginia",86415,386
+24420,"Grants Pass, OR",41033,"Josephine County, Oregon",86251,387
+49780,"Zanesville, OH",39119,"Muskingum County, Ohio",86131,388
+38540,"Pocatello, ID",16005,"Bannock County, Idaho",85765,389
+32740,"Meadville, PA",42039,"Crawford County, Pennsylvania",85665,390
+11640,"Arecibo, PR",72013,"Arecibo Municipio, Puerto Rico",85390,391
+46180,"Tupelo, MS",28081,"Lee County, Mississippi",85072,392
+26860,"Indiana, PA",42063,"Indiana County, Pennsylvania",85032,393
+37620,"Parkersburg-Vienna, WV",54107,"Wood County, West Virginia",84960,394
+21300,"Elmira, NY",36015,"Chemung County, New York",84895,395
+46300,"Twin Falls, ID",16083,"Twin Falls County, Idaho",84869,396
+48020,"Watertown-Fort Atkinson, WI",55055,"Jefferson County, Wisconsin",84701,397
+15260,"Brunswick, GA",13127,"Glynn County, Georgia",84470,398
+33220,"Midland, MI",26111,"Midland County, Michigan",83355,399
+36660,"Opelousas, LA",22097,"St. Landry Parish, Louisiana",83172,400
+36020,"Oak Harbor, WA",53029,"Island County, Washington",82866,401
+18980,"Cullman, AL",01043,"Cullman County, Alabama",82853,402
+18020,"Columbus, IN",18005,"Bartholomew County, Indiana",82481,403
+29020,"Kokomo, IN",18067,"Howard County, Indiana",82331,404
+44660,"Stillwater, OK",40119,"Payne County, Oklahoma",81815,405
+24500,"Great Falls, MT",30013,"Cascade County, Montana",81625,406
+48980,"Wilson, NC",37195,"Wilson County, North Carolina",81435,407
+11980,"Athens, TX",48213,"Henderson County, Texas",81070,408
+38460,"Plattsburgh, NY",36019,"Clinton County, New York",80583,409
+31340,"Lynchburg, VA",51680,"Lynchburg city, Virginia",80569,410
+45180,"Talladega-Sylacauga, AL",01121,"Talladega County, Alabama",80387,411
+16220,"Casper, WY",56025,"Natrona County, Wyoming",80333,412
+25500,"Harrisonburg, VA",51165,"Rockingham County, Virginia",80284,413
+20180,"DuBois, PA",42033,"Clearfield County, Pennsylvania",79908,414
+31820,"Manitowoc, WI",55071,"Manitowoc County, Wisconsin",79185,415
+47700,"Warsaw, IN",18085,"Kosciusko County, Indiana",79035,416
+42620,"Searcy, AR",05145,"White County, Arkansas",78762,417
+16020,"Cape Girardeau, MO-IL",29031,"Cape Girardeau County, Missouri",78491,418
+16500,"Centralia, WA",53041,"Lewis County, Washington",78145,419
+19180,"Danville, IL",17183,"Vermilion County, Illinois",77563,420
+42860,"Seneca, SC",45073,"Oconee County, South Carolina",77528,421
+18260,"Cookeville, TN",47141,"Putnam County, Tennessee",77447,422
+12180,"Auburn, NY",36011,"Cayuga County, New York",77425,423
+25840,"Hermiston-Pendleton, OR",41059,"Umatilla County, Oregon",77129,424
+36460,"Olean, NY",36009,"Cattaraugus County, New York",77121,425
+17060,"Chillicothe, OH",39141,"Ross County, Ohio",76948,426
+27620,"Jefferson City, MO",29051,"Cole County, Missouri",76723,427
+32940,"Meridian, MS",28075,"Lauderdale County, Mississippi",76279,428
+48300,"Wenatchee, WA",53007,"Chelan County, Washington",76229,429
+44340,"Statesboro, GA",13031,"Bulloch County, Georgia",76120,430
+28300,"Keene, NH",33005,"Cheshire County, New Hampshire",76042,431
+39020,"Portsmouth, OH",39145,"Scioto County, Ohio",76040,432
+22300,"Findlay, OH",39063,"Hancock County, Ohio",75837,433
+28580,"Key West, FL",12087,"Monroe County, Florida",75798,434
+38820,"Port Angeles, WA",53009,"Clallam County, Washington",75392,435
+13220,"Beckley, WV",54081,"Raleigh County, West Virginia",75252,436
+32420,"Mayagüez, PR",72097,"Mayagüez Municipio, Puerto Rico",75232,437
+25620,"Hattiesburg, MS",28035,"Forrest County, Mississippi",75224,438
+44420,"Staunton-Waynesboro, VA",51015,"Augusta County, Virginia",75079,439
+31740,"Manhattan, KS",20161,"Riley County, Kansas",75056,440
+41780,"Sandusky, OH",39043,"Erie County, Ohio",74780,441
+43740,"Somerset, PA",42111,"Somerset County, Pennsylvania",74361,442
+37260,"Palatka, FL",12107,"Putnam County, Florida",73252,443
+49220,"Wisconsin Rapids-Marshfield, WI",55141,"Wood County, Wisconsin",73112,444
+10140,"Aberdeen, WA",53027,"Grays Harbor County, Washington",72779,445
+23700,"Gallup, NM",35031,"McKinley County, New Mexico",72438,446
+26660,"Huntsville, TX",48471,"Walker County, Texas",72321,447
+43060,"Shawnee, OK",40125,"Pottawatomie County, Oklahoma",72154,448
+34340,"Mount Airy, NC",37171,"Surry County, North Carolina",71971,449
+28180,"Kapaa, HI",15007,"Kauai County, Hawaii",71769,450
+40940,"Safford, AZ",04001,"Apache County, Arizona",71511,451
+19060,"Cumberland, MD-WV",24001,"Allegany County, Maryland",71445,452
+22840,"Fort Payne, AL",01049,"DeKalb County, Alabama",71310,453
+34380,"Mount Pleasant, MI",26073,"Isabella County, Michigan",70688,454
+44620,"Stevens Point, WI",55097,"Portage County, Wisconsin",70632,455
+24640,"Greenfield Town, MA",25011,"Franklin County, Massachusetts",70577,456
+24940,"Greenwood, SC",45047,"Greenwood County, South Carolina",70411,457
+26020,"Hobbs, NM",35025,"Lea County, New Mexico",70277,458
+24220,"Grand Forks, ND-MN",38035,"Grand Forks County, North Dakota",70224,459
+29380,"Lake City, FL",12023,"Columbia County, Florida",69968,460
+29300,"LaGrange, GA",13285,"Troup County, Georgia",69919,461
+38220,"Pine Bluff, AR",05069,"Jefferson County, Arkansas",69282,462
+33980,"Morehead City, NC",37031,"Carteret County, North Carolina",69070,463
+24620,"Greeneville, TN",47059,"Greene County, Tennessee",68834,464
+33500,"Minot, ND",38101,"Ward County, North Dakota",68812,465
+34780,"Muskogee, OK",40101,"Muskogee County, Oklahoma",68736,466
+35900,"North Wilkesboro, NC",37193,"Wilkes County, North Carolina",68469,467
+29860,"Laurel, MS",28067,"Jones County, Mississippi",68352,468
+37020,"Owosso, MI",26155,"Shiawassee County, Michigan",68340,469
+48540,"Wheeling, WV-OH",39013,"Belmont County, Ohio",68024,470
+17220,"Clarksburg, WV",54033,"Harrison County, West Virginia",67908,471
+27600,"Jefferson, GA",13157,"Jackson County, Georgia",67885,472
+25740,"Helena, MT",30049,"Lewis and Clark County, Montana",67805,473
+16060,"Carbondale-Marion, IL",17199,"Williamson County, Illinois",67102,474
+28900,"Klamath Falls, OR",41035,"Klamath County, Oregon",66921,475
+31860,"Mankato-North Mankato, MN",27013,"Blue Earth County, Minnesota",66795,476
+32100,"Marquette, MI",26103,"Marquette County, Michigan",66686,477
+22100,"Farmington, MO",29187,"St. Francois County, Missouri",66643,478
+22580,"Forest City, NC",37161,"Rutherford County, North Carolina",66599,479
+32220,"Marshall, TX",48203,"Harrison County, Texas",66580,480
+31980,"Marion, IN",18053,"Grant County, Indiana",66452,481
+48260,"Weirton-Steubenville, WV-OH",39081,"Jefferson County, Ohio",66371,482
+39980,"Richmond, IN",18177,"Wayne County, Indiana",66342,483
+22060,"Faribault-Northfield, MN",27131,"Rice County, Minnesota",66185,484
+10460,"Alamogordo, NM",35035,"Otero County, New Mexico",66137,485
+39500,"Quincy, IL-MO",17001,"Adams County, Illinois",66085,486
+11900,"Athens, OH",39009,"Athens County, Ohio",65917,487
+14100,"Bloomsburg-Berwick, PA",42037,"Columbia County, Pennsylvania",65715,488
+34860,"Nacogdoches, TX",48347,"Nacogdoches County, Texas",65339,489
+32020,"Marion, OH",39101,"Marion County, Ohio",65299,490
+37140,"Paducah, KY-IL",21145,"McCracken County, Kentucky",65268,491
+40740,"Roswell, NM",35005,"Chaves County, New Mexico",65144,492
+43700,"Somerset, KY",21199,"Pulaski County, Kentucky",64350,493
+26960,"Ionia, MI",26067,"Ionia County, Michigan",64300,494
+24020,"Glens Falls, NY",36113,"Warren County, New York",64276,495
+14660,"Brainerd, MN",27035,"Crow Wing County, Minnesota",64217,496
+17340,"Clearlake, CA",06033,"Lake County, California",64195,497
+34100,"Morristown, TN",47063,"Hamblen County, Tennessee",64132,498
+40100,"Rio Grande City, TX",48427,"Starr County, Texas",64078,499
+12660,"Baraboo, WI",55111,"Sauk County, Wisconsin",63922,500
+39780,"Red Bluff, CA",06103,"Tehama County, California",63912,501
+43220,"Shelton, WA",53045,"Mason County, Washington",63804,502
+40780,"Russellville, AR",05115,"Pope County, Arkansas",63761,503
+18300,"Coos Bay, OR",41011,"Coos County, Oregon",63686,504
+26740,"Hutchinson, KS",20155,"Reno County, Kansas",62765,505
+23860,"Georgetown, SC",45043,"Georgetown County, South Carolina",61952,506
+21420,"Enid, OK",40047,"Garfield County, Oklahoma",61898,507
+10620,"Albemarle, NC",37167,"Stanly County, North Carolina",61588,508
+34540,"Mount Vernon, OH",39083,"Knox County, Ohio",61481,509
+25980,"Hinesville, GA",13179,"Liberty County, Georgia",61349,510
+24260,"Grand Island, NE",31079,"Hall County, Nebraska",61265,511
+19260,"Danville, VA",51143,"Pittsylvania County, Virginia",61256,512
+42380,"Sayre, PA",42015,"Bradford County, Pennsylvania",60963,513
+29060,"Laconia, NH",33001,"Belknap County, New Hampshire",60887,514
+44780,"Sturgis, MI",26149,"St. Joseph County, Michigan",60836,515
+41820,"Sanford, NC",37105,"Lee County, North Carolina",60481,516
+31930,"Marietta, OH",39167,"Washington County, Ohio",60426,517
+26460,"Hudson, NY",36021,"Columbia County, New York",60371,518
+47460,"Walla Walla, WA",53071,"Walla Walla County, Washington",60365,519
+30940,"London, KY",21125,"Laurel County, Kentucky",60357,520
+36580,"Oneonta, NY",36077,"Otsego County, New York",59972,521
+14140,"Bluefield, WV-VA",54055,"Mercer County, West Virginia",59919,522
+13720,"Big Stone Gap, VA",21195,"Pike County, Kentucky",59497,523
+37080,"Oxford, NC",37077,"Granville County, North Carolina",59328,524
+18900,"Crossville, TN",47035,"Cumberland County, Tennessee",59216,525
+18060,"Columbus, MS",28087,"Lowndes County, Mississippi",59150,526
+24060,"Glenwood Springs, CO",08045,"Garfield County, Colorado",59055,527
+23380,"Fremont, OH",39143,"Sandusky County, Ohio",59029,528
+40860,"Rutland, VT",50021,"Rutland County, Vermont",58892,529
+12740,"Barre, VT",50023,"Washington County, Vermont",58350,530
+35940,"Norwalk, OH",39077,"Huron County, Ohio",58339,531
+22260,"Fergus Falls, MN",27111,"Otter Tail County, Minnesota",58195,532
+20580,"Eagle Pass, TX",48323,"Maverick County, Texas",58174,533
+37300,"Palestine, TX",48001,"Anderson County, Texas",57810,534
+12860,"Batavia, NY",36037,"Genesee County, New York",57808,535
+16100,"Carlsbad-Artesia, NM",35015,"Eddy County, New Mexico",57732,536
+15660,"Calhoun, GA",13129,"Gordon County, Georgia",57202,537
+23500,"Gaffney, SC",45021,"Cherokee County, South Carolina",56895,538
+28820,"Kinston, NC",37107,"Lenoir County, North Carolina",56756,539
+21900,"Fairmont, WV",54049,"Marion County, West Virginia",56355,540
+44580,"Sterling, IL",17195,"Whiteside County, Illinois",56016,541
+20420,"Durango, CO",08067,"La Plata County, Colorado",55617,542
+45660,"Tiffin, OH",39147,"Seneca County, Ohio",55351,543
+38100,"Picayune, MS",28109,"Pearl River County, Mississippi",55219,544
+46100,"Tullahoma-Manchester, TN",47031,"Coffee County, Tennessee",55209,545
+14700,"Branson, MO",29213,"Taney County, Missouri",55114,546
+14380,"Boone, NC",37189,"Watauga County, North Carolina",54925,547
+16180,"Carson City, NV",32510,"Carson City, Nevada",54773,548
+41460,"Salina, KS",20169,"Saline County, Kansas",54701,549
+20780,"Edwards, CO",08037,"Eagle County, Colorado",54681,550
+22280,"Fernley, NV",32019,"Lyon County, Nevada",54380,551
+43760,"Sonora, CA",06109,"Tuolumne County, California",54045,552
+47660,"Warrensburg, MO",29101,"Johnson County, Missouri",53682,553
+24100,"Gloversville, NY",36035,"Fulton County, New York",53646,554
+37060,"Oxford, MS",28071,"Lafayette County, Mississippi",53590,555
+37740,"Payson, AZ",04007,"Gila County, Arizona",53546,556
+11740,"Ashland, OH",39005,"Ashland County, Ohio",53536,557
+41220,"St. Marys, GA",13039,"Camden County, Georgia",53231,558
+11940,"Athens, TN",47107,"McMinn County, Tennessee",53053,559
+10380,"Aguadilla-Isabela, PR",72005,"Aguadilla Municipio, Puerto Rico",52803,560
+22780,"Fort Leonard Wood, MO",29169,"Pulaski County, Missouri",52425,561
+21220,"Elko, NV",32007,"Elko County, Nevada",52297,562
+27380,"Jacksonville, TX",48073,"Cherokee County, Texas",52118,563
+12780,"Bartlesville, OK",40147,"Washington County, Oklahoma",51886,564
+42460,"Scottsboro, AL",01071,"Jackson County, Alabama",51852,565
+28500,"Kerrville, TX",48265,"Kerr County, Texas",51843,566
+36340,"Oil City, PA",42121,"Venango County, Pennsylvania",51818,567
+38420,"Platteville, WI",55043,"Grant County, Wisconsin",51733,568
+21460,"Enterprise, AL",01031,"Coffee County, Alabama",51662,569
+24820,"Greenville, OH",39037,"Darke County, Ohio",51513,570
+16660,"Charleston-Mattoon, IL",17029,"Coles County, Illinois",51353,571
+32300,"Martinsville, VA",51089,"Henry County, Virginia",51308,572
+43020,"Shawano, WI",55135,"Waupaca County, Wisconsin",51245,573
+16260,"Cedar City, UT",49021,"Iron County, Utah",51213,574
+40260,"Roanoke Rapids, NC",37083,"Halifax County, North Carolina",51190,575
+40300,"Rochelle, IL",17141,"Ogle County, Illinois",51025,576
+34020,"Morgan City, LA",22101,"St. Mary Parish, Louisiana",50968,577
+49100,"Winona, MN",27169,"Winona County, Minnesota",50725,578
+23180,"Frankfort, KY",21073,"Franklin County, Kentucky",50529,579
+23660,"Galesburg, IL",17095,"Knox County, Illinois",50508,580
+31660,"Malone, NY",36033,"Franklin County, New York",50477,581
+17580,"Clovis, NM",35009,"Curry County, New Mexico",49732,582
+22860,"Fort Polk South, LA",22115,"Vernon Parish, Louisiana",49646,583
+37580,"Paris, TX",48277,"Lamar County, Texas",49611,584
+44260,"Starkville, MS",28105,"Oktibbeha County, Mississippi",49512,585
+11220,"Amsterdam, NY",36057,"Montgomery County, New York",49302,586
+37120,"Ozark, AL",01045,"Dale County, Alabama",49277,587
+39420,"Pullman, WA",53075,"Whitman County, Washington",49231,588
+46460,"Union City, TN-KY",47053,"Gibson County, Tennessee",49228,589
+28260,"Kearney, NE",31019,"Buffalo County, Nebraska",49209,590
+18620,"Corsicana, TX",48349,"Navarro County, Texas",48995,591
+19620,"Del Rio, TX",48465,"Val Verde County, Texas",48969,592
+43380,"Sidney, OH",39149,"Shelby County, Ohio",48749,593
+45140,"Tahlequah, OK",40021,"Cherokee County, Oklahoma",48664,594
+35440,"Newport, OR",41041,"Lincoln County, Oregon",48547,595
+41900,"San Germán, PR",72023,"Cabo Rojo Municipio, Puerto Rico",48487,596
+11620,"Ardmore, OK",40019,"Carter County, Oklahoma",48319,597
+43180,"Shelbyville, TN",47003,"Bedford County, Tennessee",48292,598
+35220,"New Castle, IN",18065,"Henry County, Indiana",48255,599
+23820,"Gardnerville Ranchos, NV",32005,"Douglas County, Nevada",48132,600
+18660,"Cortland, NY",36023,"Cortland County, New York",47865,601
+28340,"Kendallville, IN",18113,"Noble County, Indiana",47506,602
+23940,"Gillette, WY",56005,"Campbell County, Wyoming",47409,603
+20140,"Dublin, GA",13175,"Laurens County, Georgia",47405,604
+15860,"Cañon City, CO",08043,"Fremont County, Colorado",47321,605
+40820,"Ruston, LA",22061,"Lincoln Parish, Louisiana",47246,606
+47820,"Washington, NC",37013,"Beaufort County, North Carolina",47168,607
+17540,"Clinton, IA",19045,"Clinton County, Iowa",46909,608
+46980,"Vicksburg, MS",28149,"Warren County, Mississippi",46519,609
+35700,"Nogales, AZ",04023,"Santa Cruz County, Arizona",46480,610
+38500,"Plymouth, IN",18099,"Marshall County, Indiana",46461,611
+20460,"Durant, OK",40013,"Bryan County, Oklahoma",46457,612
+14220,"Bogalusa, LA",22117,"Washington Parish, Louisiana",46435,613
+13420,"Bemidji, MN",27007,"Beltrami County, Minnesota",46403,614
+30380,"Lewistown, PA",42087,"Mifflin County, Pennsylvania",46276,615
+39860,"Red Wing, MN",27049,"Goodhue County, Minnesota",46246,616
+24740,"Greenville, MS",28151,"Washington County, Mississippi",46057,617
+40460,"Rockingham, NC",45025,"Chesterfield County, South Carolina",45953,618
+21260,"Ellensburg, WA",53037,"Kittitas County, Washington",45897,619
+13940,"Blackfoot, ID",16011,"Bingham County, Idaho",45839,620
+25880,"Hillsdale, MI",26059,"Hillsdale County, Michigan",45757,621
+47540,"Wapakoneta, OH",39011,"Auglaize County, Ohio",45729,622
+12680,"Bardstown, KY",21179,"Nelson County, Kentucky",45650,623
+13260,"Bedford, IN",18093,"Lawrence County, Indiana",45548,624
+34220,"Moultrie, GA",13071,"Colquitt County, Georgia",45486,625
+26500,"Huntingdon, PA",42061,"Huntingdon County, Pennsylvania",45369,626
+31580,"Madisonville, KY",21107,"Hopkins County, Kentucky",45331,627
+13340,"Bellefontaine, OH",39091,"Logan County, Ohio",45316,628
+32860,"Menomonie, WI",55005,"Barron County, Wisconsin",45229,629
+32000,"Marion, NC",37111,"McDowell County, North Carolina",45227,630
+24330,"Grand Rapids, MN",27061,"Itasca County, Minnesota",45141,631
+30260,"Lewisburg, PA",42119,"Union County, Pennsylvania",45111,632.5
+33300,"Milledgeville, GA",13009,"Baldwin County, Georgia",45111,632.5
+23300,"Freeport, IL",17177,"Stephenson County, Illinois",45093,634
+37500,"Paragould, AR",05055,"Greene County, Arkansas",44937,635
+40620,"Rolla, MO",29161,"Phelps County, Missouri",44630,636.5
+45620,"Thomasville, GA",13275,"Thomas County, Georgia",44630,636.5
+18460,"Cornelia, GA",13137,"Habersham County, Georgia",44626,638
+25780,"Henderson, NC",37181,"Vance County, North Carolina",44479,639
+38620,"Ponca City, OK",40071,"Kay County, Oklahoma",44402,640
+37220,"Pahrump, NV",32023,"Nye County, Nevada",44380,641
+44860,"Sulphur Springs, TX",48499,"Wood County, Texas",44366,642
+32540,"McAlester, OK",40121,"Pittsburg County, Oklahoma",44146,643
+42980,"Seymour, IN",18071,"Jackson County, Indiana",44025,644
+23980,"Glasgow, KY",21009,"Barren County, Kentucky",43884,645
+20340,"Duncan, OK",40137,"Stephens County, Oklahoma",43647,646
+41760,"Sandpoint, ID",16017,"Bonner County, Idaho",43611,647
+40540,"Rock Springs, WY",56037,"Sweetwater County, Wyoming",43521,648
+17740,"Coldwater, MI",26023,"Branch County, Michigan",43513,649
+29980,"Lawrenceburg, TN",47099,"Lawrence County, Tennessee",43390,650
+13660,"Big Rapids, MI",26107,"Mecosta County, Michigan",43251,651
+20060,"Douglas, GA",13069,"Coffee County, Georgia",43021,652
+47920,"Washington Court House, OH",39071,"Highland County, Ohio",43016,653
+19000,"Cullowhee, NC",37099,"Jackson County, North Carolina",42938,654
+12140,"Auburn, IN",18033,"DeKalb County, Indiana",42927,655
+34700,"Muscatine, IA",19139,"Muscatine County, Iowa",42889,656
+48820,"Willmar, MN",27067,"Kandiyohi County, Minnesota",42841,657
+32380,"Mason City, IA",19033,"Cerro Gordo County, Iowa",42834,658
+38740,"Poplar Bluff, MO",29023,"Butler County, Missouri",42656,659
+27540,"Jasper, IN",18037,"Dubois County, Indiana",42543,660
+42740,"Sedalia, MO",29159,"Pettis County, Missouri",42355,661
+14180,"Blytheville, AR",05093,"Mississippi County, Arkansas",42126,662
+48940,"Wilmington, OH",39027,"Clinton County, Ohio",41957,663
+16340,"Cedartown, GA",13233,"Polk County, Georgia",41908,664
+44500,"Stephenville, TX",48143,"Erath County, Texas",41841,665
+15340,"Bucyrus, OH",39033,"Crawford County, Ohio",41821,666
+33940,"Montrose, CO",08085,"Montrose County, Colorado",41686,667
+20900,"El Campo, TX",48481,"Wharton County, Texas",41577,668
+34260,"Mountain Home, AR",05005,"Baxter County, Arkansas",41427,669
+14620,"Bradford, PA",42083,"McKean County, Pennsylvania",41401,670
+36380,"Okeechobee, FL",12093,"Okeechobee County, Florida",41144,671
+44920,"Summit Park, UT",49043,"Summit County, Utah",41103,672
+10860,"Alice, TX",48249,"Jim Wells County, Texas",40972,673
+10940,"Alma, MI",26057,"Gratiot County, Michigan",40916,674
+25020,"Guayama, PR",72057,"Guayama Municipio, Puerto Rico",40889,675
+16380,"Celina, OH",39107,"Mercer County, Ohio",40884,676
+17500,"Clewiston, FL",12051,"Hendry County, Florida",40732,677
+32660,"McMinnville, TN",47177,"Warren County, Tennessee",40702,678
+35020,"Natchez, MS-LA",22009,"Avoyelles Parish, Louisiana",40669,679
+38840,"Port Clinton, OH",39123,"Ottawa County, Ohio",40632,680
+10760,"Alexander City, AL",01123,"Tallapoosa County, Alabama",40541,681.5
+45700,"Tifton, GA",13277,"Tift County, Georgia",40541,681.5
+42780,"Selinsgrove, PA",42109,"Snyder County, Pennsylvania",40483,683
+31940,"Marinette, WI-MI",55075,"Marinette County, Wisconsin",40391,684
+30300,"Lewiston, ID-WA",16069,"Nez Perce County, Idaho",40217,685
+48460,"West Plains, MO",29091,"Howell County, Missouri",40104,686
+23620,"Gainesville, TX",48097,"Cooke County, Texas",40041,687
+32260,"Marshalltown, IA",19127,"Marshall County, Iowa",39964,688
+40180,"Riverton, WY",56013,"Fremont County, Wyoming",39812,689
+12380,"Austin, MN",27099,"Mower County, Minnesota",39807,690
+NA,NA,23013,"Knox County, Maine",39759,691
+47620,"Warren, PA",42123,"Warren County, Pennsylvania",39756,692
+32620,"McComb, MS",28113,"Pike County, Mississippi",39532,693
+21020,"Elizabeth City, NC",37139,"Pasquotank County, North Carolina",39514,694
+34140,"Moscow, ID",16057,"Latah County, Idaho",39505,695
+20980,"El Dorado, AR",05139,"Union County, Arkansas",39449,696
+15460,"Burlington, IA-IL",19057,"Des Moines County, Iowa",39386,697
+21580,"Española, NM",35039,"Rio Arriba County, New Mexico",39159,698
+42820,"Selma, AL",01047,"Dallas County, Alabama",39149,699
+15740,"Cambridge, OH",39059,"Guernsey County, Ohio",39111,700
+11820,"Astoria, OR",41007,"Clatsop County, Oregon",39102,701
+39940,"Rexburg, ID",16065,"Madison County, Idaho",39100,702
+38260,"Pittsburg, KS",20037,"Crawford County, Kansas",38968,703
+34500,"Mount Vernon, IL",17055,"Franklin County, Illinois",38923,704
+10100,"Aberdeen, SD",46013,"Brown County, South Dakota",38915,705.5
+30820,"Lock Haven, PA",42035,"Clinton County, Pennsylvania",38915,705.5
+17620,"Coamo, PR",72043,"Coamo Municipio, Puerto Rico",38906,707
+46500,"Urbana, OH",39021,"Champaign County, Ohio",38845,708
+34660,"Murray, KY",21035,"Calloway County, Kentucky",38837,709
+35060,"Natchitoches, LA",22069,"Natchitoches Parish, Louisiana",38769,710
+43460,"Sikeston, MO",29201,"Scott County, Missouri",38633,711
+29660,"Laramie, WY",56001,"Albany County, Wyoming",38390,712
+10220,"Ada, OK",40123,"Pontotoc County, Oklahoma",38355,713
+18820,"Crawfordsville, IN",18107,"Montgomery County, Indiana",38287,714
+35140,"Newberry, SC",45071,"Newberry County, South Carolina",38194,715
+19580,"Defiance, OH",39039,"Defiance County, Ohio",38160,716
+30900,"Logansport, IN",18017,"Cass County, Indiana",37880,717
+15220,"Brownwood, TX",48049,"Brown County, Texas",37855,718
+16460,"Centralia, IL",17121,"Marion County, Illinois",37743,719
+42300,"Sault Ste. Marie, MI",26033,"Chippewa County, Michigan",37629,720
+10820,"Alexandria, MN",27041,"Douglas County, Minnesota",37513,721
+12900,"Batesville, AR",05063,"Independence County, Arkansas",37427,722
+20540,"Dyersburg, TN",47045,"Dyer County, Tennessee",37416,723
+25460,"Harrison, AR",05009,"Boone County, Arkansas",37331,724
+32460,"Mayfield, KY",21083,"Graves County, Kentucky",37248,725
+20660,"Easton, MD",24041,"Talbot County, Maryland",37167,726
+18420,"Corinth, MS",28003,"Alcorn County, Mississippi",37090,727
+47180,"Vincennes, IN",18083,"Knox County, Indiana",37065,728
+12120,"Atmore, AL",01053,"Escambia County, Alabama",37057,729
+19760,"DeRidder, LA",22011,"Beauregard Parish, Louisiana",37043,730
+35500,"Newton, IA",19099,"Jasper County, Iowa",36971,731
+11580,"Arcadia, FL",12027,"DeSoto County, Florida",36903,732
+13060,"Bay City, TX",48321,"Matagorda County, Texas",36774,733
+23780,"Garden City, KS",20055,"Finney County, Kansas",36750,734
+36940,"Owatonna, MN",27147,"Steele County, Minnesota",36683,735
+23340,"Fremont, NE",31053,"Dodge County, Nebraska",36665,736
+18740,"Coshocton, OH",39031,"Coshocton County, Ohio",36585,737
+22700,"Fort Dodge, IA",19187,"Webster County, Iowa",36545,738
+26540,"Huntington, IN",18069,"Huntington County, Indiana",36359,739
+13700,"Big Spring, TX",48227,"Howard County, Texas",36349,740
+28620,"Kill Devil Hills, NC",37055,"Dare County, North Carolina",36222,741
+46860,"Vernal, UT",49047,"Uintah County, Utah",36084,742
+42420,"Scottsbluff, NE",31157,"Scotts Bluff County, Nebraska",36074,743
+26340,"Houghton, MI",26061,"Houghton County, Michigan",36070,744
+38700,"Pontiac, IL",17105,"Livingston County, Illinois",36040,745
+21540,"Escanaba, MI",26041,"Delta County, Michigan",36026,746
+26780,"Hutchinson, MN",27085,"McLeod County, Minnesota",35832,747
+37940,"Peru, IN",18103,"Miami County, Indiana",35815,748
+13540,"Bennington, VT",50003,"Bennington County, Vermont",35746,749
+48180,"Waycross, GA",13299,"Ware County, Georgia",35593,750
+35460,"Newport, TN",47029,"Cocke County, Tennessee",35552,751
+30060,"Lebanon, MO",29105,"Laclede County, Missouri",35531,752
+32980,"Merrill, WI",55085,"Oneida County, Wisconsin",35381,753
+19540,"Decatur, IN",18001,"Adams County, Indiana",35376,754
+11680,"Arkansas City-Winfield, KS",20035,"Cowley County, Kansas",35351,755
+35820,"North Platte, NE",31111,"Lincoln County, Nebraska",35263,756
+48780,"Williston, ND",38105,"Williams County, North Dakota",35208,757
+14780,"Brenham, TX",48477,"Washington County, Texas",35163,758
+36900,"Ottumwa, IA",19179,"Wapello County, Iowa",35141,759
+15900,"Canton, IL",17057,"Fulton County, Illinois",35092,760
+35740,"Norfolk, NE",31119,"Madison County, Nebraska",35080,761
+29900,"Laurinburg, NC",37165,"Scotland County, North Carolina",35076,762
+15580,"Butte-Silver Bow, MT",30093,"Silver Bow County, Montana",34770,763
+15100,"Brookings, SD",46011,"Brookings County, South Dakota",34601,764
+14300,"Bonham, TX",48147,"Fannin County, Texas",34537,765
+11420,"Angola, IN",18151,"Steuben County, Indiana",34453,766
+42900,"Seneca Falls, NY",36099,"Seneca County, New York",34390,767
+19940,"Dixon, IL",17103,"Lee County, Illinois",34389,768
+15020,"Brookhaven, MS",28085,"Lincoln County, Mississippi",34320,769
+27300,"Jacksonville, IL",17137,"Morgan County, Illinois",34247,770
+22800,"Fort Madison-Keokuk, IA-IL-MO",19111,"Lee County, Iowa",34227,771
+19980,"Dodge City, KS",20057,"Ford County, Kansas",34179,772
+20820,"Effingham, IL",17049,"Effingham County, Illinois",34137,773
+27920,"Junction City, KS",20061,"Geary County, Kansas",34025,774
+38380,"Plainview, TX",48189,"Hale County, Texas",33826,775
+14820,"Brevard, NC",37175,"Transylvania County, North Carolina",33775,776
+46740,"Valley, AL",01017,"Chambers County, Alabama",33660,777
+31680,"Malvern, AR",05059,"Hot Spring County, Arkansas",33597,778
+32280,"Martin, TN",47183,"Weakley County, Tennessee",33510,779
+45980,"Troy, AL",01109,"Pike County, Alabama",33333,780
+15620,"Cadillac, MI",26165,"Wexford County, Michigan",33256,781
+21380,"Emporia, KS",20111,"Lyon County, Kansas",33251,782
+18100,"Columbus, NE",31141,"Platte County, Nebraska",33174,783
+37800,"Pella, IA",19125,"Marion County, Iowa",33172,784
+30880,"Logan, WV",54045,"Logan County, West Virginia",33154,785
+47780,"Washington, IN",18027,"Daviess County, Indiana",33120,786
+30280,"Lewisburg, TN",47117,"Marshall County, Tennessee",32965,787
+45380,"Taylorville, IL",17021,"Christian County, Illinois",32931,788
+45340,"Taos, NM",35055,"Taos County, New Mexico",32786,789
+19420,"Dayton, TN",47143,"Rhea County, Tennessee",32719,790
+34420,"Mount Pleasant, TX",48449,"Titus County, Texas",32640,791
+13300,"Beeville, TX",48025,"Bee County, Texas",32611,792
+17700,"Coffeyville, KS",20125,"Montgomery County, Kansas",32521,793
+27160,"Jackson, OH",39079,"Jackson County, Ohio",32450,794
+37540,"Paris, TN",47079,"Henry County, Tennessee",32284,795
+23140,"Frankfort, IN",18023,"Clinton County, Indiana",32273,796
+27940,"Juneau, AK",02110,"Juneau City and Borough, Alaska",32227,797
+31500,"Madison, IN",18077,"Jefferson County, Indiana",32201,798
+15700,"Cambridge, MD",24019,"Dorchester County, Maryland",32138,799
+17380,"Cleveland, MS",28011,"Bolivar County, Mississippi",31848,800
+13620,"Berlin, NH-VT",33007,"Coos County, New Hampshire",31741,801
+25720,"Heber, UT",49051,"Wasatch County, Utah",31708,802
+25580,"Hastings, NE",31001,"Adams County, Nebraska",31587,803
+33060,"Miami, OK",40115,"Ottawa County, Oklahoma",31454,804
+27660,"Jennings, LA",22053,"Jefferson Davis Parish, Louisiana",31441,805
+47340,"Wabash, IN",18169,"Wabash County, Indiana",31389,806
+19860,"Dickinson, ND",38089,"Stark County, North Dakota",31081,807
+28780,"Kingsville, TX",48273,"Kleberg County, Texas",30974,808
+16420,"Central City, KY",21177,"Muhlenberg County, Kentucky",30951,809
+45000,"Susanville, CA",06035,"Lassen County, California",30818,810
+14720,"Breckenridge, CO",08117,"Summit County, Colorado",30649,811
+31380,"Macomb, IL",17109,"McDonough County, Illinois",30479,812
+10660,"Albert Lea, MN",27047,"Freeborn County, Minnesota",30463,813
+36620,"Ontario, OR-ID",41045,"Malheur County, Oregon",30412,814
+41260,"St. Marys, PA",42047,"Elk County, Pennsylvania",30340,815
+43260,"Sheridan, WY",56033,"Sheridan County, Wyoming",30140,816
+38580,"Point Pleasant, WV-OH",39053,"Gallia County, Ohio",30088,817
+11140,"Americus, GA",13261,"Sumter County, Georgia",30064,818
+28380,"Kennett, MO",29069,"Dunklin County, Missouri",30027,819
+19220,"Danville, KY",21021,"Boyle County, Kentucky",29972,820
+39220,"Price, UT",49039,"Sanpete County, Utah",29850,821
+27700,"Jesup, GA",13305,"Wayne County, Georgia",29788,822
+48220,"Weatherford, OK",40015,"Caddo County, Oklahoma",29242,823
+24900,"Greenwood, MS",28083,"Leflore County, Mississippi",29222,824
+30660,"Lincoln, IL",17107,"Logan County, Illinois",29003,825
+31220,"Ludington, MI",26105,"Mason County, Michigan",28954,826
+21180,"Elkins, WV",54083,"Randolph County, West Virginia",28930,827
+25700,"Hays, KS",20051,"Ellis County, Kansas",28775,828
+25300,"Hannibal, MO",29127,"Marion County, Missouri",28608,829
+32700,"McPherson, KS",20113,"McPherson County, Kansas",28567,830
+33420,"Mineral Wells, TX",48363,"Palo Pinto County, Texas",28540,831
+10980,"Alpena, MI",26007,"Alpena County, Michigan",28520,832
+22820,"Fort Morgan, CO",08087,"Morgan County, Colorado",28517,833
+35860,"North Vernon, IN",18137,"Ripley County, Indiana",28391,834
+46780,"Van Wert, OH",39161,"Van Wert County, Ohio",28261,835
+17640,"Coco, PR",72123,"Salinas Municipio, Puerto Rico",28109,836
+47980,"Watertown, SD",46029,"Codington County, South Dakota",28026,837
+34460,"Mount Sterling, KY",21173,"Montgomery County, Kentucky",27884,838
+29780,"Las Vegas, NM",35047,"San Miguel County, New Mexico",27738,839
+43500,"Silver City, NM",35017,"Grant County, New Mexico",27669,840
+18860,"Crescent City, CA",06015,"Del Norte County, California",27495,841
+48100,"Wauchula, FL",12049,"Hardee County, Florida",27131,842
+47080,"Vidalia, GA",13279,"Toombs County, Georgia",26972,843
+46620,"Uvalde, TX",48463,"Uvalde County, Texas",26920,844
+24380,"Grants, NM",35006,"Cibola County, New Mexico",26891,845
+33180,"Middlesborough, KY",21013,"Bell County, Kentucky",26791,846
+13500,"Bennettsville, SC",45069,"Marlboro County, South Carolina",26753,847
+34300,"Mountain Home, ID",16039,"Elmore County, Idaho",26743,848
+12460,"Bainbridge, GA",13087,"Decatur County, Georgia",26682,849
+24700,"Greensburg, IN",18031,"Decatur County, Indiana",26562,850
+23240,"Fredericksburg, TX",48171,"Gillespie County, Texas",26459,851
+24460,"Great Bend, KS",20009,"Barton County, Kansas",26453,852
+14340,"Boone, IA",19015,"Boone County, Iowa",26370,853
+29260,"La Grande, OR",41061,"Union County, Oregon",26337,854
+45580,"Thomaston, GA",13293,"Upson County, Georgia",26236,855
+26940,"Indianola, MS",28133,"Sunflower County, Mississippi",26168,856
+45520,"The Dalles, OR",41065,"Wasco County, Oregon",26130,857
+22620,"Forrest City, AR",05123,"St. Francis County, Arkansas",25900,858
+32140,"Marshall, MN",27083,"Lyon County, Minnesota",25758,859
+45740,"Toccoa, GA",13257,"Stephens County, Georgia",25750,860
+33020,"Mexico, MO",29007,"Audrain County, Missouri",25644,861
+12820,"Bastrop, LA",22067,"Morehouse Parish, Louisiana",25610,862
+15820,"Campbellsville, KY",21217,"Taylor County, Kentucky",25571,863
+36840,"Ottawa, KS",20059,"Franklin County, Kansas",25558,864
+43940,"Spearfish, SD",46081,"Lawrence County, South Dakota",25478,865
+27020,"Iron Mountain, MI-WI",26043,"Dickinson County, Michigan",25439,866
+28860,"Kirksville, MO",29001,"Adair County, Missouri",25369,867
+21640,"Eufaula, AL-GA",01005,"Barbour County, Alabama",25361,868
+35580,"New Ulm, MN",27015,"Brown County, Minnesota",25163,869
+44460,"Steamboat Springs, CO",08107,"Routt County, Colorado",25072,870
+11060,"Altus, OK",40065,"Jackson County, Oklahoma",25063,871
+33620,"Moberly, MO",29175,"Randolph County, Missouri",24878,872
+44900,"Summerville, GA",13055,"Chattooga County, Georgia",24812,873
+21980,"Fallon, NV",32001,"Churchill County, Nevada",24259,874
+19700,"Deming, NM",35029,"Luna County, New Mexico",24083,875
+15780,"Camden, AR",05103,"Ouachita County, Arkansas",23830,876
+31620,"Magnolia, AR",05027,"Columbia County, Arkansas",23776,877
+30420,"Lexington, NE",31047,"Dawson County, Nebraska",23733,878
+15420,"Burley, ID",16031,"Cassia County, Idaho",23690,879
+27220,"Jackson, WY-ID",56039,"Teton County, Wyoming",23280,880
+17260,"Clarksdale, MS",28027,"Coahoma County, Mississippi",23255,881
+26220,"Hood River, OR",41027,"Hood River County, Oregon",23209,882
+18220,"Connersville, IN",18041,"Fayette County, Indiana",23194,883
+30220,"Levelland, TX",48219,"Hockley County, Texas",23064,884
+39260,"Prineville, OR",41013,"Crook County, Oregon",23011,885
+32180,"Marshall, MO",29195,"Saline County, Missouri",22976,886
+49460,"Yankton, SD",46135,"Yankton County, South Dakota",22717,887
+18380,"Cordele, GA",13081,"Crisp County, Georgia",22713,888
+15060,"Brookings, OR",41015,"Curry County, Oregon",22650,889
+37420,"Pampa, TX",48179,"Gray County, Texas",22410,890
+11660,"Arkadelphia, AR",05019,"Clark County, Arkansas",22386,891
+44540,"Sterling, CO",08075,"Logan County, Colorado",22380,892
+25200,"Hailey, ID",16013,"Blaine County, Idaho",22373,893
+32340,"Maryville, MO",29147,"Nodaway County, Missouri",22359,894
+30580,"Liberal, KS",20175,"Seward County, Kansas",22349,895
+21120,"Elk City, OK",40009,"Beckham County, Oklahoma",22268,896
+36820,"Oskaloosa, IA",19123,"Mahaska County, Iowa",22164,897
+26260,"Hope, AR",05057,"Hempstead County, Arkansas",21842,898
+42180,"Santa Isabel, PR",72133,"Santa Isabel Municipio, Puerto Rico",21757,899
+49380,"Worthington, MN",27105,"Nobles County, Minnesota",21734,900
+38920,"Port Lavaca, TX",48057,"Calhoun County, Texas",21668,901
+13100,"Beatrice, NE",31067,"Gage County, Nebraska",21594,902
+39700,"Raymondville, TX",48489,"Willacy County, Texas",21588,903
+20300,"Dumas, TX",48341,"Moore County, Texas",21399,904
+14420,"Borger, TX",48233,"Hutchinson County, Texas",21344,905
+24980,"Grenada, MS",28043,"Grenada County, Mississippi",21088,906
+27420,"Jamestown, ND",38093,"Stutsman County, North Dakota",20965,907
+25100,"Guymon, OK",40139,"Texas County, Oklahoma",20805,908
+49260,"Woodward, OK",40153,"Woodward County, Oklahoma",20727,909
+11380,"Andrews, TX",48165,"Gaines County, Texas",20706,910
+21740,"Evanston, WY",56041,"Uinta County, Wyoming",20479,911
+16140,"Carroll, IA",19027,"Carroll County, Iowa",20281,912
+37660,"Parsons, KS",20021,"Cherokee County, Kansas",20179,913
+44740,"Storm Lake, IA",19021,"Buena Vista County, Iowa",20058,914
+21840,"Fairfield, IA",19087,"Henry County, Iowa",19941,915
+33580,"Mitchell, SD",46035,"Davison County, South Dakota",19871,916
+21860,"Fairmont, MN",27091,"Martin County, Minnesota",19852,917
+48500,"West Point, MS",28025,"Clay County, Mississippi",19640,918
+36830,"Othello, WA",53001,"Adams County, Washington",19594,919
+40760,"Ruidoso, NM",35027,"Lincoln County, New Mexico",19461,920
+38780,"Portales, NM",35041,"Roosevelt County, New Mexico",18888,921
+25820,"Hereford, TX",48117,"Deaf Smith County, Texas",18736,922
+31060,"Los Alamos, NM",35028,"Los Alamos County, New Mexico",18625,923
+25760,"Helena-West Helena, AR",05107,"Phillips County, Arkansas",18606,924
+26700,"Huron, SD",46005,"Beadle County, South Dakota",18346,925
+10260,"Adjuntas, PR",72001,"Adjuntas Municipio, Puerto Rico",17891,926
+15140,"Brownsville, TN",47075,"Haywood County, Tennessee",17623,927
+38180,"Pierre, SD",46065,"Hughes County, South Dakota",17608,928
+47240,"Vineyard Haven, MA",25007,"Dukes County, Massachusetts",17312,929
+44020,"Spirit Lake, IA",19059,"Dickinson County, Iowa",17127,930
+32500,"Maysville, KY",21161,"Mason County, Kentucky",17112,931
+43660,"Snyder, TX",48415,"Scurry County, Texas",17096,932
+22340,"Fitzgerald, GA",13017,"Ben Hill County, Georgia",17033,933
+49080,"Winnemucca, NV",32013,"Humboldt County, Nevada",16828,934
+11860,"Atchison, KS",20005,"Atchison County, Kansas",16268,935
+47420,"Wahpeton, ND-MN",38077,"Richland County, North Dakota",16254,936
+43980,"Spencer, IA",19041,"Clay County, Iowa",16211,937
+37780,"Pecos, TX",48371,"Pecos County, Texas",15815,938
+45020,"Sweetwater, TX",48353,"Nolan County, Texas",14904,939
+27580,"Jayuya, PR",72073,"Jayuya Municipio, Puerto Rico",14539,940
+49820,"Zapata, TX",48505,"Zapata County, Texas",14304,941
+46820,"Vermillion, SD",46027,"Clay County, South Dakota",13957,942
+28540,"Ketchikan, AK",02130,"Ketchikan Gateway Borough, Alaska",13800,943
+18780,"Craig, CO",08081,"Moffat County, Colorado",13127,944
+46900,"Vernon, TX",48487,"Wilbarger County, Texas",12833,945
+29500,"Lamesa, TX",48115,"Dawson County, Texas",12813,946
