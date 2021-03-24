@@ -47,3 +47,9 @@ Not too different in that neighborhood but for the following, in Old City, the r
 | ----------- | ----------- |
 | ![](https://raw.githubusercontent.com/asrenninger/networks/master/viz/gravity/absolute_change_2.png) | ![](https://raw.githubusercontent.com/asrenninger/networks/master/viz/gravity/absolute_change_2_forest.png) |
 
+#### Removing supply
+
+We can test how the model performs at the extremes by removing a grocery store from a neighborhood. These maps break it out by positive or negative changes to the prediction, so the left shows flows that see less activity and and right shows flows that see more activity. The model does predict decreased travel between some neighborhoods but, problematically, it also predicts increased travel. 
+
+![](https://raw.githubusercontent.com/asrenninger/networks/master/viz/gravity/absolute_change_3_forest.png)
+
