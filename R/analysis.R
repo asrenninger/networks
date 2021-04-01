@@ -6,7 +6,7 @@ source("R/package.R")
 source("R/help.R")
 
 ## identify folder 
-files <- dir_ls("data/processed/correlations")
+files <- dir_ls("data/processed/metros/correlations")
 
 ## bind tables
 correlations <- map_df(files, vroom)
@@ -163,7 +163,7 @@ correlations %>%
   ggsave("correlations_tiled.png", height = 11, width = 17, dpi = 300)
 
 ## identify folder 
-files <- dir_ls("data/processed/centralities")
+files <- dir_ls("data/processed/metros/centralities")
 
 ## new palette for sample cities
 temp <- sample(scico(n = 9, palette = 'hawaii'), 5)
@@ -191,7 +191,7 @@ centralities %>%
   ggsave("centralities_series.png", height = 8, width = 11, dpi = 300)
 
 ## bind tables
-diversities <- map_df(dir_ls("data/processed/diversities"), ~vroom(.x, col_types = cols(GEOID = col_character())))
+diversities <- map_df(dir_ls("data/processed/metros/diversities"), ~vroom(.x, col_types = cols(GEOID = col_character())))
 
 ## plot time series
 diversities %>%
