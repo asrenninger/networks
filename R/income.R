@@ -2,11 +2,11 @@
 ## Looking at thte role of income
 ####################################
 
+## packages and functions
 source("R/package.R")
 source("R/help.R")
 
-##
-
+## scientific notation
 options(scipen = 999)
 
 ## import results
