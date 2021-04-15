@@ -251,14 +251,14 @@ diversities %>%
   theme(legend.position = c(0.7, 0.3)) +
   ggsave("density_entropy.png", height = 8, width = 11, dpi = 300)
 
-## hhi
+## gini
 diversities %>%
   group_by(city) %>%
   arrange(month) %>%
-  mutate(hhi = (hhi - first(hhi)) / first(hhi)) %>%
+  mutate(gini = (gini - first(gini)) / first(gini)) %>%
   ungroup() %>%
   group_by(city) %>%
-  filter(hhi == max(hhi)) %>%
+  filter(gini == max(gini)) %>%
   ungroup() %>%
   group_by(month) %>%
   summarise(n = n()) %>%
@@ -268,20 +268,20 @@ diversities %>%
   xlab("") +
   ylab("") +
   theme_hor() +
-  ggsave("worstmonth_hhi.png", height = 6, width = 8, dpi = 300)
+  ggsave("worstmonth_gini.png", height = 6, width = 8, dpi = 300)
 
 diversities %>%
-  ggplot(aes(x = lubridate::month(month, label = TRUE), y = hhi, group = city)) +
+  ggplot(aes(x = lubridate::month(month, label = TRUE), y = gini, group = city)) +
   geom_line(colour = '#E5E5E3', size = 1) +
   geom_line(data = diversities %>%
               filter(str_detect(city, "New York|San Francisco|Houston|Boston|Phoenix")),
-            aes(x = lubridate::month(month, label = TRUE), y = hhi, colour = city), size = 1) + 
+            aes(x = lubridate::month(month, label = TRUE), y = gini, colour = city), size = 1) + 
   scale_colour_manual(values = temp,
                       name = "Network Entropy") + 
   labs(x = "", y = "") +
   theme_hor() +
   theme(legend.position = c(0.7, 0.3)) +
-  ggsave("density_hhi.png", height = 8, width = 11, dpi = 300)
+  ggsave("density_gini.png", height = 8, width = 11, dpi = 300)
 
 ## dissimilarity
 diversities %>%
