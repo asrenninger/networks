@@ -13,6 +13,31 @@ options(scipen = 999)
 files <- dir_ls("data/processed/metros/centralities")
 centralities <- map_df(files, ~vroom(.x, col_types = cols(GEOID = col_character())))
 
+files <- dir_ls("data/processed/metros/diversities")
+diversities <- map_df(files, vroom)
+
+centralities %>% 
+  # group_by(month, city) %>% 
+  # summarise(s = sum(prc),
+  #           m = mean(prc),
+  #           v = var(prc),
+  #           d = sd(prc)) %>%
+  # arrange(city, month) %>%
+  filter(str_detect(city, "New York|Los Angeles|San Francisco|Houston|Boston")) %>%
+  mutate(city = str_remove_all(city, ", .*")) %>%
+  group_by(city, month) %>% 
+  mutate(summary = median(prc)) %>%
+  ungroup() %>% 
+  ggplot(aes(prc, fill = city)) +
+  geom_density() +
+  geom_vline(aes(xintercept = summary), size = 1, linetype = 3) +
+  scale_fill_manual(values = sample(pal, 5), guide = 'none') + 
+  scale_x_log10() + 
+  labs(x = "", y = "") + 
+  facet_grid(month ~ city) +
+  theme_hor() +
+  ggsave("pagerankxcityxmonth.png", height = 11, width = 17, dpi = 300)
+
 ## import income data
 income <- 
   vroom("data/census/data/cbg_b19.csv") %>% 
