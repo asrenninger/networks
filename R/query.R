@@ -125,7 +125,7 @@ search_trends <- function(fips, month, category, clause) {
                          EXTRACT(year FROM date_range_start) AS year,
                          EXTRACT(month FROM date_range_start) AS month,
                          ROW_NUMBER() OVER(ORDER BY safegraph_place_id) AS index
-                      FROM \`{{projectid}}.safegraph.2020_{{month}}\`
+                      FROM \`{{projectid}}.safegraph.{{month}}\`
                       CROSS JOIN UNNEST(SPLIT(REPLACE(REPLACE(visits_by_day, \'[\', \'\'), \']\', \'\'))) AS unnested
                       WHERE SUBSTR(lpad(CAST(poi_cbg AS STRING), 12, \'0\'), 0, 5) IN ({{fips}})) AS m
                 JOIN (SELECT safegraph_place_id AS join_id, top_category, sub_category

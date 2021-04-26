@@ -26,17 +26,17 @@ centralities %>%
   filter(str_detect(city, "New York|Los Angeles|San Francisco|Houston|Boston")) %>%
   mutate(city = str_remove_all(city, ", .*")) %>%
   group_by(city, month) %>% 
-  mutate(summary = median(prc)) %>%
+  mutate(summary = median(deg)) %>%
   ungroup() %>% 
-  ggplot(aes(prc, fill = city)) +
+  ggplot(aes(deg, fill = city)) +
   geom_density() +
   geom_vline(aes(xintercept = summary), size = 1, linetype = 3) +
   scale_fill_manual(values = sample(pal, 5), guide = 'none') + 
   scale_x_log10() + 
   labs(x = "", y = "") + 
-  facet_grid(month ~ city) +
+  facet_grid(lubridate::month(month, label = TRUE, abbr = FALSE) ~ city) +
   theme_hor() +
-  ggsave("pagerankxcityxmonth.png", height = 11, width = 17, dpi = 300)
+  ggsave("degreexcityxmonth.png", height = 11, width = 17, dpi = 300)
 
 ## import income data
 income <- 
