@@ -83,17 +83,17 @@ animation <-
   scale_colour_gradientn(colours = pal,
                          limits = c(0.7, 1), 
                          oob = scales::squish,
-                         guide = guide_continuous) +
+                         guide = guide_continuous,
+                         name = 'correlation') +
   scale_size_continuous(range = c(1, 10), guide = 'none') +
   transition_manual(name) +
   ease_aes() + 
-  theme_map() +
   labs(title = "Matrix Correlation between January and {current_frame}") +
+  theme_black() +
   theme(legend.position = 'bottom')
 
 anim_save("correlations.gif", animation = animation, 
-          height = 800, width = 1100, fps = 2, 
-          start_pause = 0, end_pause = 1) 
+          height = 760, width = 1100, fps = 5) 
 
 ## facets
 correlations %>%
@@ -303,23 +303,24 @@ diversities %>%
   ggsave("worstmonth_dissimilarity.png", height = 6, width = 8, dpi = 300)
 
 diversities %>%
-  group_by(city) %>%
-  arrange(month) %>%
-  mutate(diss = (diss - first(diss)) / first(diss)) %>%
+  # group_by(city) %>%
+  # arrange(month) %>%
+  # mutate(diss = (diss - first(diss)) / first(diss)) %>%
   ggplot(aes(x = lubridate::month(month, label = TRUE), y = diss, group = city)) +
   geom_line(colour = '#E5E5E3', size = 1) +
   geom_line(data = diversities %>%
-              group_by(city) %>%
-              arrange(month) %>%
-              mutate(diss = (diss - first(diss)) / first(diss)) %>%
+              # group_by(city) %>%
+              # arrange(month) %>%
+              # mutate(diss = (diss - first(diss)) / first(diss)) %>%
               filter(str_detect(city, "New York|San Francisco|Houston|Boston|Phoenix")),
             aes(x = lubridate::month(month, label = TRUE), y = diss, colour = city), size = 1) + 
   scale_colour_manual(values = temp,
                       name = "Index of Dissimilarity") + 
-  scale_y_continuous(limits = c(-0.1, 0.2)) +
+  # scale_y_continuous(limits = c(-0.1, 0.2)) +
   labs(x = "", y = "") +
   theme_hor() +
-  theme(legend.position = c(0.7, 0.6)) +
+  # theme(legend.position = c(0.7, 0.6)) +
+  theme(legend.position = c(0.7, 0.3)) +
   ggsave("density_dissimilarity.png", height = 8, width = 11, dpi = 300)
 
 ## community size
