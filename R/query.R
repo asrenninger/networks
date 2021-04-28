@@ -191,3 +191,34 @@ get_bipartite <- function(fips, month, cbgs, min) {
   
 }
 
+## bespoke for spatial interaction modelling 
+get_interactions <- function(fips, month, category, keyword, cbgs, min) {
+  
+  query <- glue("SELECT poi_cbg, home_cbg, sum(visits) AS visits
+                 FROM (SELECT poi_id, poi_cbg, home_cbg, visits, top_category, sub_category, latitude, longitude,
+                       FROM (SELECT 
+                             safegraph_place_id as poi_id,
+                             lpad(CAST(poi_cbg AS STRING), 12, \'0\') as poi_cbg, 
+                             REGEXP_EXTRACT(unnested, \'(.*?):\') as home_cbg, 
+                             CAST(REGEXP_EXTRACT(unnested, \':(.*)\') AS NUMERIC) as visits
+                             FROM \`{{projectid}}.safegraph.{{month}}\`
+                             CROSS JOIN UNNEST(SPLIT(regexp_replace(REPLACE(REPLACE(visitor_home_cbgs, \'{\', \'\'), \'}\', \'\'), \'\"\', \'\'))) as unnested
+                             WHERE SUBSTR(lpad(CAST(poi_cbg AS STRING), 12, \'0\'), 0, 5) IN ({{fips}}) AND visitor_home_cbgs != \'{}\')
+                             JOIN (SELECT safegraph_place_id AS join_id, top_category, sub_category, latitude, longitude
+                             FROM \`{{projectid}}.safegraph.places\`) AS p
+                             ON poi_id = p.join_id) as b
+                  WHERE REGEXP_CONTAINS({{catorgy}}, \'{{keyword}}\')
+                  GROUP BY poi_cbg, home_cbg", 
+                .open = '{{', .close = '}}')
+  
+  df <- bq_project_query(projectid, query)
+  df <- bq_table_download(df)
+  
+  df <- df %>%
+    filter(home_cbg %in% cbgs) %>%
+    filter(visits > min)
+  
+  return(df)
+  
+}
+
