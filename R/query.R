@@ -10,6 +10,14 @@ library(sf)
 ## load project information
 projectid <- jsonlite::fromJSON("secrets/spatial-interaction-project-b528921f271f.json")$project_id
 
+## creating an list of year-month combinations to download
+ranger <- function(start_date, end_date){
+  
+  range <- seq.Date(as.Date(paste0(start_date, "-01")), as.Date(paste0(end_date, "-01")), by = "month")
+  return(gsub("-", "_", substr(range, 1, 7)))
+  
+}
+
 ## a function to extract all county fips codes from a metro area based on a key word
 search_codes <- function(key_word) {
    
@@ -217,6 +225,52 @@ get_interactions <- function(fips, month, category, keyword, cbgs, min) {
   df <- df %>%
     filter(home_cbg %in% cbgs) %>%
     filter(visits > min)
+  
+  return(df)
+  
+}
+
+## income and racial differences
+get_profiles <- function(fips, month, category, clause) {
+  
+  clause <- str_to_title(clause)
+  
+  query <- glue("SELECT safegraph_place_id, location_name, latitude, longitude, top_category, sub_category, 
+                       weighted_average, weighted_median, pct_white, pct_black, pct_hispanic, pct_other,
+                FROM (SELECT safegraph_place_id,
+                      SUM(median_income * visits) / SUM(visits) as weighted_median,
+                      SUM(mean_income * visits) / SUM(visits) as weighted_average,
+                      SUM(white_pop * visits) / (SUM(total_pop * visits) + 1) as pct_white,
+                      SUM(black_pop * visits) / (SUM(total_pop * visits) + 1) as pct_black,
+                      SUM(hispanic_pop * visits) / (SUM(total_pop * visits) + 1) as pct_hispanic,
+                      SUM(other_pop * visits) / (SUM(total_pop * visits) + 1) as pct_other,
+                FROM (SELECT safegraph_place_id, home_cbg, visits
+                      FROM (SELECT safegraph_place_id, poi_cbg, REGEXP_EXTRACT(unnested, \'(.*?):\') AS home_cbg, SAFE_CAST(REGEXP_EXTRACT(unnested, \':(.*)\') AS NUMERIC) AS visits
+                            FROM `{{projectid}}.safegraph.{{month}}`
+                            CROSS JOIN
+                            UNNEST(SPLIT(REGEXP_REPLACE(REPLACE(REPLACE(visitor_home_cbgs, \'{\', \'\'), \'}\', \'\'), \'\"\', \'\'))) AS unnested
+                            WHERE SUBSTR(lpad(CAST(poi_cbg AS STRING), 12, \'0\'), 0, 5) IN ({{fips}}) AND visitor_home_cbgs != \'{}\')) as p
+                      join (SELECT SUBSTR(lpad(CAST(geo_id AS STRING), 12,\'0\'), 0, 5) as county, geo_id as cbg, 
+                                   total_pop, income_per_capita as mean_income, median_income, income_per_capita * total_pop as aggregate_income,
+                                   black_pop, white_pop, hispanic_pop, total_pop - black_pop - white_pop - hispanic_pop as other_pop,
+                            FROM \`bigquery-public-data.census_bureau_acs.blockgroup_2018_5yr\`) as c
+                      ON p.home_cbg = c.cbg
+                GROUP BY safegraph_place_id) i
+                JOIN (SELECT safegraph_place_id AS join_id, location_name, top_category, sub_category, latitude, longitude 
+                      FROM \`{{projectid}}.safegraph.places\`) AS p
+                ON i.safegraph_place_id = p.join_id
+                WHERE REGEXP_CONTAINS({{category}}, \'{{clause}}\')", 
+                .open = '{{', .close = '}}')
+  
+  print(query)
+  
+  df <- bq_project_query(projectid, query)
+  df <- bq_table_download(df)
+  
+  df <- mutate(df, 
+               year = parse_number(str_sub(month, 1, 4)),
+               month = lubridate::month(parse_number(str_sub(month, 6, 7)), label = TRUE, abbr = FALSE),
+               GEOID = fips)
   
   return(df)
   
