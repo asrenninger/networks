@@ -172,7 +172,7 @@ guide_discrete <-
                title.position = 'top',
                label.position = 'bottom',
                title.hjust = 0.5,
-               label.hjust = 1,
+               label.hjust = 0,
                nrow = 1,
                byrow = TRUE)
 
@@ -309,5 +309,13 @@ rmse <- function(observed,estimated){
   res <- (observed - estimated)^2
   RMSE <- round(sqrt(mean(res)),3)
   RMSE
+}
+
+## creating an list of year-month combinations to download
+ranger <- function(start_date, end_date){
+  
+  range <- seq.Date(as.Date(paste0(start_date, "-01")), as.Date(paste0(end_date, "-01")), by = "month")
+  return(gsub("-", "_", substr(range, 1, 7)))
+  
 }
 
