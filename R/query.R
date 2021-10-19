@@ -75,8 +75,8 @@ get_edges <- function(fips, month, cbgs) {
                FROM (SELECT 
                       lpad(CAST(poi_cbg AS STRING), 12, \'0\') as poi_cbg, 
                       REGEXP_EXTRACT(unnested, \'(.*?):\') as home_cbg, 
-                      CAST(REGEXP_EXTRACT(unnested, \':(.*)\') AS NUMERIC) as visits
-               FROM \`{{projectid}}.safegraph.2020_{{month}}\`
+                      SAFE_CAST(REGEXP_EXTRACT(unnested, \':(.*)\') AS NUMERIC) as visits
+               FROM \`{{projectid}}.safegraph.{{month}}\`
                CROSS JOIN UNNEST(SPLIT(regexp_replace(REPLACE(REPLACE(visitor_home_cbgs, \'{\', \'\'), \'}\', \'\'), \'\"\', \'\'))) as unnested
                WHERE SUBSTR(lpad(CAST(poi_cbg AS STRING), 12, \'0\'), 0, 5) IN ({{fips}}) AND visitor_home_cbgs != \'{}\')
                GROUP BY poi_cbg, home_cbg", 
@@ -236,7 +236,8 @@ get_profiles <- function(fips, month, category, clause) {
   clause <- str_to_title(clause)
   
   query <- glue("SELECT safegraph_place_id, location_name, latitude, longitude, top_category, sub_category, 
-                       weighted_average, weighted_median, pct_white, pct_black, pct_hispanic, pct_other,
+                        weighted_average, weighted_median, pct_white, pct_black, pct_hispanic, pct_other,
+                        -1 * ((pct_white * log(pct_white + 0.0001)) + (pct_black * log(pct_black + 0.0001)) + (pct_hispanic * log(pct_hispanic + 0.0001)) + (pct_other * log(pct_other + 0.0001))) as entropy,
                 FROM (SELECT safegraph_place_id,
                       SUM(median_income * visits) / SUM(visits) as weighted_median,
                       SUM(mean_income * visits) / SUM(visits) as weighted_average,

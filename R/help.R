@@ -311,11 +311,5 @@ rmse <- function(observed,estimated){
   RMSE
 }
 
-## creating an list of year-month combinations to download
-ranger <- function(start_date, end_date){
-  
-  range <- seq.Date(as.Date(paste0(start_date, "-01")), as.Date(paste0(end_date, "-01")), by = "month")
-  return(gsub("-", "_", substr(range, 1, 7)))
-  
-}
+
 
