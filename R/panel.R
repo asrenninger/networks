@@ -108,9 +108,10 @@ ggsave(flows, filename = "flows_nyc.png", height = 6, width = 8, dpi = 300)
 
 ## prepare data
 ready <- 
-  edges %>% 
-  mutate(distance = lines$distance) %>% 
-  group_by(year, month) %>% 
+  lines %>% 
+  st_drop_geometry() %>%
+  mutate(period = factor(glue("{month}, {year}"), levels = ym)) %>% 
+  group_by(period) %>% 
   group_split()
 
 ## convert to matrix
@@ -129,7 +130,7 @@ for (i in 1:length(ready)) {
   adjacencies <- 
     temp %>%
     graph_from_data_frame(vertices = nodes, directed = FALSE) %>%
-    set_edge_attr("weight", value = edges$weight) %>% 
+    set_edge_attr("weight", value = temp$weight) %>% 
     as_adjacency_matrix(attr = "weight") %>% 
     as.matrix()
   
@@ -144,7 +145,7 @@ tictoc::toc()
 rownames(correlations) <- ym
 colnames(correlations) <- ym
 
-corrplot <- correlate(correlations, "correlations.png")
+corrplot <- correlate(correlations, "correlations_nyc.png")
 
 ## checking other trends
 density <- 
