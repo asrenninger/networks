@@ -1,0 +1,185 @@
+#################################################
+## Let's do this...
+#################################################
+get_distance <-
+  function(edges, nodes){
+    
+    distances <- stplanr::od2line(edges, 
+                                  nodes %>% 
+                                    st_as_sf(coords = c("X", "Y"), crs = 4326) %>% 
+                                    st_transform(4269)) %>% 
+      st_transform(3857) %>%
+      transmute(focal, target, period,
+                distance = units::drop_units(units::set_units(st_length(geometry), km))) %>%
+      st_drop_geometry()
+    
+    return(distances)
+    
+  }
+
+get_census <-
+  function(nodes){
+    
+    income <- 
+      vroom::vroom("data/census/data/cbg_b19x.csv") %>% 
+      filter(census_block_group %in% nodes$cbg) %>%
+      select(census_block_group, B19301e1, B19301m1,
+             B19101e1, B19101e2, B19101e3, B19101e4, B19101e5, B19101e6, B19101e7, B19101e8, B19101e9, 
+             B19101e10, B19101e11, B19101e12, B19101e13, B19101e14, B19101e15, B19101e16, B19101e17) %>% 
+      transmute(GEOID = census_block_group,
+                median_income = B19301e1,
+                lower_lower = B19101e2 + B19101e3 + B19101e4 + B19101e5, 
+                lower_middle = B19101e6 + B19101e7 + B19101e8 + B19101e9, 
+                middle = B19101e10 + B19101e11 + B19101e12, 
+                upper_middle = B19101e13 + B19101e14, 
+                upper_upper = B19101e14 + B19101e16 + B19101e16 + B19101e17) %>%
+      mutate(lower = lower_lower + lower_middle,
+             upper = upper_middle + upper_upper)
+    
+    population <- 
+      vroom::vroom("data/census/data/cbg_b02xb03.csv") %>% 
+      filter(census_block_group %in% nodes$cbg) %>%
+      select(census_block_group, B02001e1:B02001e5, B03002e1, B03002e2) %>%
+      transmute(GEOID = census_block_group, 
+                pct_nonwhite = 1 - (B02001e2 / B02001e1),
+                population = B02001e1,
+                white = B02001e2,
+                black = B02001e3,
+                asian = B02001e5,
+                hispanic = B03002e1 - B03002e2,
+                other = B02001e1 - B02001e2 - B02001e3- B02001e5 - (B03002e1 - B03002e2)) %>%
+      mutate(other = if_else(other < 0, 0, other))
+    
+    demographics <- left_join(population, income)
+    
+    return(demographics)
+    
+  }
+
+get_statistics <- 
+  function(edges, nodes, node_attributes){
+    
+    d_in <- 
+      edges %>%
+      filter(distance != 0) %>%
+      group_by(GEOID = focal) %>% 
+      summarise(d_in = mean(distance)) %>%
+      ungroup() 
+    
+    d_out <- 
+      edges %>%
+      filter(distance != 0) %>%
+      group_by(GEOID = target) %>% 
+      summarise(d_out = mean(distance)) %>% 
+      ungroup()
+    
+    node_attributes <- 
+      node_attributes %>%
+      left_join(d_in) %>% 
+      left_join(d_out)
+    
+    temp_edges <- 
+      edges %>%
+      transmute(from = target,
+                to = focal, 
+                weight) 
+    
+    temp_nodes <-
+      nodes %>% 
+      transmute(cbg) %>% 
+      left_join(rename(node_attributes, cbg = GEOID)) %>%
+      replace_na(list(d_in = 0, d_out = 0, median_income = 0, pct_nonwhite = 0))
+    
+    graph <- 
+      temp_edges %>%
+      graph_from_data_frame(vertices = select(temp_nodes, cbg), directed = TRUE) %>%
+      set_edge_attr("weight", value = temp_edges$weight) %>%
+      set_vertex_attr("income", value = temp_nodes$median_income) %>%
+      set_vertex_attr("race", value = temp_nodes$pct_nonwhite) %>%
+      set_vertex_attr("d_in", value = temp_nodes$d_in) %>%
+      set_vertex_attr("d_out", value = temp_nodes$d_out)
+    
+    global <- 
+      tibble(period = edges$period[1],
+             density = igraph::graph.density(graph, loops = FALSE),
+             transitivity = igraph::transitivity(graph),
+             assortativity_d_in = igraph::assortativity(graph, V(graph)$d_in),
+             assortativity_d_out = igraph::assortativity(graph, V(graph)$d_out),
+             assortativity_degree = igraph::assortativity_degree(graph),
+             assortativity_income = igraph::assortativity(graph, V(graph)$income),
+             assortativity_race = igraph::assortativity(graph, V(graph)$race))
+    
+    graph <- simplify(graph)
+    
+    infomap_clusters <- igraph::cluster_infomap(as.undirected(graph), e.weights = E(graph)$weight)
+    leiden_clusters <- igraph::cluster_leiden(as.undirected(graph), resolution_parameter = 0.9, objective_function = 'modularity')
+
+    weights <-
+      left_join(edges %>%
+                  group_by(GEOID = focal) %>%
+                  summarise(in_weighted = sum(weight)) %>%
+                  ungroup(),
+                edges %>%
+                  group_by(GEOID = target) %>%
+                  summarise(out_weighted = sum(weight)) %>% 
+                  ungroup()) %>%
+      mutate(degree_balance = in_weighted - out_weighted)
+    
+    local <- 
+      tibble(GEOID = V(graph)$name,
+             eigenvector = igraph::eigen_centrality(graph)$vector, 
+             k_all = igraph::degree(graph, loops = FALSE),
+             k_i = igraph::degree(graph, mode = "in", loops = FALSE),
+             k_o = igraph::degree(graph, mode = "out", loops = FALSE),
+             eccentricity_i = igraph::eccentricity(graph, mode = "in"),
+             eccentricity_o = igraph::eccentricity(graph, mode = "out"),
+             transitivity_l = igraph::transitivity(graph, type = "barrat"),
+             infomap = infomap_clusters$membership,
+             leiden = leiden_clusters$membership) %>%
+      left_join(weights) %>%
+      mutate(period = edges$period[1])
+   
+    global <-
+      global %>%
+      mutate(Q_i = modularity(as.undirected(graph), infomap_clusters$membership, weights = E(graph)$weight),
+             Q_l = modularity(as.undirected(graph), leiden_clusters$membership, weights = E(graph)$weight))
+    
+    return(list(local, global))
+      
+  }
+
+get_correlations <- 
+  function(edge, nodes){
+    
+    square <- array(dim = c(length(ready), nrow(nodes), nrow(nodes)))
+    
+    for (i in 1:length(edges)) {
+      
+      temp <- 
+        edges[[i]] %>%
+        transmute(from = target,
+                  to = focal, 
+                  weight) %>%
+        filter(from %in% nodes$cbg) %>%
+        arrange(to, from)
+      
+      adjacencies <- 
+        temp %>%
+        graph_from_data_frame(vertices = nodes, directed = FALSE) %>%
+        set_edge_attr("weight", value = temp$weight) %>% 
+        as_adjacency_matrix(attr = "weight") %>% 
+        as.matrix()
+      
+      square[i, , ] <- adjacencies
+      
+    }
+    
+    tictoc::tic()
+    correlations <- sna::gcor(square)
+    tictoc::toc()
+    
+    return(correlations)
+    
+  }
+
+
