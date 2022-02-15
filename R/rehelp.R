@@ -182,4 +182,16 @@ get_correlations <-
     
   }
 
+get_null <- function(graph){
+  
+  configuration_model <-
+    igraph::sample_degseq(out.deg = igraph::degree(graph, mode = "in", loops = FALSE),
+                          in.deg = igraph::degree(graph, mode = "out", loops = FALSE)) %>%
+    set_edge_attr("weight", value = sample(E(graph)$weight))
+    
+  
+  return(configuration_model)
+  
+}
+
 
