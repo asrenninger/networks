@@ -134,7 +134,10 @@ get_statistics <-
              eccentricity_i = igraph::eccentricity(graph, mode = "in"),
              eccentricity_o = igraph::eccentricity(graph, mode = "out"),
              transitivity_l = igraph::transitivity(graph, type = "barrat"),
-             infomap = infomap_clusters$membership,
+             infomap_1 = infomap_clusters$membership,
+             infomap_2 = igraph::cluster_infomap(as.undirected(graph), e.weights = E(graph)$weight)$membership,
+             infomap_3 = igraph::cluster_infomap(as.undirected(graph), e.weights = E(graph)$weight)$membership,
+             infomap_4 = igraph::cluster_infomap(as.undirected(graph), e.weights = E(graph)$weight)$membership,
              leiden = leiden_clusters$membership) %>%
       left_join(weights) %>%
       mutate(period = edges$period[1])
@@ -194,4 +197,29 @@ get_null <- function(graph){
   
 }
 
+get_dissimilarity <-
+  function(communities, node_attributes, infomap_run){
+    
+    run <- as.character(infomap_run)
+    
+    race_split <- 
+      communities %>% 
+      select(GEOID, period, ends_with(run)) %>%
+      rename_at(vars(ends_with(run)), ~str_remove(.x, "_.*")) %>%
+      left_join(node_attributes) %>%
+      group_by(period, infomap) %>%
+      summarise(white = sum(white),
+                nonwhite = sum(population - white)) %>%
+      ungroup() %>%
+      group_by(period) %>%
+      group_split()
+    
+    list <- 
+      purrr::map(race_split, function(x){
+        MLID::id(as.data.frame(x), vars = c("nonwhite", "white")) %>% magrittr::extract2(1)
+      })
+    
+    return(reduce(list, c))
+    
+  }
 
