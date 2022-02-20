@@ -68,4 +68,3 @@ tictoc::toc()
 
 local <- map_df(statistics, ~pluck(.x, 1))
 global <- map_df(statistics, ~pluck(.x, 2))
-
