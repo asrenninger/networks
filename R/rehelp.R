@@ -209,17 +209,20 @@ get_dissimilarity <-
       left_join(node_attributes) %>%
       group_by(period, infomap) %>%
       summarise(white = sum(white),
-                nonwhite = sum(population - white)) %>%
+                nonwhite = sum(population - white),
+                upper = sum(upper),
+                lower = sum(upper)) %>%
       ungroup() %>%
       group_by(period) %>%
       group_split()
     
-    list <- 
+    series <- 
       purrr::map(race_split, function(x){
-        MLID::id(as.data.frame(x), vars = c("nonwhite", "white")) %>% magrittr::extract2(1)
+        tibble(race = MLID::id(as.data.frame(x), vars = c("nonwhite", "white")) %>% magrittr::extract2(1),
+               income = MLID::id(as.data.frame(x), vars = c("lower", "upper")) %>% magrittr::extract2(1))
       })
     
-    return(reduce(list, c))
+    return(reduce(list, rbind))
     
   }
 
