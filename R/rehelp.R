@@ -211,18 +211,19 @@ get_dissimilarity <-
       summarise(white = sum(white),
                 nonwhite = sum(population - white),
                 upper = sum(upper),
-                lower = sum(upper)) %>%
+                lower = sum(lower)) %>%
       ungroup() %>%
+      glimpse() %>%
       group_by(period) %>%
       group_split()
     
     series <- 
-      purrr::map(race_split, function(x){
+      reduce(map(race_split, function(x){
         tibble(race = MLID::id(as.data.frame(x), vars = c("nonwhite", "white")) %>% magrittr::extract2(1),
                income = MLID::id(as.data.frame(x), vars = c("lower", "upper")) %>% magrittr::extract2(1))
-      })
+      }), rbind)
     
-    return(reduce(list, rbind))
+    return(mutate(series, period = ym))
     
   }
 
