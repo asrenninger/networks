@@ -144,8 +144,8 @@ get_statistics <-
    
     global <-
       global %>%
-      mutate(Q_i = modularity(as.undirected(graph), infomap_clusters$membership, weights = E(graph)$weight),
-             Q_l = modularity(as.undirected(graph), leiden_clusters$membership, weights = E(graph)$weight))
+      mutate(Q_i = infomap_clusters$modularity,
+             Q_l = leiden_clusters$modularity)
     
     return(list(local, global))
       
