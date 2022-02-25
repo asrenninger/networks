@@ -73,10 +73,22 @@ get_statistics <-
       summarise(d_out = mean(distance)) %>% 
       ungroup()
     
+    weights <-
+      left_join(edges %>%
+                  group_by(GEOID = focal) %>%
+                  summarise(in_weighted = sum(weight)) %>%
+                  ungroup(),
+                edges %>%
+                  group_by(GEOID = target) %>%
+                  summarise(out_weighted = sum(weight)) %>% 
+                  ungroup()) %>%
+      mutate(degree_balance = in_weighted - out_weighted)
+    
     node_attributes <- 
       node_attributes %>%
       left_join(d_in) %>% 
-      left_join(d_out)
+      left_join(d_out) %>%
+      left_join(weights) 
     
     temp_edges <- 
       edges %>%
@@ -88,7 +100,8 @@ get_statistics <-
       nodes %>% 
       transmute(cbg) %>% 
       left_join(rename(node_attributes, cbg = GEOID)) %>%
-      replace_na(list(d_in = 0, d_out = 0, median_income = 0, pct_nonwhite = 0))
+      replace_na(list(d_in = 0, d_out = 0, median_income = 0, pct_nonwhite = 0, 
+                      out_weighted = 0, in_weighted = 0))
     
     graph <- 
       temp_edges %>%
@@ -97,7 +110,9 @@ get_statistics <-
       set_vertex_attr("income", value = temp_nodes$median_income) %>%
       set_vertex_attr("race", value = temp_nodes$pct_nonwhite) %>%
       set_vertex_attr("d_in", value = temp_nodes$d_in) %>%
-      set_vertex_attr("d_out", value = temp_nodes$d_out)
+      set_vertex_attr("d_out", value = temp_nodes$d_out) %>%
+      set_vertex_attr("in_weighted", value = temp_nodes$in_weighted) %>%
+      set_vertex_attr("out_weighted", value = temp_nodes$out_weighted) 
     
     global <- 
       tibble(period = edges$period[1],
@@ -111,20 +126,9 @@ get_statistics <-
     
     graph <- simplify(graph)
     
-    infomap_clusters <- igraph::cluster_infomap(as.undirected(graph), e.weights = E(graph)$weight)
+    infomap_clusters <- igraph::cluster_infomap(as.undirected(graph), nb.trials = 10, e.weights = E(graph)$weight)
     leiden_clusters <- igraph::cluster_leiden(as.undirected(graph), resolution_parameter = 0.9, objective_function = 'modularity')
 
-    weights <-
-      left_join(edges %>%
-                  group_by(GEOID = focal) %>%
-                  summarise(in_weighted = sum(weight)) %>%
-                  ungroup(),
-                edges %>%
-                  group_by(GEOID = target) %>%
-                  summarise(out_weighted = sum(weight)) %>% 
-                  ungroup()) %>%
-      mutate(degree_balance = in_weighted - out_weighted)
-    
     local <- 
       tibble(GEOID = V(graph)$name,
              eigenvector = igraph::eigen_centrality(graph)$vector, 
@@ -145,7 +149,7 @@ get_statistics <-
     global <-
       global %>%
       mutate(Q_i = infomap_clusters$modularity,
-             Q_l = leiden_clusters$modularity)
+             Q_l = leiden_clusters$quality)
     
     return(list(local, global))
       
@@ -204,16 +208,15 @@ get_dissimilarity <-
     
     race_split <- 
       communities %>% 
-      select(GEOID, period, ends_with(run)) %>%
+      select(GEOID, period, leiden, ends_with(run)) %>%
       rename_at(vars(ends_with(run)), ~str_remove(.x, "_.*")) %>%
       left_join(node_attributes) %>%
-      group_by(period, infomap) %>%
+      group_by(period, leiden) %>%
       summarise(white = sum(white),
                 nonwhite = sum(population - white),
                 upper = sum(upper),
                 lower = sum(lower)) %>%
       ungroup() %>%
-      glimpse() %>%
       group_by(period) %>%
       group_split()
     
@@ -223,7 +226,7 @@ get_dissimilarity <-
                income = MLID::id(as.data.frame(x), vars = c("lower", "upper")) %>% magrittr::extract2(1))
       }), rbind)
     
-    return(mutate(series, period = ym))
+    return(mutate(series, period = factor(ym, levels = ym)))
     
   }
 
