@@ -230,3 +230,15 @@ get_dissimilarity <-
     
   }
 
+get_concentration <- function(partitions){
+  
+  working <- select(partitions, -period)
+  working <- as.matrix(working)
+  
+  rownames(working) <- x$period
+  
+  working[is.na(working)] <- 0
+  
+  return(diverse::diversity(na.omit(working), type = c('entropy', 'herfindahl-hirschman')))
+  
+}
