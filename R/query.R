@@ -277,5 +277,40 @@ get_profiles <- function(fips, month, category, clause) {
   
 }
 
-
+get_amentropy <- function() {
+  
+  query <- glue("SELECT GEOID, top_category AS category, COUNT(*) AS num_establishments
+                 FROM (SELECT safegraph_place_id AS join_id, top_category, sub_category, longitude, latitude, GEOID
+                       FROM `{{projectid}}.safegraph.places` AS pois
+                       JOIN (SELECT geo_id AS GEOID, blockgroup_geom AS geometry 
+                       FROM `bigquery-public-data.geo_census_blockgroups.us_blockgroups_national` ) AS cbgs
+                       ON ST_INTERSECTS(ST_GEOGPOINT(pois.longitude, pois.latitude), cbgs.geometry)) AS joined
+                 GROUP BY GEOID, category", 
+                .open = '{{', .close = '}}')
+  
+  df <- bq_project_query(projectid, query)
+  df <- bq_table_download(df)
+  
+  df <-
+    df %>%
+    mutate(category = case_when(str_detect(category, "Restaurants|Drinking") ~ "leisure",
+                                str_detect(category, "Schools|Child") ~ "school",
+                                str_detect(category, "Stores") & str_detect(category, "Food|Grocery|Liquor") ~ "grocery",
+                                str_detect(category, "Stores|Dealers") & !str_detect(category, "Food|Grocery|Liquor") ~ "shopping",
+                                str_detect(category, "Gasoline Stations|Automotive") ~ "automotive",
+                                str_detect(category, "Real estate") ~ "real Estate",
+                                str_detect(category, "Museums|Amusement|Accommodation|Sports|Gambling") ~ "tourism", 
+                                str_detect(category, "Offices|Outpatient|Nursing|Home Health|Diagnostic") & !str_detect(category, "Real Estate") ~ "healthcare",
+                                str_detect(category, "Care") & str_detect(category, "Personal") ~ "pharmacy",
+                                str_detect(category, "Religious") ~ "worship",
+                                TRUE ~ "other")) %>%
+    filter(category != "other") %>%
+    group_by(GEOID, category) %>%
+    summarise(num_establishments = sum(num_establishments)) %>% 
+    ungroup() %>%
+    pivot_wider(id_cols = GEOID, names_from = category, values_from = num_establishments)
+  
+  return(df)
+  
+}
 
