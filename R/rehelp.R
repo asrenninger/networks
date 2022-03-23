@@ -156,7 +156,7 @@ get_statistics <-
   }
 
 get_correlations <- 
-  function(edge, nodes){
+  function(edges, nodes){
     
     square <- array(dim = c(length(ready), nrow(nodes), nrow(nodes)))
     
@@ -242,3 +242,5 @@ get_concentration <- function(partitions){
   return(diverse::diversity(na.omit(working), type = c('entropy', 'herfindahl-hirschman')))
   
 }
+
+
