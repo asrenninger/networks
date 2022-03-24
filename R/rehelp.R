@@ -243,4 +243,70 @@ get_concentration <- function(partitions){
   
 }
 
+get_partitions <-
+  function(edges, nodes){
+    
+    temp_edges <- 
+      edges %>%
+      transmute(from = target,
+                to = focal, 
+                weight) 
+    
+    temp_nodes <- transmute(nodes, cbg)
+    
+    graph <- 
+      temp_edges %>%
+      graph_from_data_frame(vertices = select(temp_nodes, cbg), directed = TRUE) %>%
+      set_edge_attr("weight", value = temp_edges$weight) 
+    
+    graph <- simplify(graph)
+    
+    infomap_clusters <- igraph::cluster_infomap(as.undirected(graph), nb.trials = 10, e.weights = E(graph)$weight)
+    leiden_clusters <- igraph::cluster_leiden(as.undirected(graph), resolution_parameter = 0.9, objective_function = 'modularity')
+    
+    partitions <- 
+      tibble(GEOID = V(graph)$name,
+             infomap = infomap_clusters$membership,
+             leiden = leiden_clusters$membership, 
+             period = edges$period[1])
+    
+    return(partitions)
+    
+  }
+
+get_quality <-
+  function(edges, nodes, partitions){
+    
+    temp_edges <- 
+      edges %>%
+      transmute(from = target,
+                to = focal, 
+                weight) 
+    
+    temp_nodes <- transmute(nodes, cbg)
+    
+    graph <- 
+      temp_edges %>%
+      graph_from_data_frame(vertices = select(temp_nodes, cbg), directed = TRUE) %>%
+      set_edge_attr("weight", value = temp_edges$weight) 
+    
+    graph <- simplify(graph)
+    
+    qualities <-
+      map_df(partitions, function(x){
+        
+        quality <-
+          tibble(a = edges$period[1],
+                 b = x$period[1], 
+                 q_leiden = modularity(as.undirected(graph), x$leiden, weights = E(graph)$weight),
+                 q_infomap = modularity(as.undirected(graph), x$infomap, weights = E(graph)$weight))
+        
+        return(quality)
+        
+      })
+    
+    return(qualities)
+    
+  }
+
 
