@@ -261,18 +261,22 @@ get_partitions <-
     
     graph <- simplify(graph)
     
-    infomap_clusters <- igraph::cluster_infomap(as.undirected(graph), nb.trials = 10, e.weights = E(graph)$weight)
-    leiden_clusters <- igraph::cluster_leiden(as.undirected(graph), resolution_parameter = 0.9, objective_function = 'modularity')
+    leiden_clusters <- igraph::cluster_leiden(as.undirected(graph), weights = "weight", resolution_parameter = 0.9, objective_function = 'modularity')
+    louvain_clusters <- igraph::cluster_louvain(as.undirected(graph), weights = E(graph)$weight)
+    infomap_clusters <- igraph::cluster_infomap(graph, nb.trials = 100, e.weights = E(graph)$weight)
+    
     
     partitions <- 
       tibble(GEOID = V(graph)$name,
              infomap = infomap_clusters$membership,
              leiden = leiden_clusters$membership, 
+             louvain = louvain_clusters$membership,
              period = edges$period[1])
     
     return(partitions)
     
   }
+
 
 get_quality <-
   function(edges, nodes, partitions){
@@ -299,7 +303,9 @@ get_quality <-
           tibble(a = edges$period[1],
                  b = x$period[1], 
                  q_leiden = modularity(as.undirected(graph), x$leiden, weights = E(graph)$weight),
-                 q_infomap = modularity(as.undirected(graph), x$infomap, weights = E(graph)$weight))
+                 q_infomap = modularity(as.undirected(graph), x$infomap, weights = E(graph)$weight), 
+                 q_louvain = modularity(as.undirected(graph), x$louvain, weights = E(graph)$weight))
+        
         
         return(quality)
         
@@ -308,5 +314,4 @@ get_quality <-
     return(qualities)
     
   }
-
 
