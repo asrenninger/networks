@@ -138,10 +138,7 @@ get_statistics <-
              eccentricity_i = igraph::eccentricity(graph, mode = "in"),
              eccentricity_o = igraph::eccentricity(graph, mode = "out"),
              transitivity_l = igraph::transitivity(graph, type = "barrat"),
-             infomap_1 = infomap_clusters$membership,
-             infomap_2 = igraph::cluster_infomap(as.undirected(graph), e.weights = E(graph)$weight)$membership,
-             infomap_3 = igraph::cluster_infomap(as.undirected(graph), e.weights = E(graph)$weight)$membership,
-             infomap_4 = igraph::cluster_infomap(as.undirected(graph), e.weights = E(graph)$weight)$membership,
+             infomap = infomap_clusters$membership,
              leiden = leiden_clusters$membership) %>%
       left_join(weights) %>%
       mutate(period = edges$period[1])
@@ -317,7 +314,7 @@ get_quality <-
     
   }
 
-correlate <- function(correlations, name) {
+correlate <- function(correlations, name, legend_name) {
   
   mat <- round(correlations, 2)
   
@@ -348,7 +345,7 @@ correlate <- function(correlations, name) {
     scico::scale_fill_scico(palette = 'hawaii',
                             limit = c(0.7, 1), 
                             oob = scales::squish,
-                            name = "normalised\nmutual information",
+                            name = legend_name,
                             guide = guide_colorbar(direction = "vertical",
                                                    barheight = unit(50, units = "mm"),
                                                    barwidth = unit(2, units = "mm"),
