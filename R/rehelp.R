@@ -127,7 +127,7 @@ get_statistics <-
     graph <- simplify(graph)
     
     infomap_clusters <- igraph::cluster_infomap(as.undirected(graph), nb.trials = 10, e.weights = E(graph)$weight)
-    leiden_clusters <- igraph::cluster_leiden(as.undirected(graph), resolution_parameter = 0.9, objective_function = 'modularity')
+    leiden_clusters <- igraph::cluster_leiden(as.undirected(graph), resolution_parameter = 0.9, objective_function = 'CPM')
 
     local <- 
       tibble(GEOID = V(graph)$name,
@@ -145,7 +145,7 @@ get_statistics <-
    
     global <-
       global %>%
-      mutate(Q_i = infomap_clusters$modularity,
+      mutate(Q_i = infomap_cluster$codelength,
              Q_l = leiden_clusters$quality)
     
     return(list(local, global))
@@ -155,7 +155,7 @@ get_statistics <-
 get_correlations <- 
   function(edges, nodes){
     
-    square <- array(dim = c(length(ready), nrow(nodes), nrow(nodes)))
+    square <- array(dim = c(length(edges), nrow(nodes), nrow(nodes)))
     
     for (i in 1:length(edges)) {
       
