@@ -388,7 +388,7 @@ correlate <- function(correlations, name, legend_name) {
   
 }
 
-get_community_assortativity <-
+get_community_assortativity_1 <-
   function(edges, nodes, node_attributes){
     
     temp_edges <- 
@@ -416,7 +416,6 @@ get_community_assortativity <-
     # infomap_clusters <- igraph::cluster_infomap(graph, nb.trials = 10, e.weights = E(graph)$weight)
     infomap_clusters <- igraph::cluster_louvain(as.undirected(graph), weights = E(graph)$weight)    
     
-    
     community_assortativity <-
       function(community_subgraph, graph){
         
@@ -438,6 +437,85 @@ get_community_assortativity <-
       slice(1) %>%
       ungroup() %>%
       transmute(membership, top = cbg) %>%
+      mutate(race = map_dbl(values, ~pluck(.x, 1)),
+             income = map_dbl(values, ~pluck(.x, 2)),
+             period = edges$period[1])
+    
+    return(crosswalk)
+    
+  }
+
+get_community_assortativity_2 <-
+  function(edges, nodes, node_attributes){
+    
+    temp_edges <- 
+      edges %>%
+      transmute(from = target,
+                to = focal, 
+                weight) 
+    
+    temp_nodes <-
+      nodes %>% 
+      transmute(cbg) %>% 
+      left_join(rename(node_attributes, cbg = GEOID)) %>%
+      replace_na(list(d_in = 0, d_out = 0, median_income = 0, pct_nonwhite = 0, 
+                      out_weighted = 0, in_weighted = 0))
+    
+    graph <- 
+      temp_edges %>%
+      graph_from_data_frame(vertices = select(temp_nodes, cbg), directed = TRUE) %>%
+      set_edge_attr("weight", value = temp_edges$weight) %>%
+      set_vertex_attr("income", value = temp_nodes$median_income) %>%
+      set_vertex_attr("race", value = temp_nodes$pct_nonwhite) 
+    
+    # infomap_clusters <- igraph::cluster_infomap(graph, nb.trials = 10, e.weights = E(graph)$weight)
+    infomap_clusters <- igraph::cluster_louvain(as.undirected(graph), weights = E(graph)$weight)    
+    
+    recoded <- 
+      map_dfr(unique(baseline_clusters$membership),
+              function(j){
+                
+                C <- baseline_clusters[[j]]
+                P_prime <- infomap_clusters
+                
+                N_i <- map_dbl(unique(P_prime$membership),
+                               function(i){
+                                 
+                                 C_i <- P_prime[[i]]
+                                 return(sum(C_i %in% C))
+                                 
+                               })
+                
+                return(tibble(C = j, C_prime = which.max(N_i)))
+                
+              })
+    
+    community_nodes <- 
+      nodes %>%
+      mutate(C_prime = infomap_clusters$membership) %>%
+      left_join(recoded) %>%
+      drop_na() %>%
+      arrange(C) %>%
+      group_by(C) %>%
+      add_tally() %>%
+      ungroup() %>%
+      filter(n > 1)
+    
+    community_assortativity <-
+      function(community_nodes, graph){
+        
+        induced_community <- induced_subgraph(graph, community_nodes$cbg)
+        
+        return(list(igraph::assortativity(induced_community, V(induced_community)$race),
+                    igraph::assortativity(induced_community, V(induced_community)$income)))
+        
+      }
+    
+    values <- map(group_split(community_nodes, C), ~community_assortativity(.x, graph))
+    
+    crosswalk <- 
+      community_nodes %>%
+      distinct(C) %>%
       mutate(race = map_dbl(values, ~pluck(.x, 1)),
              income = map_dbl(values, ~pluck(.x, 2)),
              period = edges$period[1])
