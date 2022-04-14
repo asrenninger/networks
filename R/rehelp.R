@@ -523,3 +523,11 @@ get_community_assortativity_2 <-
     return(crosswalk)
     
   }
+
+get_xy <- function(geometry, coordinate) {
+  
+  xy <- st_coordinates(geometry)
+  
+  return(xy[, coordinate])
+  
+}
