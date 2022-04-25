@@ -146,7 +146,9 @@ get_statistics <-
     global <-
       global %>%
       mutate(Q_i = infomap_clusters$codelength,
-             Q_l = leiden_clusters$quality)
+             Q_l = leiden_clusters$quality,
+             C_i = sum(crossing(infomap_clusters, graph)) / (length(crossing(infomap_clusters, graph)) - sum(crossing(infomap_clusters, graph))),
+             C_l = sum(crossing(leiden_clusters, graph)) / (length(crossing(leiden_clusters, graph)) - sum(crossing(leiden_clusters, graph))))
     
     return(list(local, global))
       
@@ -528,7 +530,7 @@ get_conductance <-
   function(edges, nodes){ 
     
     temp_edges <- 
-      x %>%
+      edges %>%
       transmute(from = target,
                 to = focal, 
                 weight) 
