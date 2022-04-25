@@ -524,6 +524,34 @@ get_community_assortativity_2 <-
     
   }
 
+get_conductance <- 
+  function(edges, nodes){ 
+    
+    temp_edges <- 
+      x %>%
+      transmute(from = target,
+                to = focal, 
+                weight) 
+    
+    
+    temp_nodes <-
+      nodes %>% 
+      transmute(cbg) %>% 
+      left_join(rename(census, cbg = GEOID)) %>%
+      replace_na(list(d_in = 0, d_out = 0, median_income = 0, pct_nonwhite = 0, 
+                      out_weighted = 0, in_weighted = 0))
+    
+    graph <- 
+      temp_edges %>%
+      graph_from_data_frame(vertices = select(temp_nodes, cbg), directed = TRUE) %>%
+      set_edge_attr("weight", value = temp_edges$weight)
+    
+    infomap_clusters <- igraph::cluster_infomap(graph, nb.trials = 10, e.weights = E(graph)$weight)
+    
+    return(sum(crossing(infomap_clusters, graph)) / (length(crossing(infomap_clusters, graph)) - sum(crossing(infomap_clusters, graph))))
+    
+  }
+
 get_xy <- function(geometry, coordinate) {
   
   xy <- st_coordinates(geometry)
