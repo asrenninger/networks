@@ -126,8 +126,8 @@ get_statistics <-
     
     graph <- simplify(graph)
     
-    infomap_clusters <- igraph::cluster_infomap(as.undirected(graph), nb.trials = 10, e.weights = E(graph)$weight)
-    leiden_clusters <- igraph::cluster_leiden(as.undirected(graph), resolution_parameter = 0.9, objective_function = 'CPM')
+    infomap_clusters <- igraph::cluster_infomap(graph, nb.trials = 10, e.weights = E(graph)$weight, modularity = TRUE)
+    # leiden_clusters <- igraph::cluster_leiden(as.undirected(graph), resolution_parameter = 0.9, objective_function = 'CPM')
 
     local <- 
       tibble(GEOID = V(graph)$name,
@@ -138,17 +138,15 @@ get_statistics <-
              eccentricity_i = igraph::eccentricity(graph, mode = "in"),
              eccentricity_o = igraph::eccentricity(graph, mode = "out"),
              transitivity_l = igraph::transitivity(graph, type = "barrat"),
-             infomap = infomap_clusters$membership,
-             leiden = leiden_clusters$membership) %>%
+             infomap = infomap_clusters$membership) %>%
       left_join(weights) %>%
       mutate(period = edges$period[1])
    
     global <-
       global %>%
-      mutate(Q_i = infomap_clusters$codelength,
-             Q_l = leiden_clusters$quality,
-             C_i = sum(crossing(infomap_clusters, graph)) / (length(crossing(infomap_clusters, graph)) - sum(crossing(infomap_clusters, graph))),
-             C_l = sum(crossing(leiden_clusters, graph)) / (length(crossing(leiden_clusters, graph)) - sum(crossing(leiden_clusters, graph))))
+      mutate(L_i = infomap_clusters$codelength,
+             Q_i = infomap_clusters$modularity,
+             C_i = sum(crossing(infomap_clusters, graph)) / (length(crossing(infomap_clusters, graph)) - sum(crossing(infomap_clusters, graph))))
     
     return(list(local, global))
       
@@ -306,7 +304,6 @@ get_quality <-
                  q_leiden = modularity(as.undirected(graph), x$leiden, weights = E(graph)$weight),
                  q_infomap = modularity(as.undirected(graph), x$infomap, weights = E(graph)$weight), 
                  q_louvain = modularity(as.undirected(graph), x$louvain, weights = E(graph)$weight))
-        
         
         return(quality)
         
@@ -536,13 +533,8 @@ get_conductance <-
                 weight) 
     
     
-    temp_nodes <-
-      nodes %>% 
-      transmute(cbg) %>% 
-      left_join(rename(census, cbg = GEOID)) %>%
-      replace_na(list(d_in = 0, d_out = 0, median_income = 0, pct_nonwhite = 0, 
-                      out_weighted = 0, in_weighted = 0))
-    
+    temp_nodes <- transmute(nodes, cbg)
+      
     graph <- 
       temp_edges %>%
       graph_from_data_frame(vertices = select(temp_nodes, cbg), directed = TRUE) %>%
