@@ -260,22 +260,9 @@ get_partitions <-
     
     graph <- simplify(graph)
     
-    leiden_clusters <- igraph::cluster_leiden(as.undirected(graph), weights = "weight", resolution_parameter = 0.9, objective_function = 'CPM')
-    louvain_clusters <- igraph::cluster_louvain(as.undirected(graph), weights = E(graph)$weight)
+    infomap_clusters <- igraph::cluster_infomap(graph, nb.trials = 10, e.weights = E(graph)$weight, modularity = FALSE)
     
-    infomap_clusters <- map(1:10, ~igraph::cluster_infomap(graph, nb.trials = 10, e.weights = E(graph)$weight, modularity = TRUE))
-    infomap_modularities <- map_dbl(infomap_clusters, function(x){ x$modularity })
-    
-    i <- which.max(infomap_modularities)
-    
-    partitions <- 
-      tibble(GEOID = V(graph)$name,
-             infomap = infomap_clusters[[i]]$membership,
-             leiden = leiden_clusters$membership, 
-             louvain = louvain_clusters$membership,
-             period = edges$period[1])
-    
-    return(partitions)
+    return(infomap_clusters)
     
   }
 
