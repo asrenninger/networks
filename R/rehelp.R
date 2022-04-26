@@ -121,8 +121,11 @@ get_statistics <-
              assortativity_d_in = igraph::assortativity(graph, V(graph)$d_in),
              assortativity_d_out = igraph::assortativity(graph, V(graph)$d_out),
              assortativity_degree = igraph::assortativity_degree(graph),
+             assortativity_degree_null = igraph::assortativity_degree(get_null(graph)),
              assortativity_income = igraph::assortativity(graph, V(graph)$income),
-             assortativity_race = igraph::assortativity(graph, V(graph)$race))
+             assortativity_income_null = igraph::assortativity(get_null(graph), V(graph)$race),
+             assortativity_race = igraph::assortativity(graph, V(graph)$race),
+             assortativity_race_null = igraph::assortativity(get_null(graph), V(graph)$race))
     
     graph <- simplify(graph)
     
@@ -192,8 +195,7 @@ get_null <- function(graph){
     igraph::sample_degseq(out.deg = igraph::degree(graph, mode = "in", loops = TRUE),
                           in.deg = igraph::degree(graph, mode = "out", loops = TRUE)) %>%
     set_edge_attr("weight", value = sample(E(graph)$weight))
-    
-  
+
   return(configuration_model)
   
 }
