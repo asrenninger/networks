@@ -129,7 +129,15 @@ get_statistics <-
     
     graph <- simplify(graph)
     
-    infomap_clusters <- igraph::cluster_infomap(graph, nb.trials = 10, e.weights = E(graph)$weight, modularity = TRUE)
+    library(furrr)
+    plan(multisession, workers = 5)
+
+    infomap_runs <- future_map(1:5, ~igraph::cluster_infomap(graph, nb.trials = 10, e.weights = E(graph)$weight, modularity = TRUE))
+    modularities <- map_dbl(infomap_runs, ~magrittr::use_series(.x, "modularity"))
+    
+    infomap_clusters <- infomap_runs[[which.max(modularities)]]
+    
+    # infomap_clusters <- igraph::cluster_infomap(graph, nb.trials = 10, e.weights = E(graph)$weight, modularity = TRUE)
     # leiden_clusters <- igraph::cluster_leiden(as.undirected(graph), resolution_parameter = 0.9, objective_function = 'CPM')
 
     local <- 
@@ -151,7 +159,7 @@ get_statistics <-
              Q_i = infomap_clusters$modularity,
              C_i = sum(crossing(infomap_clusters, graph)) / (length(crossing(infomap_clusters, graph)) - sum(crossing(infomap_clusters, graph))))
     
-    return(list(local, global))
+    return(list(local, global, infomap_clusters))
       
   }
 
@@ -201,16 +209,13 @@ get_null <- function(graph){
 }
 
 get_dissimilarity <-
-  function(communities, node_attributes, infomap_run){
-    
-    run <- as.character(infomap_run)
+  function(communities, node_attributes){
     
     race_split <- 
       communities %>% 
-      select(GEOID, period, leiden, ends_with(run)) %>%
-      rename_at(vars(ends_with(run)), ~str_remove(.x, "_.*")) %>%
+      select(GEOID, period, infomap) %>%
       left_join(node_attributes) %>%
-      group_by(period, leiden) %>%
+      group_by(period, infomap) %>%
       summarise(white = sum(white),
                 nonwhite = sum(population - white),
                 upper = sum(upper),
@@ -342,8 +347,6 @@ correlate <- function(correlations, name, legend_name) {
                                                    label.position = 'right',
                                                    title.hjust = 0.5,
                                                    label.hjust = 0.5)) +
-    scale_y_continuous(breaks = 1:20, labels = ym) +
-    scale_x_continuous(breaks = 1:20, labels = ym) +
     theme_minimal() +
     theme(legend.text = element_text(angle = 90),
           legend.title = element_text(angle = 90),
