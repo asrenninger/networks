@@ -130,9 +130,9 @@ get_statistics <-
     graph <- simplify(graph)
     
     library(furrr)
-    plan(multisession, workers = 5)
+    plan(multisession, workers = 6)
 
-    infomap_runs <- future_map(1:5, ~igraph::cluster_infomap(graph, nb.trials = 10, e.weights = E(graph)$weight, modularity = TRUE))
+    infomap_runs <- future_map(1:6, ~igraph::cluster_infomap(graph, nb.trials = 10, e.weights = E(graph)$weight, modularity = TRUE))
     modularities <- map_dbl(infomap_runs, ~magrittr::use_series(.x, "modularity"))
     
     infomap_clusters <- infomap_runs[[which.max(modularities)]]
@@ -209,7 +209,7 @@ get_null <- function(graph){
 }
 
 get_dissimilarity <-
-  function(communities, node_attributes){
+  function(communities, node_attributes, periods = ym){
     
     race_split <- 
       communities %>% 
@@ -217,9 +217,9 @@ get_dissimilarity <-
       left_join(node_attributes) %>%
       group_by(period, infomap) %>%
       summarise(white = sum(white),
-                nonwhite = sum(population - white),
-                upper = sum(upper),
-                lower = sum(lower)) %>%
+                nonwhite = sum(nonwhite),
+                rich = sum(rich),
+                nonrich = sum(nonrich)) %>%
       ungroup() %>%
       group_by(period) %>%
       group_split()
@@ -227,10 +227,10 @@ get_dissimilarity <-
     series <- 
       reduce(map(race_split, function(x){
         tibble(race = MLID::id(as.data.frame(x), vars = c("nonwhite", "white")) %>% magrittr::extract2(1),
-               income = MLID::id(as.data.frame(x), vars = c("lower", "upper")) %>% magrittr::extract2(1))
+               income = MLID::id(as.data.frame(x), vars = c("rich", "nonrich")) %>% magrittr::extract2(1))
       }), rbind)
     
-    return(mutate(series, period = factor(ym, levels = ym)))
+    return(mutate(series, period = factor(periods, levels = periods)))
     
   }
 
@@ -532,7 +532,10 @@ get_conductance <-
       graph_from_data_frame(vertices = select(temp_nodes, cbg), directed = TRUE) %>%
       set_edge_attr("weight", value = temp_edges$weight)
     
-    infomap_clusters <- igraph::cluster_infomap(graph, nb.trials = 10, e.weights = E(graph)$weight)
+    infomap_runs <- future_map(1:6, ~igraph::cluster_infomap(graph, nb.trials = 10, e.weights = E(graph)$weight, modularity = TRUE))
+    modularities <- map_dbl(infomap_runs, ~magrittr::use_series(.x, "modularity"))
+    
+    infomap_clusters <- infomap_runs[[which.max(modularities)]]
     
     return(sum(crossing(infomap_clusters, graph)) / (length(crossing(infomap_clusters, graph)) - sum(crossing(infomap_clusters, graph))))
     
