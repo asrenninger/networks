@@ -548,3 +548,136 @@ get_xy <- function(geometry, coordinate) {
   return(xy[, coordinate])
   
 }
+
+get_metrics <- function(city){
+  
+  print(city)
+  start <- Sys.time()
+  ## getting fips codes, for immediate bay area
+  codes <- get_codes(city)
+  
+  ## get node data
+  try(get_nodes(codes))
+  
+  nodes <- get_nodes(codes)
+  print(dim(nodes))
+  
+  ## create index
+  index <- ranger("2020-01", "2021-08")
+  
+  ## get edge data
+  edges <- 
+    map_df(index, function(x) { 
+      get_edges(codes, x, nodes$cbg) %>% 
+        mutate(year = parse_number(str_sub(x, 1, 4)),
+               month = lubridate::month(parse_number(str_sub(x, 6, 7)), label = TRUE, abbr = FALSE)) 
+    })
+  
+  ## clean edge data
+  ym <- 
+    edges %>% 
+    mutate(period = glue("{month}, {year}")) %>% 
+    pull(period) %>% 
+    unique()
+  
+  edges <- mutate(edges, period = factor(glue("{month}, {year}"), levels = ym))
+  
+  ## get covariates
+  census <- get_census(nodes)
+  distance <- get_distance(edges, nodes)
+  
+  ready <- 
+    edges %>% 
+    mutate(distance = distance$distance) %>%
+    group_by(period) %>% 
+    group_split()
+  
+  ## statistics
+  statistics <- map(ready, ~get_statistics(.x, nodes, census))
+  correlations <- get_correlations(ready, nodes)
+  
+  colnames(correlations) <- ym
+  rownames(correlations) <- ym
+  
+  ## finish
+  local <- map_df(statistics, ~pluck(.x, 1))
+  global <- map_df(statistics, ~pluck(.x, 2))
+  
+  ## nmi
+  partitions <- map(statistics, ~pluck(.x, 3))
+  
+  nmi <- 
+    map_dfr(1:20, 
+            function(x) {
+              
+              map_dfr(1:20, 
+                      function(y){
+                        
+                        tibble(month_source = ym[x], month_target = ym[y], 
+                               nmi = igraph::compare(partitions[[x]], partitions[[y]], method = 'nmi'))
+                        
+                      })
+              
+            })
+  
+  correlations %>%
+    as_tibble() %>%
+    rownames_to_column(var = "month_source") %>%
+    mutate(month_source = ym) %>%
+    pivot_longer(!month_source, names_to = "month_target", values_to = "correlation") %>%
+    left_join(nmi) %>%
+    write_csv(glue("data/processed/2022_05/correlations/{city}.csv"))
+  
+  segregation_variables <-
+    census %>%
+    transmute(GEOID,
+              nonwhite = population - white,
+              white = white,
+              nonrich = lower,
+              rich = upper)
+  
+  dissimilarity <- get_dissimilarity(local, segregation_variables, periods = ym)
+  
+  communities <- 
+    local %>%
+    left_join(census) %>%
+    select(GEOID, period, infomap, population) %>%
+    group_by(period, infomap) %>%
+    summarise(n = n(), 
+              population = sum(population)) %>%
+    ungroup() %>%
+    group_by(period) %>%
+    summarise(community_n = mean(n),
+              community_population = max(population),
+              community_n_denom = sum(n),
+              community_population_denom = sum(population)) %>%
+    ungroup() %>%
+    transmute(period, 
+              community_size = community_n / community_n_denom,
+              community_concentration = community_population / community_population_denom)
+  
+  k <- 
+    local %>%
+    group_by(period) %>%
+    summarise(k_mean = mean(k_all, na.rm = TRUE),
+              k_sum = sum(k_all, na.rm = TRUE),
+              k_skew = e1071::kurtosis(k_all, na.rm = TRUE),
+              k_balance = mean(degree_balance, na.rm = TRUE)) %>%
+    ungroup()
+  
+  global %>% 
+    left_join(dissimilarity) %>%
+    mutate(race_baseline = MLID::id(as.data.frame(segregation_variables), vars = c("nonwhite", "white")) %>% magrittr::extract2(1),
+           income_baseline = MLID::id(as.data.frame(segregation_variables), vars = c("nonrich", "rich")) %>% magrittr::extract2(1)) %>%
+    left_join(communities) %>%
+    left_join(k) %>%
+    glimpse() %>%
+    write_csv(glue("data/processed/2022_05/global/{city}.csv"))
+  
+  local %>%
+    write_csv(glue("data/processed/2022_05/local/{city}.csv"))
+  
+  end <- Sys.time()
+  print(end - start)
+  
+}
