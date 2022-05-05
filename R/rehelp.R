@@ -4,10 +4,10 @@
 get_distance <-
   function(edges, nodes){
     
-    distances <- stplanr::od2line(edges, 
-                                  nodes %>% 
-                                    st_as_sf(coords = c("X", "Y"), crs = 4326) %>% 
-                                    st_transform(4269)) %>% 
+    distances <- od::od_to_sf(edges, 
+                              nodes %>% 
+                                st_as_sf(coords = c("X", "Y"), crs = 4326) %>% 
+                                st_transform(4269)) %>% 
       st_transform(3857) %>%
       transmute(focal, target, period,
                 distance = units::drop_units(units::set_units(st_length(geometry), km))) %>%
