@@ -681,3 +681,67 @@ get_metrics <- function(city){
   print(end - start)
   
 }
+
+get_community_assortativity <-
+  function(edges, nodes, node_attributes){
+    
+    temp_edges <- 
+      edges %>%
+      transmute(from = target,
+                to = focal, 
+                weight) 
+    
+    temp_nodes <-
+      nodes %>% 
+      transmute(cbg) %>% 
+      left_join(rename(node_attributes, cbg = GEOID)) %>%
+      replace_na(list(d_in = 0, d_out = 0, median_income = 0, pct_nonwhite = 0, 
+                      out_weighted = 0, in_weighted = 0))
+    
+    # population <- transmute(node_attributes, cbg = GEOID, population)
+    population <- 
+      temp_edges %>%
+      group_by(to) %>%
+      summarise(population = sum(weight)) %>%
+      transmute(cbg = to,
+                population)
+    
+    graph <- 
+      temp_edges %>%
+      graph_from_data_frame(vertices = select(temp_nodes, cbg), directed = TRUE) %>%
+      set_edge_attr("weight", value = temp_edges$weight) %>%
+      set_vertex_attr("income", value = temp_nodes$median_income) %>%
+      set_vertex_attr("race", value = temp_nodes$pct_nonwhite) 
+    
+    # infomap_clusters <- igraph::cluster_infomap(graph, nb.trials = 10, e.weights = E(graph)$weight)
+    infomap_clusters <- igraph::cluster_louvain(as.undirected(graph), weights = E(graph)$weight)    
+    
+    
+    community_assortativity <-
+      function(community_subgraph, graph){
+        
+        induced_community <- induced_subgraph(graph, infomap_clusters[[community_subgraph]])
+        
+        return(list(igraph::assortativity(induced_community, V(induced_community)$race),
+                    igraph::assortativity(induced_community, V(induced_community)$income)))
+        
+      }
+    
+    values <- map(unique(infomap_clusters$membership), ~community_assortativity(.x, graph))
+    
+    crosswalk <-
+      nodes %>% 
+      mutate(membership = infomap_clusters$membership) %>%
+      left_join(population) %>%
+      arrange(membership, desc(population)) %>%
+      group_by(membership) %>%
+      slice(1) %>%
+      ungroup() %>%
+      transmute(membership, top = cbg) %>%
+      mutate(race = map_dbl(values, ~pluck(.x, 1)),
+             income = map_dbl(values, ~pluck(.x, 2)),
+             period = edges$period[1])
+    
+    return(crosswalk)
+    
+  }
