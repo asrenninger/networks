@@ -1,9 +1,14 @@
+###################################
 ## RDI
+###################################
+
+## packages
 source("R/package.R")
 source("R/help.R")
 source("R/rehelp.R")
 source("R/query.R")
 
+## load in cities
 city_list <- 
   read_csv("data/metrolist_two.csv") %>%
   drop_na(metro_name) %>%
@@ -11,7 +16,13 @@ city_list <-
   pull(metro_name) %>%
   unique()
 
-codes <- get_codes(city_list[14])
+## select city
+city <- city_list[14]
+
+## fips codes
+codes <- get_codes(city)
+
+## block groups 
 shape <- 
   reduce(
     map(codes %>% 
@@ -23,6 +34,7 @@ shape <-
         }),
     rbind)
 
+## water areas
 water <- 
   reduce(
     map(codes %>% 
@@ -34,6 +46,7 @@ water <-
         }),
     rbind)
 
+## river lines (unnecessary)
 river <- 
   reduce(
     map(codes %>% 
@@ -45,6 +58,7 @@ river <-
         }),
     rbind)
 
+## aggregated blocks
 bounds <-
   shape %>% 
   st_transform(3857) %>%
@@ -53,6 +67,7 @@ bounds <-
 
 plot(bounds)
 
+## roads
 roads <- 
   primary_roads() %>%
   st_transform(3857) %>%
@@ -61,6 +76,7 @@ roads <-
   st_union() %>% 
   st_combine()
 
+## rails
 rails <-
   rails() %>%
   st_transform(3857) %>%
@@ -69,49 +85,40 @@ rails <-
   st_union() %>% 
   st_combine()
 
+## aggregated water
 water <-
   water %>%
   st_transform(3857) %>%
   st_union() %>% 
   st_combine()
 
+## plot to check
 plot(st_geometry(roads), col = 'green', add = T)
 plot(st_geometry(rails), col = 'red', add = T)
 plot(st_geometry(water), col = 'blue', add = T)
 plot(st_geometry(river), col = 'lightblue', add = T)
 
-tictoc::tic()
-no_water <- st_difference(bounds, water)
-tictoc::toc()
-
-plot(no_water)
-
+## differences out rail and road
 no_road <- st_difference(bounds, st_buffer(roads, 20))
 no_rail <- st_difference(no_road, st_buffer(rails, 20))
 
-plot(bounds)
-plot(no_road, col = 'red', add = T)
-plot(no_rail, col = 'green', add = T)
-
-hole <- units::set_units(10, ha)
-
-no_rail %>%
-  st_difference(water) %>%
-  st_cast("POLYGON") %>%
-  smoothr::fill_holes(threshold = hole)
-
+## get counties
 counties <- 
   shape %>%
   group_by(GEOID = str_sub(GEOID, 1, 5)) %>%
   summarise()
 
-no_rail %>%
+## difference out water
+no_water <- 
+  no_rail %>%
   st_difference(water) %>%
   st_cast("POLYGON") %>%
   st_as_sf() %>%
   rename(geometry = x) %>%
   mutate(area = units::drop_units(units::set_units(st_area(geometry), ha))) %>%
-  ggplot(aes(fill = area)) +
+
+
+ggplot(no_water, aes(fill = area)) +
   geom_sf(size = 0, colour = '#ffffff') +
   geom_sf(data = counties, 
           aes(), colour = '#ffffff', alpha = 0, size = 0, linetype = 2, fill = NA) +
@@ -131,13 +138,7 @@ no_rail %>%
 
 ggsave("RDI_1.png", height = 10, width = 10, dpi = 300)
 
-no_rail %>%
-  st_difference(water) %>%
-  st_cast("POLYGON") %>%
-  st_as_sf() %>%
-  rename(geometry = x) %>%
-  mutate(area = units::drop_units(units::set_units(st_area(geometry), ha))) %>%
-  ggplot(aes(fill = area)) +
+ggplot(no_water, aes(fill = area)) +
   geom_sf(size = 0, colour = '#ffffff') +
   geom_sf(data = counties, 
           aes(), colour = '#7c7c7c', alpha = 0.5, size = 0.5, linetype = 2, fill = NA) +
