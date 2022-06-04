@@ -115,9 +115,20 @@ no_water <-
   st_cast("POLYGON") %>%
   st_as_sf() %>%
   rename(geometry = x) %>%
-  mutate(area = units::drop_units(units::set_units(st_area(geometry), ha))) %>%
+  mutate(area = units::drop_units(units::set_units(st_area(geometry), ha)))
 
+## RDI
+hhi <- 
+  no_water %>% 
+  mutate(total_area = sum(area),
+         proportion = area / total_area,
+         proportion = proportion ^ 2) %>%
+  pull(proportion) %>%
+  sum()
 
+rdi <- 1 - hhi
+
+## explaining the concept
 ggplot(no_water, aes(fill = area)) +
   geom_sf(size = 0, colour = '#ffffff') +
   geom_sf(data = counties, 
