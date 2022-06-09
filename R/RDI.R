@@ -117,7 +117,7 @@ no_water <-
   rename(geometry = x) %>%
   mutate(area = units::drop_units(units::set_units(st_area(geometry), ha)))
 
-## RDI
+## area RDI
 hhi <- 
   no_water %>% 
   mutate(total_area = sum(area),
@@ -126,6 +126,55 @@ hhi <-
   pull(proportion) %>%
   sum()
 
+# 0.89
+rdi <- 1 - hhi
+
+## population RDI
+population <- 
+  reduce(
+    map(codes %>% 
+          str_remove_all("\'") %>% 
+          str_split(", ") %>% 
+          magrittr::extract2(1),
+        function(x) { 
+          tidycensus::get_acs(state = str_sub(x, 1, 2), county = str_sub(x, 3, 5), 
+                              variables = "B00001_001", geography = 'block group')
+        }),
+    rbind)
+
+population <- 
+  shape %>% 
+  left_join(population) %>% 
+  transmute(GEOID,
+            population = estimate) %>%
+  st_as_sf()
+
+plot(population)
+plot(aggregates)
+
+population[is.na(population)] <- 0
+
+aggregates <-
+  no_water %>% 
+  rownames_to_column(var = 'ID')
+
+by_population <-
+  areal::aw_interpolate(aggregates,
+                        tid = "ID",
+                        source = st_transform(population, 3857),
+                        sid = "GEOID",
+                        weight = 'sum',
+                        extensive = "population")
+
+hhi <- 
+  by_population %>% 
+  mutate(total_population = sum(population),
+         proportion = population / total_population,
+         proportion = proportion ^ 2) %>%
+  pull(proportion) %>%
+  sum()
+
+# 0.94
 rdi <- 1 - hhi
 
 ## explaining the concept
