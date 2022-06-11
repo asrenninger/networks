@@ -129,7 +129,7 @@ hhi <-
 # 0.89
 rdi <- 1 - hhi
 
-## population RDI
+## add population
 population <- 
   reduce(
     map(codes %>% 
@@ -166,6 +166,7 @@ by_population <-
                         weight = 'sum',
                         extensive = "population")
 
+## population RDI
 hhi <- 
   by_population %>% 
   mutate(total_population = sum(population),
@@ -178,16 +179,16 @@ hhi <-
 rdi <- 1 - hhi
 
 ## explaining the concept
-ggplot(no_water, aes(fill = area)) +
+ggplot(by_population, aes(fill = population)) +
   geom_sf(size = 0, colour = '#ffffff') +
   geom_sf(data = counties, 
           aes(), colour = '#ffffff', alpha = 0, size = 0, linetype = 2, fill = NA) +
   scale_fill_gradientn(colours = scico::scico(palette = 'hawaii', n = 9),
-                       limits = c(1000, 100000),
-                       breaks = c(20000, 40000, 60000, 80000),
+                       limits = c(0, 4*10^4),
+                       breaks = c(10000, 20000, 30000),
                        oob = scales::squish,
                        guide = guide_continuous,
-                       name = 'area (ha)') +
+                       name = 'population') +
   labs(title = "Railroad Division Index",
        subtitle = 'Railroads, Motorways, Rivers') + 
   theme_void() +
@@ -198,16 +199,16 @@ ggplot(no_water, aes(fill = area)) +
 
 ggsave("RDI_1.png", height = 10, width = 10, dpi = 300)
 
-ggplot(no_water, aes(fill = area)) +
+ggplot(by_population, aes(fill = population)) +
   geom_sf(size = 0, colour = '#ffffff') +
   geom_sf(data = counties, 
           aes(), colour = '#7c7c7c', alpha = 0.5, size = 0.5, linetype = 2, fill = NA) +
   scale_fill_gradientn(colours = scico::scico(palette = 'hawaii', n = 9),
-                       limits = c(1000, 100000),
-                       breaks = c(20000, 40000, 60000, 80000),
+                       limits = c(0, 4*10^4),
+                       breaks = c(10000, 20000, 30000),
                        oob = scales::squish,
                        guide = guide_continuous,
-                       name = 'area (ha)') +
+                       name = 'population') +
   labs(title = "Railroad Division Index",
        subtitle = 'Railroads, Motorways, Rivers') + 
   theme_void() +
@@ -222,4 +223,4 @@ fs::dir_ls("./", regexp = "RDI_[0-9].png", type = 'file') %>%
   magick::image_read() %>% 
   magick::image_join() %>% 
   magick::image_animate(fps = 0.5) %>% 
-  magick::image_write("RDI.gif")
+  magick::image_write("RDI_detroit_population.gif")
