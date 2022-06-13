@@ -202,6 +202,8 @@ get_bipartite <- function(fips, month, cbgs, min) {
 ## bespoke for spatial interaction modelling 
 get_interactions <- function(fips, month, category, keyword, cbgs, min) {
   
+  keyword <- str_to_title(keyword)
+  
   query <- glue("SELECT poi_cbg, home_cbg, sum(visits) AS visits
                  FROM (SELECT poi_id, poi_cbg, home_cbg, visits, top_category, sub_category, latitude, longitude,
                        FROM (SELECT 
@@ -215,7 +217,7 @@ get_interactions <- function(fips, month, category, keyword, cbgs, min) {
                              JOIN (SELECT safegraph_place_id AS join_id, top_category, sub_category, latitude, longitude
                              FROM \`{{projectid}}.safegraph.places\`) AS p
                              ON poi_id = p.join_id) as b
-                  WHERE REGEXP_CONTAINS({{catorgy}}, \'{{keyword}}\')
+                  WHERE REGEXP_CONTAINS({{category}}, \'{{keyword}}\')
                   GROUP BY poi_cbg, home_cbg", 
                 .open = '{{', .close = '}}')
   
@@ -224,7 +226,10 @@ get_interactions <- function(fips, month, category, keyword, cbgs, min) {
   
   df <- df %>%
     filter(home_cbg %in% cbgs) %>%
-    filter(visits > min)
+    rename(focal = poi_cbg,
+           target = home_cbg,
+           weight = visits) %>%
+    filter(weight > min)
   
   return(df)
   
@@ -314,3 +319,31 @@ get_amentropy <- function() {
   
 }
 
+get_clustering <- function(fips, category, clause, epsilon, minimum) {
+  
+  clause <- str_to_title(clause)
+  
+  query <- glue("SELECT safegraph_place_id, location_name, top_category, sub_category, latitude, longitude,  poi_cbg,
+                  ST_CLUSTERDBSCAN(point, {{epsilon}}, {{minimum}}) OVER () AS cluster_number
+                FROM (
+                  SELECT safegraph_place_id, location_name, top_category, sub_category, latitude, longitude, poi_cbg, point,
+                  FROM (
+                    SELECT *
+                    FROM (
+                      SELECT safegraph_place_id, location_name, top_category, sub_category, latitude, longitude, ST_GEOGPOINT(longitude, latitude) AS point
+                      FROM \`{{projectid}}.safegraph.places\`
+                      REGEXP_CONTAINS({{category}}, \'{{clause}}\'))) AS p
+                  JOIN (
+                    SELECT geo_id AS poi_cbg, blockgroup_geom AS geometry
+                    FROM \`bigquery-public-data.geo_census_blockgroups.us_blockgroups_national\`
+                    WHERE SUBSTR(lpad(geo_id, 12, \'0\'), 0, 5) IN ({{fips}})) AS c
+                  ON ST_INTERSECTS(point, geometry))
+                ORDER BY safegraph_place_id", 
+                .open = '{{', .close = '}}')
+  
+  df <- bq_project_query(projectid, query)
+  df <- bq_table_download(df)
+  
+  return(df)
+  
+}
