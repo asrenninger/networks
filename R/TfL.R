@@ -1,4 +1,9 @@
 ## TfL API experiments
+install.packages("tidyverse")
+install.packages("sf")
+install.packages("httr")
+install.packages("mapview")
+
 library(tidyverse)
 library(httr)
 library(sf)
@@ -27,21 +32,23 @@ status <-
 mapview::mapview(status, zcol = "statusSeverity")
 
 # getting idividual roadworks
-roadworks <- disruptions$url[1]
+roadworks <- status$url[1]
 
 get_polygons <- function(roadworks){
   
   coordinates <- matrix(c(roadworks$geometry$coordinates[[1]][, , 1], roadworks$geometry$coordinates[[1]][, , 2]), ncol = 2)
   lines <- 
     st_linestring(coordinates) %>%
-    st_polygonize()
+    st_polygonize() %>%
+    st_sfc() %>% 
+    st_set_crs(4326)
   
   return(lines)
   
 }
 
 modes <- "/Road/All/Disruption"
-dates <- "?startDate=2022-04-01&endDate=2022-04-30"
+dates <- "?startDate=2021-04-01&endDate=2021-04-30"
 types <- "&format=json"
 query <- paste0(base, modes, dates)
 
