@@ -323,35 +323,6 @@ get_clustering <- function(fips, category, clause, epsilon, minimum) {
   
   clause <- str_to_title(clause)
   
-  query <- glue("SELECT safegraph_place_id, location_name, top_category, sub_category, latitude, longitude,  poi_cbg,
-                  ST_CLUSTERDBSCAN(point, {{epsilon}}, {{minimum}}) OVER () AS cluster_number
-                FROM (
-                  SELECT safegraph_place_id, location_name, top_category, sub_category, latitude, longitude, poi_cbg, point
-                  FROM (
-                      SELECT safegraph_place_id, location_name, top_category, sub_category, latitude, longitude, ST_GEOGPOINT(longitude, latitude) AS point
-                      FROM \`{{projectid}}.safegraph.places\`
-                      REGEXP_CONTAINS({{category}}, \'{{clause}}\')) AS p
-                  JOIN (
-                    SELECT geo_id AS poi_cbg, blockgroup_geom AS geometry
-                    FROM \`bigquery-public-data.geo_census_blockgroups.us_blockgroups_national\`
-                    WHERE SUBSTR(lpad(geo_id, 12, \'0\'), 0, 5) IN ({{fips}})) AS c
-                  ON ST_INTERSECTS(point, geometry))
-                ORDER BY safegraph_place_id", 
-                .open = '{{', .close = '}}')
-  
-  print(query)
-  
-  df <- bq_project_query(projectid, query)
-  df <- bq_table_download(df)
-  
-  return(df)
-  
-}
-
-get_clustering <- function(fips, category, clause, epsilon, minimum) {
-  
-  clause <- str_to_title(clause)
-  
   query <- glue("SELECT
                   safegraph_place_id, location_name, top_category, sub_category, latitude, longitude, poi_cbg,
                   ST_CLUSTERDBSCAN(point, {{epsilon}}, {{minimum}}) OVER () AS cluster_num
