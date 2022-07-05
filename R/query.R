@@ -20,7 +20,7 @@ ranger <- function(start_date, end_date){
 
 ## a function to extract all county fips codes from a metro area based on a key word
 search_codes <- function(key_word) {
-   
+  
   kword <- str_to_lower(key_word)
   metro <- read_csv("https://raw.githubusercontent.com/asrenninger/networks/master/data/metrolist_two.csv")
   
@@ -33,7 +33,7 @@ search_codes <- function(key_word) {
   tuple <- paste("\'", codes, "\'", sep = "")
   
   return(tuple)
-
+  
 }
 
 get_codes <- function(metro_area) {
@@ -151,7 +151,7 @@ search_trends <- function(fips, month, category, clause) {
 
 ## a function for getting points of interest by geography
 get_pois <- function(fips, month) {
- 
+  
   query <- glue("SELECT safegraph_place_id, location_name, brand, top_category, sub_category, poi_cbg, latitude, longitude
                 FROM (SELECT
                   safegraph_place_id,
@@ -168,7 +168,7 @@ get_pois <- function(fips, month) {
   df <- bq_table_download(df)
   
   return(df)
-   
+  
 }
 
 ## a function for getting points of interest by geography
@@ -326,19 +326,50 @@ get_clustering <- function(fips, category, clause, epsilon, minimum) {
   query <- glue("SELECT safegraph_place_id, location_name, top_category, sub_category, latitude, longitude,  poi_cbg,
                   ST_CLUSTERDBSCAN(point, {{epsilon}}, {{minimum}}) OVER () AS cluster_number
                 FROM (
-                  SELECT safegraph_place_id, location_name, top_category, sub_category, latitude, longitude, poi_cbg, point,
+                  SELECT safegraph_place_id, location_name, top_category, sub_category, latitude, longitude, poi_cbg, point
                   FROM (
-                    SELECT *
-                    FROM (
                       SELECT safegraph_place_id, location_name, top_category, sub_category, latitude, longitude, ST_GEOGPOINT(longitude, latitude) AS point
                       FROM \`{{projectid}}.safegraph.places\`
-                      REGEXP_CONTAINS({{category}}, \'{{clause}}\'))) AS p
+                      REGEXP_CONTAINS({{category}}, \'{{clause}}\')) AS p
                   JOIN (
                     SELECT geo_id AS poi_cbg, blockgroup_geom AS geometry
                     FROM \`bigquery-public-data.geo_census_blockgroups.us_blockgroups_national\`
                     WHERE SUBSTR(lpad(geo_id, 12, \'0\'), 0, 5) IN ({{fips}})) AS c
                   ON ST_INTERSECTS(point, geometry))
                 ORDER BY safegraph_place_id", 
+                .open = '{{', .close = '}}')
+  
+  print(query)
+  
+  df <- bq_project_query(projectid, query)
+  df <- bq_table_download(df)
+  
+  return(df)
+  
+}
+
+get_clustering <- function(fips, category, clause, epsilon, minimum) {
+  
+  clause <- str_to_title(clause)
+  
+  query <- glue("SELECT
+                  safegraph_place_id, location_name, top_category, sub_category, latitude, longitude, poi_cbg,
+                  ST_CLUSTERDBSCAN(point, {{epsilon}}, {{minimum}}) OVER () AS cluster_num
+                FROM (
+                  SELECT safegraph_place_id, location_name, top_category, sub_category, latitude, longitude, poi_cbg, point
+                  FROM (
+                    SELECT 
+                        safegraph_place_id, location_name, top_category, sub_category, latitude, longitude,
+                        ST_GEOGPOINT(longitude,latitude) AS point
+                      FROM \`{{projectid}}.safegraph.places\`
+                      WHERE REGEXP_CONTAINS({{category}}, \'{{clause}}\')) AS p
+                  JOIN (
+                    SELECT geo_id AS poi_cbg, blockgroup_geom AS geometry
+                    FROM \`bigquery-public-data.geo_census_blockgroups.us_blockgroups_national\`
+                    WHERE SUBSTR(lpad(geo_id, 12, \'0\'), 0, 5) IN ({{fips}})) AS c
+                  ON ST_INTERSECTS(point, geometry))
+                ORDER BY
+                  safegraph_place_id", 
                 .open = '{{', .close = '}}')
   
   df <- bq_project_query(projectid, query)
