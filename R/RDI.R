@@ -128,6 +128,7 @@ hhi <-
 
 # 0.89
 rdi <- 1 - hhi
+rdi <- 1 - ineq::Herfindahl(no_water$area)
 
 ## add population
 population <- 
@@ -177,6 +178,7 @@ hhi <-
 
 # 0.94
 rdi <- 1 - hhi
+rdi <- 1 - ineq::Herfindahl(by_population$population)
 
 ## explaining the concept
 ggplot(by_population, aes(fill = population)) +
